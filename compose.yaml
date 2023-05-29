@@ -1,0 +1,16 @@
+services:
+  eqproxy-io:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: 20.1.0
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Tokyo
+      - PORT=4000
+    restart: always
+    ports:
+      - 4000:4000
+    #sysctls:

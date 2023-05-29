@@ -1,0 +1,7 @@
+export DMDATA_API_KEY=
+export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/******/****
+export SERVERNAME=hoge.hoge.tokyo
+
+# Cloudflare Workers
+export API_URL=https://api.hogehoge.com
+export API_PRIVATE_JWT=hogehoge

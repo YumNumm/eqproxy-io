@@ -1,0 +1,20 @@
+{
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "program": "src/index.ts"
+    },
+    {
+      "name": "Launch test",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "program": "src/index.ts"
+    }
+  ]
+}
