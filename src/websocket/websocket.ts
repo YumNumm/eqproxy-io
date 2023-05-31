@@ -65,12 +65,8 @@ class WebSocketProvider {
         socket.disconnect()
       })
     })
-    this.io.on('', socket => {})
     this.io.listen(4000, {
       allowEIO3: true,
-      upgradeTimeout: 1000,
-      pingTimeout: 6000,
-
       allowRequest: (req, callback) => {
         const isValid = ['localhost:3000', 'monitor.eqmonitor.app'].includes(
           req.headers.origin ?? '',
