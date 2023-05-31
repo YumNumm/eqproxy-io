@@ -67,14 +67,17 @@ class WebSocketProvider {
         console.log('socket message', data)
         socket.disconnect()
       })
-      socket.on('disconnect', () => {
+      socket.on('disconnect', (reason: any) => {
         console.log('socket disconnected')
         sockets.filter(s => s.id !== socket.id)
       })
+
+      this.io.on('error', err => {
+        console.log('socket error', err)
+        socket.disconnect()
+      })
     })
-    this.io.on('error', err => {
-      console.log('socket error', err)
-    })
+    this.io.on('', socket => {})
     this.io.listen(4000, {
       allowEIO3: true,
       upgradeTimeout: 1000,
