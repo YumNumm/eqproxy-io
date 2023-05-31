@@ -20,20 +20,6 @@ class WebSocketProvider {
 
   public async start() {
     const sockets: Socket[] = []
-
-    // auth
-    this.io.use((socket, next) => {
-      const token = socket.handshake.auth.token
-      if (
-        token == config.AUTHORIZATION_KEY_JWT ||
-        socket.handshake.query.key == config.AUTHORIZATION_KEY_JWT
-      ) {
-        return next()
-      }
-      socket.disconnect(true)
-      return next(new Error('Authentication failed.'))
-    })
-
     // socket connection total limit
     this.io.use((socket, next) => {
       const connectionLimit = 10000
