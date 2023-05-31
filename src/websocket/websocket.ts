@@ -36,7 +36,7 @@ class WebSocketProvider {
       }
       return next()
     })
-
+/*
     // socket connection limit per ip
     this.io.use((socket, next) => {
       const ip = socket.handshake.address
@@ -46,7 +46,7 @@ class WebSocketProvider {
         return next(new Error('Connection limit per ip exceeded.'))
       }
       return next()
-    })
+    })*/
 
     this.io.on('connection', socket => {
       Logger.debug('socket connected')
