@@ -15,7 +15,7 @@ class WebSocketProvider {
   io: Server
 
   public async broadcast(data: any) {
-    this.io.emit('telegram', data)
+    this.io.emit('data', data)
   }
 
   public async start() {
@@ -49,30 +49,24 @@ class WebSocketProvider {
     })
 
     this.io.on('connection', socket => {
-      console.log('socket connected')
+      Logger.debug('socket connected')
       sockets.push(socket)
       socket.on('message', data => {
-        console.log('socket message', data)
+        Logger.debug('socket message', data)
         socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
-        console.log('socket disconnected')
+        Logger.debug('socket disconnected')
         sockets.filter(s => s.id !== socket.id)
       })
 
       this.io.on('error', err => {
-        console.log('socket error', err)
+        Logger.debug('socket error', err)
         socket.disconnect()
       })
     })
     this.io.listen(4000, {
       allowEIO3: true,
-      allowRequest: (req, callback) => {
-        const isValid = ['localhost:3000', 'monitor.eqmonitor.app'].includes(
-          req.headers.origin ?? '',
-        )
-        callback(null, isValid)
-      },
     })
   }
 }
