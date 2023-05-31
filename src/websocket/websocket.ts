@@ -67,6 +67,8 @@ class WebSocketProvider {
     })
     this.io.listen(4000, {
       allowEIO3: true,
+      pingTimeout: 3000,
+      pingInterval: 10000,
     })
   }
 }
