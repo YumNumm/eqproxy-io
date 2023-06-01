@@ -57,5 +57,14 @@ export const dmdata = new DMDATA({
   },
 })
 
-websocket.start()
-startDmDataWs();
+async function main() {
+  try {
+    await websocket.start()
+    await startDmDataWs()
+  } catch (e: any) {
+    Logger.error(e)
+    exit(1)
+  }
+}
+
+main()
