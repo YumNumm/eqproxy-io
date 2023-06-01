@@ -15,6 +15,7 @@ class WebSocketProvider {
   io: Server
 
   public async broadcast(data: any) {
+    Logger.debug('socket broadcast', data)
     this.io.emit('data', data)
   }
 
