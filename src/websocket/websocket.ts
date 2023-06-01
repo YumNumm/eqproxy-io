@@ -5,10 +5,11 @@ import { config } from '../config/config'
 import { Logger, slackWebhook } from '..'
 import { title } from 'process'
 import { EqmonitorTelegramSchemaSample } from '../sample/sample'
+import { ClientToServerEvents, ServerToClientEvents } from './model'
 
 class WebSocketProvider {
   constructor() {
-    this.io = new Server({
+    this.io = new Server<ClientToServerEvents, ServerToClientEvents>({
       maxHttpBufferSize: 1e4,
     })
   }
@@ -54,8 +55,8 @@ class WebSocketProvider {
       Logger.debug('socket connected')
       Logger.info('Socket count:', sockets.length)
       sockets.push(socket)
-      socket.on('message', data => {
-        Logger.debug('socket message', data)
+      socket.on('message', data => {  
+        Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
           if (data.toString() == 'sample/vxse53') {
             socket.emit('data', EqmonitorTelegramSchemaSample.vxse53Sample())
@@ -67,9 +68,9 @@ class WebSocketProvider {
       })
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected')
-        sockets.filter(s => s.id !== socket.id)
+        socket.removeAllListeners()
+        sockets.filter(s => s !== socket)
       })
-
       this.io.on('error', err => {
         Logger.debug('socket error', err)
         socket.disconnect()
