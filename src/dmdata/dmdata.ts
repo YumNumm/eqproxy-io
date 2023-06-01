@@ -14,12 +14,21 @@ export let webSocketService: WebSocketService
 
 export async function startDmDataWs() {
   Logger.debug('Starting WebSocketService')
-  webSocketService = await dmdata.socket.start({
-    classifications: ['eew.forecast', 'telegram.earthquake'],
-    appName: config.SERVERNAME,
-    formatMode: 'json',
-    test: 'no',
-  })
+  try {
+    webSocketService = await dmdata.socket.start({
+      classifications: ['eew.forecast', 'telegram.earthquake'],
+      appName: config.SERVERNAME,
+      formatMode: 'json',
+      test: 'no',
+    })
+  } catch (e: any) {
+    // axios error
+    if (e.response) {
+      Logger.error(e.response.data)
+    }
+    Logger.error(e)
+    throw e
+  }
   Logger.debug('WebSocketService started')
 
   // data時の処理
