@@ -59,12 +59,14 @@ class WebSocketProvider {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
           if (data.toString() == 'sample/vxse53') {
-            for (const sample of EqmonitorTelegramSchemaSample.vxse53Sample()) {
+            for (let sample of EqmonitorTelegramSchemaSample.vxse53Sample()) {
+              sample.status == '訓練'
               socket.emit('data', sample)
             }
           }
           if (data.toString() == 'sample/vxse45') {
-            for (const sample of EqmonitorTelegramSchemaSample.vxse45Sample()) {
+            for (let sample of EqmonitorTelegramSchemaSample.vxse45Sample()) {
+              sample.status == '訓練'
               socket.emit('data', sample)
             }
           }
