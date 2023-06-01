@@ -22,7 +22,7 @@ class WebSocketProvider {
   }
 
   public async start() {
-    const sockets: Socket[] = []
+    let sockets: Socket[] = []
     // socket connection total limit
     this.io.use((socket, next) => {
       const connectionLimit = 10000
@@ -56,25 +56,21 @@ class WebSocketProvider {
       Logger.info('Socket count:', sockets.length)
       sockets.push(socket)
       socket.on('message', data => {
-        Logger.debug('socket message: ' + data)
-        if (data.toString().includes('sample')) {
-          if (data.toString() == 'sample/vxse53') {
-            socket.emit('data', EqmonitorTelegramSchemaSample.vxse53Sample())
-          }
-          if (data.toString() == 'sample/vxse45') {
-            socket.emit('data', EqmonitorTelegramSchemaSample.vxse45Sample())
-          }
-        }
+        socket.disconnect();
       })
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected')
         socket.removeAllListeners()
-        sockets.filter(s => s.id != socket.id)
+        sockets = sockets.filter(s => s.id != socket.id)
       })
-      this.io.on('error', err => {
+      socket.on('error', err => {
         Logger.debug('socket error', err)
         socket.disconnect()
       })
+      socket.on("ping", (callback) => {
+        callback()
+      })
+
     })
     this.io.listen(4000, {
       allowEIO3: true,

@@ -7,7 +7,7 @@ import { websocket } from './websocket/websocket'
 import { startDmDataWs } from './dmdata/dmdata'
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()
-Logger.level = isProd ? 'info' : 'debug'
+Logger.level = 'debug'
 
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL)
 
