@@ -4,6 +4,7 @@ import { exit } from 'process'
 import { IncomingWebhook } from '@slack/webhook'
 import { config } from './config/config'
 import { websocket } from './websocket/websocket'
+import { startDmDataWs } from './dmdata/dmdata'
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()
 Logger.level = isProd ? 'info' : 'debug'
@@ -57,3 +58,4 @@ export const dmdata = new DMDATA({
 })
 
 websocket.start()
+startDmDataWs();
