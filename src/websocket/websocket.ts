@@ -55,7 +55,7 @@ class WebSocketProvider {
       Logger.debug('socket connected')
       Logger.info('Socket count:', sockets.length)
       sockets.push(socket)
-      socket.on('message', data => {  
+      socket.on('message', data => {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
           if (data.toString() == 'sample/vxse53') {
@@ -69,7 +69,7 @@ class WebSocketProvider {
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected')
         socket.removeAllListeners()
-        sockets.filter(s => s !== socket)
+        sockets.filter(s => s.id != socket.id)
       })
       this.io.on('error', err => {
         Logger.debug('socket error', err)
