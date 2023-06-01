@@ -58,10 +58,10 @@ class WebSocketProvider {
         Logger.debug('socket message', data)
         if (data.toString().includes('sample')) {
           if (data.toString() == 'sample/vxse53') {
-            socket.emit('message', EqmonitorTelegramSchemaSample.vxse53Sample())
+            socket.emit('data', EqmonitorTelegramSchemaSample.vxse53Sample())
           }
           if (data.toString() == 'sample/vxse45') {
-            socket.emit('message', EqmonitorTelegramSchemaSample.vxse45Sample())
+            socket.emit('data', EqmonitorTelegramSchemaSample.vxse45Sample())
           }
           return
         }
