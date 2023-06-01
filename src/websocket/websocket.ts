@@ -56,7 +56,17 @@ class WebSocketProvider {
       Logger.info('Socket count:', sockets.length)
       sockets.push(socket)
       socket.on('message', data => {
-        socket.disconnect();
+        Logger.debug('socket message: ' + data)
+        if (data.toString().includes('sample')) {
+          if (data.toString() == 'sample/vxse53') {
+            socket.emit('data', EqmonitorTelegramSchemaSample.vxse53Sample())
+          }
+          if (data.toString() == 'sample/vxse45') {
+            socket.emit('data', EqmonitorTelegramSchemaSample.vxse45Sample())
+          }
+          return
+        }
+        socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected')
@@ -67,10 +77,9 @@ class WebSocketProvider {
         Logger.debug('socket error', err)
         socket.disconnect()
       })
-      socket.on("ping", (callback) => {
+      socket.on('ping', callback => {
         callback()
       })
-
     })
     this.io.listen(4000, {
       allowEIO3: true,
