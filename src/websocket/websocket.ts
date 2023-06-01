@@ -63,9 +63,7 @@ class WebSocketProvider {
           if (data.toString() == 'sample/vxse45') {
             socket.emit('data', EqmonitorTelegramSchemaSample.vxse45Sample())
           }
-          return
         }
-        socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected')
