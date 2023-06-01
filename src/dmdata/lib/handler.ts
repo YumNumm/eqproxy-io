@@ -32,7 +32,6 @@ class DmDataTelegramHandler {
     const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
     for await (const d of data) {
       await websocket.broadcast(d)
-      
     }
   }
 }

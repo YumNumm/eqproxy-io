@@ -4,6 +4,7 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import { config } from '../config/config'
 import { Logger, slackWebhook } from '..'
 import { title } from 'process'
+import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 
 class WebSocketProvider {
   constructor() {
@@ -55,6 +56,15 @@ class WebSocketProvider {
       sockets.push(socket)
       socket.on('message', data => {
         Logger.debug('socket message', data)
+        if (data.toString().includes('sample')) {
+          if (data.toString() == 'sample/vxse53') {
+            socket.emit('message', EqmonitorTelegramSchemaSample.vxse53Sample())
+          }
+          if (data.toString() == 'sample/vxse45') {
+            socket.emit('message', EqmonitorTelegramSchemaSample.vxse45Sample())
+          }
+          return
+        }
         socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
