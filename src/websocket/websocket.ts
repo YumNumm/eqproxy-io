@@ -50,6 +50,7 @@ class WebSocketProvider {
 
     this.io.on('connection', socket => {
       Logger.debug('socket connected')
+      Logger.info(sockets)
       sockets.push(socket)
       socket.on('message', data => {
         Logger.debug('socket message', data)
