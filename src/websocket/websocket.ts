@@ -60,13 +60,13 @@ class WebSocketProvider {
         if (data.toString().includes('sample')) {
           if (data.toString() == 'sample/vxse53') {
             for (let sample of EqmonitorTelegramSchemaSample.vxse53Sample()) {
-              sample.status == '訓練'
+              sample.status = '訓練'
               socket.emit('data', sample)
             }
           }
           if (data.toString() == 'sample/vxse45') {
             for (let sample of EqmonitorTelegramSchemaSample.vxse45Sample()) {
-              sample.status == '訓練'
+              sample.status = '訓練'
               socket.emit('data', sample)
             }
           }
