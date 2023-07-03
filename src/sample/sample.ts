@@ -30,6 +30,7 @@ export namespace EqmonitorTelegramSchemaSample {
     // 変換
     const converted = parsed
       .map(data => {
+        data.type = '緊急地震速報（地震動予報）'
         return EqmonitorTelegramSchema.fromDmdataToTelegramV3(data)
       })
       .flat()
