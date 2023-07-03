@@ -7,6 +7,7 @@ import { websocket } from './websocket/websocket'
 import { startDmDataWs } from './dmdata/dmdata'
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()
+import fs from 'fs'
 Logger.level = 'debug'
 
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL)
@@ -58,6 +59,14 @@ export const dmdata = new DMDATA({
 })
 
 async function main() {
+  const files = await fs.promises.readdir('./sample')
+  const promises = files
+    .filter(file => file.endsWith('.json'))
+    .map(async file => {
+      const data = await fs.promises.readFile(`./sample/${file}`)
+      return data.toString()
+    })
+  const results = await Promise.all(promises)
   try {
     await websocket.start()
     await startDmDataWs()

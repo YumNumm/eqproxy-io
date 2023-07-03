@@ -12,12 +12,14 @@ export namespace EqmonitorTelegramSchemaSample {
   // stream
   export async function sample(socket: Socket) {
     // ディレクトリのファイル一覧を取得 sample_
-    const files = await fs.promises.readdir('./sample')
+    const files = await fs.promises.readdir('./sample/')
     // すべて読み込む
-    const promises = files.map(async file => {
-      const data = await fs.promises.readFile(`./sample/${file}`)
-      return data.toString()
-    })
+    const promises = files
+      .filter(file => file.endsWith('.json'))
+      .map(async file => {
+        const data = await fs.promises.readFile(`./sample/${file}`)
+        return data.toString()
+      })
     const results = await Promise.all(promises)
     // パース
     const parsed = results.map(result => {
