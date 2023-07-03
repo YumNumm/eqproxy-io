@@ -58,15 +58,7 @@ class WebSocketProvider {
       socket.on('message', data => {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
-          if (data.toString() == 'sample/vxse53') {
-            EqmonitorTelegramSchemaSample.sample(socket)
-          }
-          if (data.toString() == 'sample/vxse45') {
-            for (let sample of EqmonitorTelegramSchemaSample.vxse45Sample()) {
-              sample.status = '訓練'
-              socket.emit('data', sample)
-            }
-          }
+          EqmonitorTelegramSchemaSample.sample(socket)
           return
         }
         socket.disconnect()
