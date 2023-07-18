@@ -57,6 +57,7 @@ export namespace EqmonitorTelegramSchemaSample {
           // 送信
           data.status = '訓練'
           data.body.originTime = originTime.toISOString()
+          data.headline = "XX地域では、強い揺れに警戒してください"
           socket.emit('data', data)
           resolve(data)
         }, diff)
