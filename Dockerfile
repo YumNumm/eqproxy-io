@@ -31,5 +31,8 @@ COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/sample ./sample
 
+ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
+    NEW_RELIC_LOG=stdout
+
 # COPY CREDENTIAL
 CMD [ "yarn", "start" ]

@@ -52,8 +52,13 @@ class WebSocketProvider {
     })*/
 
     this.io.on('connection', socket => {
-      Logger.debug('socket connected')
-      Logger.info('Socket count:', sockets.length)
+      Logger.debug({
+        ip: socket.handshake.address,
+        id: socket.id,
+        request: socket.client.request,
+        time: new Date().toISOString(),
+        totalConnections: sockets.length,
+      })
       sockets.push(socket)
       socket.on('message', data => {
         Logger.debug('socket message: ' + data)
@@ -69,7 +74,7 @@ class WebSocketProvider {
         sockets = sockets.filter(s => s.id != socket.id)
       })
       socket.on('error', err => {
-        Logger.debug('socket error', err)
+        Logger.error('socket error', err)
         socket.disconnect()
       })
       socket.on('ping', callback => {
