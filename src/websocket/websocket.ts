@@ -55,7 +55,7 @@ class WebSocketProvider {
       Logger.debug({
         ip: socket.handshake.address,
         id: socket.id,
-        request: socket.client.request,
+        requestHeader: JSON.stringify(socket.request.headers),
         time: new Date().toISOString(),
         totalConnections: sockets.length,
       })
@@ -72,9 +72,16 @@ class WebSocketProvider {
         Logger.debug('socket disconnected')
         socket.removeAllListeners()
         sockets = sockets.filter(s => s.id != socket.id)
+        Logger.debug({
+          ip: socket.handshake.address,
+          id: socket.id,
+          reason,
+          time: new Date().toISOString(),
+          totalConnections: sockets.length,
+        })
       })
       socket.on('error', err => {
-        Logger.error('socket error', err)
+        Logger.error(err)
         socket.disconnect()
       })
       socket.on('ping', callback => {

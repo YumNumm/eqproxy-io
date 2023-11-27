@@ -75,6 +75,7 @@ export async function startDmDataWs() {
       ],
       text: 'DM-D.S.S WebSocketService closed',
     })
+    Logger.error('WebSocketService closed')
     exit(1)
   })
   webSocketService.on('error', async err => {
@@ -98,6 +99,7 @@ export async function startDmDataWs() {
         },
       ],
     })
+    Logger.error(err)
     exit(1)
   })
   webSocketService.on('data', async data => {
