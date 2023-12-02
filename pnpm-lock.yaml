@@ -10,7 +10,7 @@ dependencies:
     version: 2.0.12
   '@dmdata/sdk-js':
     specifier: ^0.2.6
-    version: 0.2.6(@dmdata/api-types@2.0.12)(axios@0.27.2)
+    version: 0.2.6(@dmdata/api-types@2.0.12)(axios@1.6.0)
   '@dmdata/telegram-json-types':
     specifier: ^1.1.13
     version: 1.1.13
@@ -24,8 +24,8 @@ dependencies:
     specifier: ^6.1.0
     version: 6.1.0
   axios:
-    specifier: ^0.27.2
-    version: 0.27.2
+    specifier: ^1.6.0
+    version: 1.6.0
   bufferutil:
     specifier: ^4.0.8
     version: 4.0.8
@@ -614,7 +614,7 @@ packages:
     resolution: {integrity: sha512-5I7v3SfC+yzqXo8zqf1IlhvLo2W8QtH3VrLd23QNZ0FczzwrRMSfDDSUp2IdByx6tTGMijbebv2zAkxkaL8dKg==}
     dev: false
 
-  /@dmdata/sdk-js@0.2.6(@dmdata/api-types@2.0.12)(axios@0.27.2):
+  /@dmdata/sdk-js@0.2.6(@dmdata/api-types@2.0.12)(axios@1.6.0):
     resolution: {integrity: sha512-5kOorJ6Y4xDxb3B+c+V1YFwIbAB4gbOjufPesso0xTUydFjLTCrHbrw9XVNaFKLoZr/ZL9rz2xagQT52yxlntA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -622,7 +622,7 @@ packages:
       axios: ^0.x
     dependencies:
       '@dmdata/api-types': 2.0.12
-      axios: 0.27.2
+      axios: 1.6.0
     dev: false
 
   /@dmdata/telegram-json-types@1.1.13:
@@ -1936,15 +1936,6 @@ packages:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
       follow-redirects: 1.15.3
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios@0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
-    dependencies:
-      follow-redirects: 1.15.3
-      form-data: 4.0.0
     transitivePeerDependencies:
       - debug
     dev: false
