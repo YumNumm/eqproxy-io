@@ -64,7 +64,11 @@ export namespace TsunamiInformation {
     name: string
     highTideTime: string
     firstHeightTime: string | undefined
-    condition: '津波到達中と推測' | '第１波の到達を確認' | undefined
+    condition:
+      | '津波到達中と推測'
+      | '第１波の到達を確認'
+      | 'ただちに津波来襲と予測'
+      | undefined
   }
 
   export interface TsunamiObservation {
@@ -238,14 +242,22 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: Number(e.maxHeight.height.value) ?? undefined,
+                  value: Number(e.maxHeight?.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
           kind: e.kind.code,
           lastKind: e.kind.lastKind.code,
           name: e.name,
-          stations: undefined,
+          stations: e.stations?.map(s => {
+            return {
+              code: s.code,
+              name: s.name,
+              highTideTime: s.highTideDateTime,
+              firstHeightTime: s.firstHeight.arrivalTime,
+              condition: s.firstHeight.condition,
+            }
+          }),
         }
         return data
       }),
@@ -263,9 +275,10 @@ export namespace TsunamiInformation {
                     firstHeightInitial: s.firstHeight.initial,
                     maxHeightTime: s.maxHeight.dateTime,
                     maxHeightValue:
-                      Number(s.maxHeight.height.value) ?? undefined,
-                    maxHeightIsOver: s.maxHeight.height.over,
-                    maxHeightIsRising: s.maxHeight.height.condition == '上昇中',
+                      Number(s.maxHeight?.height?.value) ?? undefined,
+                    maxHeightIsOver: s.maxHeight.height?.over,
+                    maxHeightIsRising:
+                      s.maxHeight.height?.condition == '上昇中',
                     condition: s.maxHeight.condition,
                     name: s.name,
                   }

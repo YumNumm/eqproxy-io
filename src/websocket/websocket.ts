@@ -1,9 +1,6 @@
-import { App } from 'uWebSockets.js'
 import { Server, Socket } from 'socket.io'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import { config } from '../config/config'
 import { Logger, slackWebhook } from '..'
-import { title } from 'process'
 import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 import { ClientToServerEvents, ServerToClientEvents } from './model'
 
@@ -11,6 +8,7 @@ class WebSocketProvider {
   constructor() {
     this.io = new Server<ClientToServerEvents, ServerToClientEvents>({
       maxHttpBufferSize: 1e4,
+      transports: ['websocket'],
     })
   }
 

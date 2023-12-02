@@ -3,6 +3,9 @@
 **/npm-debug.log
 test-resources
 dump
+.gitignore
+*.node_modules
+dist
 
 ./compose.yaml
 Dockerfile

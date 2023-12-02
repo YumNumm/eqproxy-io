@@ -1,38 +1,33 @@
 ARG NODE_VERSION=20.1.0
 
 # 依存パッケージのインストール
-FROM node:${NODE_VERSION} as deps
-WORKDIR /app
-# packeg.jsonとpackage-lock.jsonのみコピーする
-COPY package*.json ./
-RUN yarn install
+FROM node:${NODE_VERSION}-slim as base
 
-# Build環境
-FROM node:${NODE_VERSION} as builder
-WORKDIR /app
-COPY . .
-# depsステージでインストールしたパッケージをコピーする
-COPY --from=deps /app/node_modules ./node_modules
-RUN yarn build
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
-# 実行環境
-FROM node:${NODE_VERSION}
-ENV TZ=Asia/Tokyo
 WORKDIR /app
+COPY . /app
 
-ARG USER_NAME=app
-RUN adduser ${USER_NAME} && \
-  chown -R ${USER_NAME} /app
-USER ${USER_NAME}
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
+
+FROM base AS sample
+
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+COPY sample /app/sample
 
 ENV NODE_ENV production
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/sample ./sample
+
+EXPOSE 8000
+ENV TZ=Asia/Tokyo
 
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
     NEW_RELIC_LOG=stdout
-
-# COPY CREDENTIAL
-CMD [ "yarn", "start" ]
+CMD [ "pnpm", "start" ]

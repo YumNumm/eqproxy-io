@@ -6,7 +6,10 @@ on:
 
 jobs:
   deploy:
-    runs-on: srv2-osaka-api
+    strategy:
+      matrix:
+        runs-on: [srv1-osaka, srv2-osaka]
+    runs-on: ${{ matrix.runs-on }}
     steps:
       - run: |
           cd /opt/eqproxy-io

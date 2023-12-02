@@ -17,6 +17,9 @@ dependencies:
   '@hono/node-server':
     specifier: ^0.6.0
     version: 0.6.0
+  '@newrelic/telemetry-sdk':
+    specifier: ^0.6.0
+    version: 0.6.0
   '@slack/webhook':
     specifier: ^6.1.0
     version: 6.1.0
@@ -822,6 +825,10 @@ packages:
   /@newrelic/superagent@7.0.1:
     resolution: {integrity: sha512-QZlW0VxHSVOXcMAtlkg+Mth0Nz3vFku8rfzTEmoI/pXcckHXGEYuiVUhhboCTD3xTKVgnZRUp9BWF6SOggGUSw==}
     engines: {node: '>=16.0'}
+    dev: false
+
+  /@newrelic/telemetry-sdk@0.6.0:
+    resolution: {integrity: sha512-T5B7bHyAYW58S8Yr4BDkzlUsFZzqI0ChuJHhmN4sPWeAxJNZNleIYN0cB3qKQSlQk5dL2oupiXy8FrAmm7ljzQ==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
