@@ -18,7 +18,10 @@ class DmDataTelegramHandler {
       case '緊急地震速報（地震動予報）':
         //TODO(YumNumm): API POST
         const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
-        await websocket.broadcast(data[0])
+        let broadcast = data[0]
+        const eventId = `2023${broadcast.eventId}`
+        broadcast.eventId = Number(eventId)
+        await websocket.broadcast(broadcast)
         break
       default:
         break
@@ -31,7 +34,10 @@ class DmDataTelegramHandler {
     Logger.info('地震情報を受信しました')
     const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
     for await (const d of data) {
-      await websocket.broadcast(d)
+      let broadcast = d
+      const eventId = `2023${broadcast.eventId}`
+      broadcast.eventId = Number(eventId)
+      await websocket.broadcast(broadcast)
     }
   }
 }
