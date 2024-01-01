@@ -21,6 +21,10 @@ class DmDataTelegramHandler {
         let broadcast = data[0]
         const eventId = (broadcast.eventId as number).toString().slice(2)
         broadcast.eventId = Number(`2023${eventId}`)
+        // 取消報の場合  serialNo をincrement
+        if (broadcast.infoType === '取消') {
+          broadcast.serialNo = (broadcast.serialNo ?? 0) + 1
+        }
         await websocket.broadcast(broadcast)
         break
       default:
