@@ -61,14 +61,6 @@ export const dmdata = new DMDATA({
 })
 
 async function main() {
-  const files = await fs.promises.readdir('./sample/20171213b/json')
-  const promises = files
-    .filter(file => file.endsWith('.json'))
-    .map(async file => {
-      const data = await fs.promises.readFile(`./sample/20171213b/json/${file}`)
-      return data.toString()
-    })
-  const results = await Promise.all(promises)
   try {
     await websocket.start()
     await startDmDataWs()

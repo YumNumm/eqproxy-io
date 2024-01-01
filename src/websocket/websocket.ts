@@ -1,9 +1,6 @@
-import { App } from 'uWebSockets.js'
 import { Server, Socket } from 'socket.io'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import { config } from '../config/config'
 import { Logger, slackWebhook } from '..'
-import { title } from 'process'
 import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 import { ClientToServerEvents, ServerToClientEvents } from './model'
 
@@ -18,7 +15,7 @@ class WebSocketProvider {
 
   public async broadcast(data: any) {
     Logger.debug('socket broadcast', data)
-    
+
     this.io.emit('data', data)
   }
 
@@ -56,7 +53,7 @@ class WebSocketProvider {
       Logger.debug({
         ip: socket.handshake.address,
         id: socket.id,
-        request: socket.client.request,
+        request: socket.client.request.headers['x-forwarded-for'],
         time: new Date().toISOString(),
         totalConnections: sockets.length,
       })

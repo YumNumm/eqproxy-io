@@ -19,8 +19,8 @@ class DmDataTelegramHandler {
         //TODO(YumNumm): API POST
         const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
         let broadcast = data[0]
-        const eventId = `2023${broadcast.eventId}`
-        broadcast.eventId = Number(eventId)
+        const eventId = (broadcast.eventId as number).toString().slice(2)
+        broadcast.eventId = Number(`2023${eventId}`)
         await websocket.broadcast(broadcast)
         break
       default:
@@ -35,7 +35,8 @@ class DmDataTelegramHandler {
     const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
     for await (const d of data) {
       let broadcast = d
-      const eventId = `2023${broadcast.eventId}`
+      const eventId = (broadcast.eventId as number).toString().slice(2)
+      broadcast.eventId = Number(`2023${eventId}`)
       broadcast.eventId = Number(eventId)
       await websocket.broadcast(broadcast)
     }
