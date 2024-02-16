@@ -64,7 +64,11 @@ export namespace TsunamiInformation {
     name: string
     highTideTime: string
     firstHeightTime: string | undefined
-    condition: '津波到達中と推測' | '第１波の到達を確認' | undefined
+    condition:
+      | '津波到達中と推測'
+      | '第１波の到達を確認'
+      | 'ただちに津波来襲と予測'
+      | undefined
   }
 
   export interface TsunamiObservation {
@@ -122,7 +126,7 @@ export namespace TsunamiInformation {
     comments?: Comment
   }
 
-  export interface PublicVTSE41 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVTSE41 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '津波警報・注意報・予報a'
     infoType: '発表' | '訂正'
     validDateTime?: string
@@ -131,7 +135,7 @@ export namespace TsunamiInformation {
     body: PublicBodyVTSE41
   }
 
-  export interface PublicVTSE51 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVTSE51 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '津波情報a'
     infoType: '発表' | '訂正'
     eventId: number
@@ -139,7 +143,7 @@ export namespace TsunamiInformation {
     body: PublicBodyVTSE51
   }
 
-  export interface PublicVTSE52 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVTSE52 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '沖合の津波観測に関する情報'
     infoType: '発表' | '訂正'
     eventId: number
@@ -147,7 +151,7 @@ export namespace TsunamiInformation {
     body: PublicBodyVTSE52
   }
 
-  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3Base {
     type:
       | '津波警報・注意報・予報a'
       | '津波情報a'
@@ -162,7 +166,7 @@ export namespace TsunamiInformation {
 
   function fromVtse41(
     telegram: dmdata.TsunamiInformation.Latest.PublicVTSE41,
-  ): EqmonitorTelegramSchema.TelegramV3[] {
+  ): Main[] {
     const tsunami: PublicBodyVTSE41Tsunami = {
       forecasts: telegram.body.tsunami.forecasts.map(e => {
         const data: TsunamiForecast = {
@@ -200,7 +204,7 @@ export namespace TsunamiInformation {
     }
 
     const eventIds = telegram.eventId.split(' ').map(s => parseInt(s))
-    const results: EqmonitorTelegramSchema.TelegramV3[] = []
+    const results: Main[] = []
     for (const eventId of eventIds) {
       const result: PublicVTSE41 = {
         eventId: eventId,
@@ -222,7 +226,7 @@ export namespace TsunamiInformation {
 
   function fromVtse51(
     telegram: dmdata.TsunamiInformation.Latest.PublicVTSE51,
-  ): EqmonitorTelegramSchema.TelegramV3[] {
+  ): Main[] {
     const tsunami: PublicBodyVTSE51Tsunami = {
       forecasts: telegram.body.tsunami.forecasts.map(e => {
         const data: TsunamiForecast = {
@@ -238,14 +242,22 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: Number(e.maxHeight.height.value) ?? undefined,
+                  value: Number(e.maxHeight?.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
           kind: e.kind.code,
           lastKind: e.kind.lastKind.code,
           name: e.name,
-          stations: undefined,
+          stations: e.stations?.map(s => {
+            return {
+              code: s.code,
+              name: s.name,
+              highTideTime: s.highTideDateTime,
+              firstHeightTime: s.firstHeight.arrivalTime,
+              condition: s.firstHeight.condition,
+            }
+          }),
         }
         return data
       }),
@@ -263,9 +275,10 @@ export namespace TsunamiInformation {
                     firstHeightInitial: s.firstHeight.initial,
                     maxHeightTime: s.maxHeight.dateTime,
                     maxHeightValue:
-                      Number(s.maxHeight.height.value) ?? undefined,
-                    maxHeightIsOver: s.maxHeight.height.over,
-                    maxHeightIsRising: s.maxHeight.height.condition == '上昇中',
+                      Number(s.maxHeight?.height?.value) ?? undefined,
+                    maxHeightIsOver: s.maxHeight.height?.over,
+                    maxHeightIsRising:
+                      s.maxHeight.height?.condition == '上昇中',
                     condition: s.maxHeight.condition,
                     name: s.name,
                   }
@@ -285,7 +298,7 @@ export namespace TsunamiInformation {
     }
 
     const eventIds = telegram.eventId.split(' ').map(s => parseInt(s))
-    const results: EqmonitorTelegramSchema.TelegramV3[] = []
+    const results: Main[] = []
     for (const eventId of eventIds) {
       const result: PublicVTSE51 = {
         eventId: eventId,
@@ -307,7 +320,7 @@ export namespace TsunamiInformation {
 
   function fromVtse52(
     telegram: dmdata.TsunamiInformation.Latest.PublicVTSE52,
-  ): EqmonitorTelegramSchema.TelegramV3[] {
+  ): Main[] {
     const tsunami: PublicBodyVTSE52Tsunami = {
       observations:
         telegram.body.tsunami.observations == null
@@ -360,7 +373,7 @@ export namespace TsunamiInformation {
     }
 
     const eventIds = telegram.eventId.split(' ').map(s => parseInt(s))
-    const results: EqmonitorTelegramSchema.TelegramV3[] = []
+    const results: Main[] = []
     for (const eventId of eventIds) {
       const result: PublicVTSE52 = {
         eventId: eventId,
@@ -383,9 +396,9 @@ export namespace TsunamiInformation {
 
   function fromCancel(
     telegram: dmdata.TsunamiInformation.Latest.Cancel,
-  ): EqmonitorTelegramSchema.TelegramV3[] {
+  ): Main[] {
     const eventIds = telegram.eventId.split(' ').map(s => parseInt(s))
-    const results: EqmonitorTelegramSchema.TelegramV3[] = []
+    const results: Main[] = []
     const body: CancelBody = {
       text: telegram.body.text,
     }
@@ -414,8 +427,8 @@ export namespace TsunamiInformation {
       | dmdata.TsunamiInformation.Latest.PublicVTSE51
       | dmdata.TsunamiInformation.Latest.PublicVTSE52
       | dmdata.TsunamiInformation.Latest.Cancel,
-  ): EqmonitorTelegramSchema.TelegramV3[] {
-    const results: EqmonitorTelegramSchema.TelegramV3[] = []
+  ): Main[] {
+    const results: Main[] = []
     const eventIds: number[] = telegram.eventId.split(' ').map(s => parseInt(s))
     for (const eventId of eventIds) {
       if (telegram.infoType == '取消') {

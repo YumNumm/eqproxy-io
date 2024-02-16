@@ -1,14 +1,13 @@
 import { WebSocketService } from '@dmdata/sdk-js'
 import { Logger, dmdata, slackWebhook } from '..'
 import { exit } from 'process'
-import {
-  EarthquakeInformation,
-  EewInformation,
-} from '@dmdata/telegram-json-types'
 import { dmDataTelegramHandler } from './lib/handler'
 import * as zlib from 'zlib'
 import { config } from '../config/config'
-import { Earthquake } from '@dmdata/telegram-json-types/types/component/earthquake'
+import {
+  EewInformation,
+  EarthquakeInformation,
+} from '@dmdata/telegram-json-types'
 
 export let webSocketService: WebSocketService
 

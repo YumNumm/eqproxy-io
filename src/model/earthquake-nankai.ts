@@ -27,7 +27,7 @@ export namespace EarthquakeNankai {
     text: string
   }
 
-  export interface PublicVYSE50 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVYSE50 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '南海トラフ地震臨時情報'
     infoType: '発表' | '訂正'
     eventId: number
@@ -35,7 +35,7 @@ export namespace EarthquakeNankai {
     body: PublicBody
   }
 
-  export interface PublicVYSE51 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVYSE51 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '南海トラフ地震関連解説情報'
     infoType: '発表' | '訂正'
     eventId: number
@@ -43,7 +43,7 @@ export namespace EarthquakeNankai {
     body: PublicBody
   }
 
-  export interface PublicVYSE52 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVYSE52 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '南海トラフ地震関連解説情報'
     infoType: '発表' | '訂正'
     eventId: number
@@ -51,7 +51,7 @@ export namespace EarthquakeNankai {
     body: PublicBody
   }
 
-  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '南海トラフ地震臨時情報' | '南海トラフ地震関連解説情報'
     infoType: '取消'
     eventId: number

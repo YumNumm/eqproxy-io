@@ -16,14 +16,14 @@ export namespace EarthquakeHypocenterUpdate {
     text: string
   }
 
-  export interface PublicVXSE61 extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface PublicVXSE61 extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '顕著な地震の震源要素更新のお知らせ'
     infoType: '発表' | '訂正'
     eventId: number
     body: PublicBodyVXSE61
   }
 
-  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '顕著な地震の震源要素更新のお知らせ'
     infoType: '取消'
     eventId: number

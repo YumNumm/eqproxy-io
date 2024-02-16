@@ -21,13 +21,13 @@ export namespace EarthquakeExplanation {
     text: string
   }
 
-  export interface Public extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface Public extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '地震の活動状況等に関する情報'
     infoType: '発表' | '訂正'
     body: PublicBody
   }
 
-  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3 {
+  export interface Cancel extends EqmonitorTelegramSchema.TelegramV3Base {
     type: '地震の活動状況等に関する情報'
     infoType: '取消'
     body: CancelBody

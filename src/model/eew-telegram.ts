@@ -12,7 +12,10 @@ export namespace EewInformation {
     to: EqmonitorTelegramSchema.JmaLgIntensity | '不明' | 'over'
   }
 
-  export interface EewInformation extends EqmonitorTelegramSchema.TelegramV3 {
+  export type Main = EewInformation | EewInformationCancel
+
+  export interface EewInformation
+    extends EqmonitorTelegramSchema.TelegramV3Base {
     id?: number
     hash?: string
     eventId: number
@@ -44,6 +47,8 @@ export namespace EewInformation {
       accuracy: Accuracy
       isPlum: boolean
       isLastInfo: boolean
+      isCanceled: boolean
+      isWarning: boolean
     }
   }
   export interface Region {
@@ -67,7 +72,7 @@ export namespace EewInformation {
   }
 
   export interface EewInformationCancel
-    extends EqmonitorTelegramSchema.TelegramV3 {
+    extends EqmonitorTelegramSchema.TelegramV3Base {
     id?: number
     hash?: string
     eventId: number
@@ -90,7 +95,7 @@ export namespace EewInformation {
     telegram:
       | dmdata.EewInformation.Latest.PublicCommon
       | dmdata.EewInformation.Latest.Cancel,
-  ): EqmonitorTelegramSchema.TelegramV3 {
+  ): Main {
     if (telegram.type !== '緊急地震速報（地震動予報）') {
       throw new Error('type is not 緊急地震速報（地震動予報）')
     }
@@ -157,9 +162,12 @@ export namespace EewInformation {
                 isWarning: region.isWarning,
                 name: region.name,
                 forecastMaxLgInt: region.forecastMaxLgInt,
+                arrivalTime: region.arrivalTime,
               }
             }) ?? [],
           isLastInfo: telegram.body.isLastInfo,
+          isCanceled: telegram.body.isCanceled,
+          isWarning: telegram.body.isWarning,
           magnitude: Number(telegram.body.earthquake.magnitude?.value),
           accuracy: {
             depth: telegram.body.earthquake.hypocenter.accuracy.depth,

@@ -1,14 +1,28 @@
 import { EewInformation, TelegramJSONMain } from '@dmdata/telegram-json-types'
 import { EewInformation as EqEewInformation } from './eew-telegram'
-import { EarthquakeInformation as EqEarthquakeInformation } from './earthquake-information'
-import { TsunamiInformation as EqTsunamiInformation } from './tsunami-information'
+import {
+  EarthquakeInformation,
+  EarthquakeInformation as EqEarthquakeInformation,
+} from './earthquake-information'
+import {
+  TsunamiInformation as EqTsunamiInformation,
+  TsunamiInformation,
+} from './tsunami-information'
 import * as dmdata from '@dmdata/telegram-json-types'
 import { EarthquakeHypocenterUpdate } from './earthquake-hypocenter-update'
 import { EarthquakeNankai } from './earthquake-nankai'
 import { EarthquakeExplanation } from './earthquake-explanation'
 
 export namespace EqmonitorTelegramSchema {
-  export interface TelegramV3 {
+  export type TelegramV3 =
+    | EarthquakeInformation.Main
+    | EarthquakeExplanation.Main
+    | EarthquakeHypocenterUpdate.Main
+    | EarthquakeNankai.Main
+    | EqEewInformation.Main
+    | TsunamiInformation.Main
+
+  export interface TelegramV3Base {
     id?: number
     hash?: string
     eventId: number
@@ -27,6 +41,7 @@ export namespace EqmonitorTelegramSchema {
       | '地震回数に関する情報' // vxse60
       | '顕著な地震の震源要素更新のお知らせ' // vxse61
       | '長周期地震動に関する観測情報' // vxse62
+      | '地震・津波に関するお知らせ' // VZSE40
       | '南海トラフ地震臨時情報' // vyse50
       | '南海トラフ地震関連解説情報' // vyse51,52
     schemaType:
@@ -111,7 +126,7 @@ export namespace EqmonitorTelegramSchema {
       arrivalTime: eq.arrivalTime,
       hypocenter: {
         code: eq.hypocenter.code,
-        depth: Number(eq.hypocenter.depth.value) ?? undefined,
+        depth: Number(eq.hypocenter.depth.value ?? undefined) ?? undefined,
         name: eq.hypocenter.name,
         detailed:
           eq.hypocenter.detailed == null ? undefined : eq.hypocenter.detailed,
@@ -150,6 +165,7 @@ export namespace EqmonitorTelegramSchema {
             | dmdata.EarthquakeInformation.Latest.PublicVXSE52
             | dmdata.EarthquakeInformation.Latest.PublicVXSE53
             | dmdata.EarthquakeInformation.Latest.PublicVXSE62
+            | dmdata.EarthquakeInformation.Latest.PublicVZSE40
             | dmdata.EarthquakeInformation.Latest.Cancel,
         ),
       ]
