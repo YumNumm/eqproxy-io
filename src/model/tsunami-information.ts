@@ -1,3 +1,4 @@
+import { parseNumberOrNull } from '../extension/parseIntOrNull'
 import { EqmonitorTelegramSchema } from './telegram_v3'
 import * as dmdata from '@dmdata/telegram-json-types'
 
@@ -182,7 +183,7 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: Number(e.maxHeight.height.value) ?? undefined,
+                  value: parseNumberOrNull(e.maxHeight.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
@@ -242,7 +243,7 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: Number(e.maxHeight?.height.value) ?? undefined,
+                  value: parseNumberOrNull(e.maxHeight?.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
@@ -275,7 +276,7 @@ export namespace TsunamiInformation {
                     firstHeightInitial: s.firstHeight.initial,
                     maxHeightTime: s.maxHeight.dateTime,
                     maxHeightValue:
-                      Number(s.maxHeight?.height?.value) ?? undefined,
+                      parseNumberOrNull(s.maxHeight?.height?.value) ?? undefined,
                     maxHeightIsOver: s.maxHeight.height?.over,
                     maxHeightIsRising:
                       s.maxHeight.height?.condition == '上昇中',
@@ -305,7 +306,7 @@ export namespace TsunamiInformation {
         infoType: telegram.infoType,
         pressTime: telegram.pressDateTime,
         schemaType: 'tsunami-information',
-        serialNo: Number(telegram.serialNo),
+        serialNo: parseNumberOrNull(telegram.serialNo) ?? 0,
         status: telegram.status,
         type: telegram.type,
         headline: telegram.headline ?? undefined,
@@ -336,9 +337,9 @@ export namespace TsunamiInformation {
                     firstHeightInitial: s.firstHeight.initial,
                     maxHeightTime: s.maxHeight.dateTime,
                     maxHeightValue:
-                      Number(s.maxHeight.height.value) ?? undefined,
-                    maxHeightIsOver: s.maxHeight.height.over,
-                    maxHeightIsRising: s.maxHeight.height.condition == '上昇中',
+                      parseNumberOrNull(s.maxHeight.height?.value) ?? undefined,
+                    maxHeightIsOver: s.maxHeight.height?.over,
+                    maxHeightIsRising: s.maxHeight.height?.condition == '上昇中',
                     condition: s.maxHeight.condition,
                     name: s.name,
                   }
@@ -354,10 +355,10 @@ export namespace TsunamiInformation {
           firstHeightTime: e.firstHeight.arrivalTime,
           isObserving:
             e.firstHeight.condition == '早いところでは既に津波到達と推定',
-          maxHeightCondition: e.maxHeight.height.condition,
-          maxHeightIsOver: e.maxHeight.height.over,
+          maxHeightCondition: e.maxHeight.height?.condition,
+          maxHeightIsOver: e.maxHeight.height?.over,
           maxHeightTime: e.maxHeight.dateTime,
-          maxHeightValue: Number(e.maxHeight.height.value) ?? undefined,
+          maxHeightValue: parseNumberOrNull(e.maxHeight.height?.value) ?? undefined,
           name: e.name,
         }
         return data
@@ -380,7 +381,7 @@ export namespace TsunamiInformation {
         infoType: telegram.infoType,
         pressTime: telegram.pressDateTime,
         schemaType: 'tsunami-information',
-        serialNo: Number(telegram.serialNo),
+        serialNo: parseNumberOrNull(telegram.serialNo) ?? 0,
         status: telegram.status,
         type: telegram.type,
         headline: telegram.headline ?? undefined,
@@ -407,7 +408,7 @@ export namespace TsunamiInformation {
         eventId: eventId,
         pressTime: telegram.pressDateTime,
         schemaType: 'tsunami-information',
-        serialNo: Number(telegram.serialNo),
+        serialNo: parseNumberOrNull(telegram.serialNo) ?? 0,
         status: telegram.status,
         headline: telegram.headline ?? undefined,
         reportTime: telegram.reportDateTime,

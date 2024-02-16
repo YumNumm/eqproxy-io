@@ -1,3 +1,4 @@
+import { parseNumber, parseNumberOrNull } from '../extension/parseIntOrNull'
 import { EqmonitorTelegramSchema } from './telegram_v3'
 import * as dmdata from '@dmdata/telegram-json-types'
 
@@ -101,14 +102,14 @@ export namespace EewInformation {
     }
     if (telegram.infoType == '取消') {
       const data: EewInformationCancel = {
-        eventId: Number(telegram.eventId),
+        eventId: parseNumber(telegram.eventId),
         type: telegram.type,
         schemaType: telegram._schema.type,
         status: telegram.status,
         infoType: telegram.infoType,
         pressTime: telegram.pressDateTime,
         reportTime: telegram.reportDateTime,
-        serialNo: Number(telegram.serialNo),
+        serialNo: parseNumber(telegram.serialNo),
         headline: telegram.headline ?? undefined,
         body: {
           isCanceled: telegram.body.isCanceled,
@@ -119,19 +120,19 @@ export namespace EewInformation {
       return data
     } else {
       const data: EewInformation = {
-        eventId: Number(telegram.eventId),
+        eventId: parseNumber(telegram.eventId),
         type: telegram.type,
         schemaType: telegram._schema.type,
         status: telegram.status,
         infoType: telegram.infoType,
         pressTime: telegram.pressDateTime,
         reportTime: telegram.reportDateTime,
-        serialNo: Number(telegram.serialNo),
+        serialNo: parseNumber(telegram.serialNo),
         headline: telegram.headline ?? undefined,
         body: {
           arrivalTime: telegram.body.earthquake.arrivalTime,
           originTime: telegram.body.earthquake.originTime,
-          depth: Number(telegram.body.earthquake.hypocenter.depth?.value),
+          depth: parseNumber(telegram.body.earthquake.hypocenter.depth?.value),
           isPlum: telegram.body.earthquake.condition == '仮定震源要素',
           forecastMaxInt: {
             from: telegram.body.intensity?.forecastMaxInt.from ?? '不明',
@@ -143,11 +144,13 @@ export namespace EewInformation {
           },
           hypocenter: {
             coordinate: {
-              lat: Number(
-                telegram.body.earthquake.hypocenter?.coordinate.latitude.value,
+              lat: parseNumber(
+                telegram.body.earthquake.hypocenter?.coordinate?.latitude
+                  ?.value!,
               ),
-              lon: Number(
-                telegram.body.earthquake.hypocenter?.coordinate.longitude.value,
+              lon: parseNumber(
+                telegram.body.earthquake.hypocenter?.coordinate?.longitude
+                  ?.value!,
               ),
             },
             code: telegram.body.earthquake.hypocenter?.code,
@@ -168,7 +171,9 @@ export namespace EewInformation {
           isLastInfo: telegram.body.isLastInfo,
           isCanceled: telegram.body.isCanceled,
           isWarning: telegram.body.isWarning,
-          magnitude: Number(telegram.body.earthquake.magnitude?.value),
+          magnitude:
+            parseNumberOrNull(telegram.body.earthquake.magnitude?.value) ??
+            undefined,
           accuracy: {
             depth: telegram.body.earthquake.hypocenter.accuracy.depth,
             epicenters: telegram.body.earthquake.hypocenter.accuracy.epicenters,

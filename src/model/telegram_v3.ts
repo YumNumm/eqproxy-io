@@ -12,6 +12,7 @@ import * as dmdata from '@dmdata/telegram-json-types'
 import { EarthquakeHypocenterUpdate } from './earthquake-hypocenter-update'
 import { EarthquakeNankai } from './earthquake-nankai'
 import { EarthquakeExplanation } from './earthquake-explanation'
+import { parseNumber, parseNumberOrNull } from '../extension/parseIntOrNull'
 
 export namespace EqmonitorTelegramSchema {
   export type TelegramV3 =
@@ -126,20 +127,20 @@ export namespace EqmonitorTelegramSchema {
       arrivalTime: eq.arrivalTime,
       hypocenter: {
         code: eq.hypocenter.code,
-        depth: Number(eq.hypocenter.depth.value ?? undefined) ?? undefined,
+        depth: parseNumberOrNull(eq.hypocenter.depth.value ?? undefined) ?? undefined,
         name: eq.hypocenter.name,
         detailed:
           eq.hypocenter.detailed == null ? undefined : eq.hypocenter.detailed,
         coordinate:
-          eq.hypocenter.coordinate != undefined
+          eq.hypocenter.coordinate?.latitude != undefined
             ? {
-                lat: Number(eq.hypocenter.coordinate.latitude.value),
-                lon: Number(eq.hypocenter.coordinate.longitude.value),
+                lat: parseNumber(eq.hypocenter.coordinate.latitude.value),
+                lon: parseNumber(eq.hypocenter.coordinate.longitude.value),
               }
             : undefined,
       },
       magnitude: {
-        value: Number(eq.magnitude.value) ?? undefined,
+        value: parseNumberOrNull(eq.magnitude.value) ?? undefined,
         condition: eq.magnitude.condition,
       },
     }
