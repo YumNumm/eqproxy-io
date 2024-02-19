@@ -19,6 +19,7 @@
     "@dmdata/telegram-json-types": "^1.1.14",
     "@hono/node-server": "^1.7.0",
     "@slack/webhook": "^7.0.2",
+    "@supabase/supabase-js": "^2.39.6",
     "axios": "^1.6.7",
     "bufferutil": "^4.0.8",
     "config": "^3.3.11",

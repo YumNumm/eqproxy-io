@@ -10,6 +10,7 @@ require('newrelic')
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()
 import fs from 'fs'
+import { startListeningSupabase } from './supabase'
 Logger.level = 'debug'
 
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL)
@@ -64,6 +65,7 @@ async function main() {
   try {
     await websocket.start()
     await startDmDataWs()
+    await startListeningSupabase()
   } catch (e: any) {
     Logger.error(e)
     exit(1)

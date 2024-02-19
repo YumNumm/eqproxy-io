@@ -19,8 +19,15 @@ class WebSocketProvider {
     this.io.emit('data', data)
   }
 
+  public async broadcastV1(data: any) {
+    Logger.debug('v1 socket broadcast', data)
+
+    this.io.emit('v1', data)
+  }
+
   public async start() {
     let sockets: Socket[] = []
+    let v1Sockets: Socket[] = []
     // socket connection total limit
     this.io.use((socket, next) => {
       const connectionLimit = 10000
@@ -62,6 +69,11 @@ class WebSocketProvider {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
           EqmonitorTelegramSchemaSample.sample(socket)
+          return
+        }
+        if (data.toString().includes('v1')) {
+          v1Sockets.push(socket)
+          Logger.debug('v1 socket connected')
           return
         }
         socket.disconnect()
