@@ -20,7 +20,7 @@ export async function startListeningSupabase() {
       },
       async payload => {
         console.log('Change received!', payload)
-        websocket.broadcastV1(payload)
+        websocket.broadcastV1(JSON.stringify(payload))
       },
     )
     .subscribe()
