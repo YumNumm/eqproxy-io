@@ -22,12 +22,11 @@ class WebSocketProvider {
   public async broadcastV1(data: any) {
     Logger.debug('v1 socket broadcast', data)
 
-    this.io.emit('v1', data)
+    this.io.to("v1").emit('data', data)
   }
 
   public async start() {
     let sockets: Socket[] = []
-    let v1Sockets: Socket[] = []
     // socket connection total limit
     this.io.use((socket, next) => {
       const connectionLimit = 10000
@@ -72,8 +71,8 @@ class WebSocketProvider {
           return
         }
         if (data.toString().includes('v1')) {
-          v1Sockets.push(socket)
           Logger.debug('v1 socket connected')
+          socket.join("v1")
           return
         }
         socket.disconnect()
