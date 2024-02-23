@@ -40,6 +40,10 @@ class WebSocketProvider {
     })
 
     this.app = App({})
+    this.app.get('/health', (res, req) => {
+      res.writeStatus('200 OK')
+      res.end('OK')
+    })
     this.io.attachApp(this.app)
   }
 
