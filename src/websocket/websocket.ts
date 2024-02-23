@@ -19,6 +19,10 @@ class WebSocketProvider {
         maxHttpBufferSize: 1e4,
         cors: {
           origin: '*',
+          /*          origin: [
+            'https://status.ws.api.eqmonitor.app',
+            'https://status.api.eqmonitor.app',
+          ],*/
         },
       },
     )
@@ -57,6 +61,7 @@ class WebSocketProvider {
 
   public async start() {
     this.io.on('connection', socket => {
+      Logger.debug('socket connected')
       socket.on('message', data => {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
@@ -66,6 +71,7 @@ class WebSocketProvider {
         socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
+        Logger.debug('socket disconnected', reason)
         socket.removeAllListeners()
       })
       socket.on('error', err => {
