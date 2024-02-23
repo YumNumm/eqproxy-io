@@ -63,12 +63,8 @@ export const dmdata = new DMDATA({
 
 async function main() {
   try {
-    await websocket.start().then(() => {
-      Logger.info('websocket.start')
-    })
-    await startDmDataWs().then(() => {
-      Logger.info('startDmDataWs')
-    })
+    await websocket.start()
+    await startDmDataWs()
     await startListeningSupabase().then(() => {
       Logger.info('startListeningSupabase')
     })

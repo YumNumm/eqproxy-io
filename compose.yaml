@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NODE_VERSION: 20.1.0
+        NODE_VERSION: 20.11.1
     env_file:
       - .env
     environment:
@@ -12,5 +12,10 @@ services:
       - PORT=4000
     restart: always
     ports:
+      # ws.api.eqmonitor.app
       - 4000:4000
+      # status.api.eqmonitor.app
+      - 4001:4001
+      # Prometheus metrics
+      - 4002:4002
     #sysctls:

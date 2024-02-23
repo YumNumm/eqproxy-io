@@ -1,17 +1,50 @@
 import { Server, Socket } from 'socket.io'
-import { config } from '../config/config'
-import { Logger, slackWebhook } from '..'
+import { App, TemplatedApp } from 'uWebSockets.js'
+import { Logger } from '..'
 import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 import { ClientToServerEvents, ServerToClientEvents } from './model'
+import { createServer, Server as HTTPServer } from 'http'
+import { instrument } from '@socket.io/admin-ui'
+import { exit } from 'process'
+import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
 
 class WebSocketProvider {
   constructor() {
-    this.io = new Server<ClientToServerEvents, ServerToClientEvents>({
-      maxHttpBufferSize: 1e4,
+    this.httpServer = createServer()
+
+    this.io = new Server<ClientToServerEvents, ServerToClientEvents>(
+      this.httpServer,
+      {
+        maxHttpBufferSize: 1e4,
+        cors: {
+          origin: [
+            'https://status.ws.api.eqmonitor.app',
+            'https://status.api.eqmonitor.app',
+          ],
+        },
+      },
+    )
+
+    instrument(this.io, {
+      auth: {
+        type: 'basic',
+        username: 'yumnumm',
+        password:
+          '$2a$12$/9W1feY3e8owseqQH9tHFu/JR6M9b4d2/2KQUe3KovUBzbjMOUyiK',
+      },
+      mode: 'production',
+      serverId: `${require('os').hostname()}#${process.pid}`,
+      readonly: true,
     })
+
+    this.app = App({})
+    this.io.attachApp(this.app)
   }
 
   io: Server
+  httpServer: HTTPServer
+  app: TemplatedApp
 
   public async broadcast(data: any) {
     Logger.debug('socket broadcast', data)
@@ -22,78 +55,70 @@ class WebSocketProvider {
   public async broadcastV1(data: any) {
     Logger.debug('v1 socket broadcast', data)
 
-    this.io.to("v1").emit('data', data)
+    this.io.of('/v1').emit('data', data)
   }
 
   public async start() {
-    let sockets: Socket[] = []
-    // socket connection total limit
-    this.io.use((socket, next) => {
-      const connectionLimit = 10000
-      // when 80% of the connection limit is reached, emit a warning
-      if (sockets.length >= connectionLimit * 0.8) {
-        Logger.warn('Warning: 80% of the connection limit is reached.')
-        slackWebhook.send({
-          username: config.SERVERNAME,
-          text: `Warning: 80% of the connection limit is reached.`,
-        })
-      }
-      if (sockets.length >= connectionLimit) {
-        return next(new Error('Connection limit exceeded.'))
-      }
-      return next()
-    })
-    /*
-    // socket connection limit per ip
-    this.io.use((socket, next) => {
-      const ip = socket.handshake.address
-      const connectionLimitPerIp = 2
-      const ipSockets = sockets.filter(s => s.handshake.address === ip)
-      if (ipSockets.length >= connectionLimitPerIp) {
-        return next(new Error('Connection limit per ip exceeded.'))
-      }
-      return next()
-    })*/
-
     this.io.on('connection', socket => {
-      Logger.debug({
-        ip: socket.handshake.address,
-        id: socket.id,
-        request: socket.client.request.headers['x-forwarded-for'],
-        time: new Date().toISOString(),
-        totalConnections: sockets.length,
-      })
-      sockets.push(socket)
       socket.on('message', data => {
         Logger.debug('socket message: ' + data)
         if (data.toString().includes('sample')) {
           EqmonitorTelegramSchemaSample.sample(socket)
           return
         }
-        if (data.toString().includes('v1')) {
-          Logger.debug('v1 socket connected')
-          socket.join("v1")
-          return
-        }
         socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {
-        Logger.debug('socket disconnected')
         socket.removeAllListeners()
-        sockets = sockets.filter(s => s.id != socket.id)
       })
       socket.on('error', err => {
         Logger.error('socket error', err)
+        socket.removeAllListeners()
         socket.disconnect()
       })
       socket.on('ping', callback => {
         callback()
       })
     })
-    this.io.listen(4000, {
-      allowEIO3: true,
-      pingTimeout: 3000,
-      pingInterval: 10000,
+    this.io.of('/v1').on('connection', socket => {
+      socket.on('message', data => {
+        socket.disconnect()
+      })
+      socket.on('disconnect', (reason: any) => {
+        socket.removeAllListeners()
+      })
+      socket.on('error', err => {
+        Logger.error('socket error', err)
+        socket.removeAllListeners()
+        socket.disconnect()
+      })
+      socket.on('ping', callback => {
+        callback()
+      })
+    })
+
+    this.httpServer.listen(4001)
+
+    const app = App({})
+    this.io.attachApp(app)
+    app.listen(4000, token => {
+      if (!token) {
+        Logger.warn('failed to listen to port 4000')
+        exit(1)
+      }
+      Logger.info(`Listening to port 4000`)
+    })
+
+    const ioMetrics = require('socket.io-prometheus')
+    const promRegister = require('prom-client').register
+    ioMetrics(this.io)
+    const hono = new Hono()
+    hono.get('/metrics', async c => {
+      return c.text(await (promRegister.metrics() as Promise<any>))
+    })
+    serve({
+      fetch: hono.fetch,
+      port: 4002,
     })
   }
 }
