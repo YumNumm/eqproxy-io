@@ -14,8 +14,10 @@ services:
     ports:
       # ws.api.eqmonitor.app
       - 4000:4000
-      # status.api.eqmonitor.app
-      - 4001:4001
       # Prometheus metrics
       - 4002:4002
-    #sysctls:
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: '3'
