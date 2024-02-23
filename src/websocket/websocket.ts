@@ -3,7 +3,6 @@ import { App, TemplatedApp } from 'uWebSockets.js'
 import { Logger } from '..'
 import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 import { ClientToServerEvents, ServerToClientEvents } from './model'
-import { createServer, Server as HTTPServer } from 'http'
 import { instrument } from '@socket.io/admin-ui'
 import { exit } from 'process'
 import { Hono } from 'hono'
@@ -11,10 +10,8 @@ import { serve } from '@hono/node-server'
 
 class WebSocketProvider {
   constructor() {
-    this.httpServer = createServer()
 
     this.io = new Server<ClientToServerEvents, ServerToClientEvents>(
-      this.httpServer,
       {
         maxHttpBufferSize: 1e4,
         cors: {
@@ -44,11 +41,14 @@ class WebSocketProvider {
       res.writeStatus('200 OK')
       res.end('OK')
     })
+    this.app.get('*', (res, req) => {
+      res.writeStatus('404 Not Found')
+      res.end('Not Found')
+    })
     this.io.attachApp(this.app)
   }
 
   io: Server
-  httpServer: HTTPServer
   app: TemplatedApp
 
   public async broadcast(data: any) {
@@ -104,7 +104,7 @@ class WebSocketProvider {
       })
     })
 
-    this.httpServer.listen(4001)
+
 
     const app = App({})
     this.io.attachApp(app)
