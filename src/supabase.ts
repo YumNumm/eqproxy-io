@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { config } from './config/config'
 import { Database } from './schema'
-import { webSocketService } from './dmdata/dmdata'
 import { websocket } from './websocket/websocket'
+import { Logger } from '.'
 
 export const supabase = createClient<Database>(
   config.SUPABASE_URL,
@@ -23,5 +23,10 @@ export async function startListeningSupabase() {
         websocket.broadcastV1(JSON.stringify(payload))
       },
     )
-    .subscribe()
+    .subscribe((status, err) => {
+      Logger.info('Supabase Status:', status)
+      if (err) {
+        Logger.error('Supabase Error:', err)
+      }
+    })
 }
