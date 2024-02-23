@@ -18,10 +18,7 @@ class WebSocketProvider {
       {
         maxHttpBufferSize: 1e4,
         cors: {
-          origin: [
-            'https://status.ws.api.eqmonitor.app',
-            'https://status.api.eqmonitor.app',
-          ],
+          origin: '*',
         },
       },
     )
