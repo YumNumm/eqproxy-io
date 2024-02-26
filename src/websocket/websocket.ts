@@ -10,19 +10,18 @@ import { serve } from '@hono/node-server'
 
 class WebSocketProvider {
   constructor() {
-
-    this.io = new Server<ClientToServerEvents, ServerToClientEvents>(
-      {
-        maxHttpBufferSize: 1e4,
-        cors: {
-          origin: '*',
-          /*          origin: [
-            'https://status.ws.api.eqmonitor.app',
-            'https://status.api.eqmonitor.app',
-          ],*/
-        },
+    this.io = new Server<ClientToServerEvents, ServerToClientEvents>({
+      maxHttpBufferSize: 1e4,
+      cors: {
+        origin: [
+          'https://status.ws.api.eqmonitor.app',
+          'https://status.api.eqmonitor.app',
+          'https://eqmonitor-web.pages.dev',
+          'https://web.eqmonitor.app',
+          'https://widgetbook.eqmonitor.app',
+        ],
       },
-    )
+    })
 
     instrument(this.io, {
       auth: {
@@ -103,8 +102,6 @@ class WebSocketProvider {
         callback()
       })
     })
-
-
 
     const app = App({})
     this.io.attachApp(app)
