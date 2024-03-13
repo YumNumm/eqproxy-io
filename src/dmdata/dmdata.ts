@@ -12,7 +12,7 @@ import {
 export let webSocketService: WebSocketService
 
 export async function startDmDataWs() {
-  Logger.debug('Starting WebSocketService')
+  Logger.info('Starting WebSocketService')
   try {
     webSocketService = await dmdata.socket.start({
       classifications: ['eew.forecast', 'telegram.earthquake'],
@@ -28,7 +28,7 @@ export async function startDmDataWs() {
     Logger.error(e)
     throw e
   }
-  Logger.debug('WebSocketService started')
+  Logger.info('WebSocketService started')
 
   // data時の処理
   webSocketService.on('start', async connInfo => {
@@ -100,7 +100,8 @@ export async function startDmDataWs() {
     exit(1)
   })
   webSocketService.on('data', async data => {
-    Logger.debug('Received data from WS')
+    Logger.info('Received data from WS')
+    Logger.info(data)
 
     if (data.classification == 'eew.forecast') {
       if (
@@ -113,8 +114,6 @@ export async function startDmDataWs() {
         ) as EewInformation.Latest.Main
         await dmDataTelegramHandler.eewInformation(telegram)
       }
-      Logger.debug('Received eew.forecast')
-      Logger.debug(data)
     }
     if (data.classification == 'telegram.earthquake') {
       if (

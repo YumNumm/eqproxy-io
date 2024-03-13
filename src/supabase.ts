@@ -19,7 +19,7 @@ export async function startListeningSupabase() {
         schema: 'public',
       },
       async payload => {
-        console.log('Change received!', payload)
+        Logger.info('Change received!', payload)
         websocket.broadcastV1(JSON.stringify(payload))
       },
     )

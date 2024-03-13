@@ -24,6 +24,8 @@ class DmDataTelegramHandler {
           broadcast.serialNo = (broadcast.serialNo ?? 0) + 1
         }
         await websocket.broadcast(broadcast)
+        Logger.info('Broadcasted')
+        Logger.info(broadcast)
         break
       default:
         break
@@ -33,10 +35,11 @@ class DmDataTelegramHandler {
   async earthquakeInforamtion(
     telegram: EarthquakeInformation.Latest.Main,
   ): Promise<void> {
-    Logger.info('地震情報を受信しました')
     const data = EqmonitorTelegramSchema.fromDmdataToTelegramV3(telegram)
     for await (const d of data) {
       await websocket.broadcast(d)
+      Logger.info('Broadcasted')
+      Logger.info(d)
     }
   }
 }
