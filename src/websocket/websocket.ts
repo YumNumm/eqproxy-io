@@ -50,13 +50,13 @@ class WebSocketProvider {
   io: Server
   app: TemplatedApp
 
-  public async broadcast(data: any) {
+  public async broadcast(data: { [key: string]: any }) {
     Logger.debug('socket broadcast', data)
 
     this.io.emit('data', data)
   }
 
-  public async broadcastV1(data: any) {
+  public async broadcastV1(data: { [key: string]: any }) {
     Logger.debug('v1 socket broadcast', data)
 
     this.io.of('/v1').emit('data', data)
