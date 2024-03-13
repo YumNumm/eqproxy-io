@@ -29,4 +29,6 @@ export async function startListeningSupabase() {
         Logger.error('Supabase Error:', err)
       }
     })
+  Logger.info('Listening to supabase changes')
+  return channel
 }
