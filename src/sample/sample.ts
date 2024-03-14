@@ -1,9 +1,9 @@
 import { DMDATA } from '@dmdata/sdk-js'
-import { EqmonitorTelegramSchema } from '../model/telegram_v3'
+import { EqmonitorTelegramSchema } from '@eqproxy-io/eqapi-types-v3'
 import { TelegramJSONMain } from '@dmdata/telegram-json-types'
 import fs from 'fs'
 import { Socket } from 'socket.io'
-import { EewInformation as ei } from '../model/eew-telegram'
+import { EewInformation as ei } from '@eqproxy-io/eqapi-types-v3'
 
 export namespace EqmonitorTelegramSchemaSample {
   export function vxse45Sample(): EqmonitorTelegramSchema.TelegramV3[] {
@@ -57,7 +57,7 @@ export namespace EqmonitorTelegramSchemaSample {
           // 送信
           data.status = '訓練'
           data.body.originTime = originTime.toISOString()
-          data.headline = "XX地域では、強い揺れに警戒してください"
+          data.headline = 'XX地域では、強い揺れに警戒してください'
           socket.emit('data', data)
           resolve(data)
         }, diff)

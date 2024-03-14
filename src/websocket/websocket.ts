@@ -56,12 +56,6 @@ class WebSocketProvider {
     this.io.emit('data', data)
   }
 
-  public async broadcastV1(data: { [key: string]: any }) {
-    Logger.debug('v1 socket broadcast', data)
-
-    this.io.of('/v1').emit('data', data)
-  }
-
   public async start() {
     this.io.on('connection', socket => {
       Logger.debug('socket connected')
@@ -75,22 +69,6 @@ class WebSocketProvider {
       })
       socket.on('disconnect', (reason: any) => {
         Logger.debug('socket disconnected', reason)
-        socket.removeAllListeners()
-      })
-      socket.on('error', err => {
-        Logger.error('socket error', err)
-        socket.removeAllListeners()
-        socket.disconnect()
-      })
-      socket.on('ping', callback => {
-        callback()
-      })
-    })
-    this.io.of('/v1').on('connection', socket => {
-      socket.on('message', data => {
-        socket.disconnect()
-      })
-      socket.on('disconnect', (reason: any) => {
         socket.removeAllListeners()
       })
       socket.on('error', err => {

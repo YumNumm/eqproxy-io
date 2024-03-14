@@ -2,9 +2,9 @@ import {
   EarthquakeInformation,
   EewInformation,
 } from '@dmdata/telegram-json-types'
-import { Logger } from '../..'
-import { EqmonitorTelegramSchema } from '../../model/telegram_v3'
-import { websocket } from '../../websocket/websocket'
+import { Logger } from '..'
+import { EqmonitorTelegramSchema } from '@eqproxy-io/eqapi-types-v3'
+import { websocket } from '../websocket/websocket'
 class DmDataTelegramHandler {
   constructor() {}
 

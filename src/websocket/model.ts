@@ -1,4 +1,4 @@
-import { EqmonitorTelegramSchema } from '../model/telegram_v3'
+import { EqmonitorTelegramSchema } from '@eqproxy-io/eqapi-types-v3'
 
 export type ServerToClientEvents = {
   data: (data: EqmonitorTelegramSchema.TelegramV3) => void

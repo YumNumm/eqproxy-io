@@ -1,0 +1,7 @@
+{
+  "name": "@eqproxy-io/eqapi-types-v1",
+  "main": "schema.ts",
+  "dependencies": {
+    "typescript": "^5.4.2"
+  }
+}

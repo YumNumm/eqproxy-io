@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { config } from './config/config'
-import { Database } from './schema'
-import { websocket } from './websocket/websocket'
+import { Database } from '@eqproxy-io/eqapi-types-v1'
 import { Logger } from '.'
 
 export const supabase = createClient<Database>(
@@ -20,7 +19,7 @@ export async function startListeningSupabase() {
       },
       async payload => {
         Logger.info('Change received!', payload)
-        websocket.broadcastV1(payload)
+        // websocket.broadcastV1(payload)
       },
     )
     .subscribe((status, err) => {

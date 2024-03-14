@@ -9,5 +9,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*",
+    "packages/eqapi-types-v3/src",
+    "src/supabase.ts",
+    "packages/eqapi-types-v1/schema.ts",
+    "packages/eqapi-types-v3/extension"
+  ]
 }

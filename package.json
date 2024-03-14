@@ -17,6 +17,10 @@
     "@dmdata/api-types": "^2.0.12",
     "@dmdata/sdk-js": "^0.2.6",
     "@dmdata/telegram-json-types": "^1.1.14",
+    "@eqproxy-io/eqapi-types-v1": "workspace:^",
+    "@eqproxy-io/eqapi-types-v3": "workspace:^",
+    "@eqproxy-io/eslint-config": "workspace:^",
+    "@eqproxy-io/ts-config": "workspace:^",
     "@hono/node-server": "^1.8.2",
     "@slack/webhook": "^7.0.2",
     "@socket.io/admin-ui": "^0.5.1",
@@ -42,8 +46,6 @@
     "@types/date-utils": "^1.2.5",
     "@types/node": "^20.11.26",
     "@types/websocket": "^1.0.10",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",
@@ -51,9 +53,5 @@
     "typescript": "^5.4.2",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
-  },
-  "optionalDependencies": {
-    "bufferutil": "^4.0.8",
-    "utf-8-validate": "^6.0.3"
   }
 }

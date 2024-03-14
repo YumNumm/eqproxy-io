@@ -127,7 +127,9 @@ export namespace EqmonitorTelegramSchema {
       arrivalTime: eq.arrivalTime,
       hypocenter: {
         code: eq.hypocenter.code,
-        depth: parseNumberOrNull(eq.hypocenter.depth.value ?? undefined) ?? undefined,
+        depth:
+          parseNumberOrNull(eq.hypocenter.depth.value ?? undefined) ??
+          undefined,
         name: eq.hypocenter.name,
         detailed:
           eq.hypocenter.detailed == null ? undefined : eq.hypocenter.detailed,

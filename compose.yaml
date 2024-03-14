@@ -21,3 +21,20 @@ services:
       options:
         max-size: 1m
         max-file: '3'
+  dmdata-proxy:
+    build:
+      context: .
+      dockerfile: ./service/dmdata-proxy/Dockerfile
+    env_file:
+      - ./service/dmdata-proxy/.env
+    environment:
+      - TZ=Asia/Tokyo
+      - WEBSOCKET_PORT=4020
+    restart: always
+    ports:
+      - 4020:4020
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: '3'

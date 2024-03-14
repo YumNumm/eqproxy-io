@@ -1,7 +1,7 @@
 import { WebSocketService } from '@dmdata/sdk-js'
 import { Logger, dmdata, slackWebhook } from '..'
 import { exit } from 'process'
-import { dmDataTelegramHandler } from './lib/handler'
+import { dmDataTelegramHandler } from './handler'
 import * as zlib from 'zlib'
 import { config } from '../config/config'
 import {

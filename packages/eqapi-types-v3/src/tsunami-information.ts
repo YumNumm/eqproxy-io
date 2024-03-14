@@ -183,7 +183,8 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: parseNumberOrNull(e.maxHeight.height.value) ?? undefined,
+                  value:
+                    parseNumberOrNull(e.maxHeight.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
@@ -243,7 +244,8 @@ export namespace TsunamiInformation {
             e.maxHeight == null
               ? undefined
               : {
-                  value: parseNumberOrNull(e.maxHeight?.height.value) ?? undefined,
+                  value:
+                    parseNumberOrNull(e.maxHeight?.height.value) ?? undefined,
                   condition: e.maxHeight.height.condition,
                   isOver: e.maxHeight.height.over,
                 },
@@ -276,7 +278,8 @@ export namespace TsunamiInformation {
                     firstHeightInitial: s.firstHeight.initial,
                     maxHeightTime: s.maxHeight.dateTime,
                     maxHeightValue:
-                      parseNumberOrNull(s.maxHeight?.height?.value) ?? undefined,
+                      parseNumberOrNull(s.maxHeight?.height?.value) ??
+                      undefined,
                     maxHeightIsOver: s.maxHeight.height?.over,
                     maxHeightIsRising:
                       s.maxHeight.height?.condition == '上昇中',
@@ -339,7 +342,8 @@ export namespace TsunamiInformation {
                     maxHeightValue:
                       parseNumberOrNull(s.maxHeight.height?.value) ?? undefined,
                     maxHeightIsOver: s.maxHeight.height?.over,
-                    maxHeightIsRising: s.maxHeight.height?.condition == '上昇中',
+                    maxHeightIsRising:
+                      s.maxHeight.height?.condition == '上昇中',
                     condition: s.maxHeight.condition,
                     name: s.name,
                   }
@@ -358,7 +362,8 @@ export namespace TsunamiInformation {
           maxHeightCondition: e.maxHeight.height?.condition,
           maxHeightIsOver: e.maxHeight.height?.over,
           maxHeightTime: e.maxHeight.dateTime,
-          maxHeightValue: parseNumberOrNull(e.maxHeight.height?.value) ?? undefined,
+          maxHeightValue:
+            parseNumberOrNull(e.maxHeight.height?.value) ?? undefined,
           name: e.name,
         }
         return data
