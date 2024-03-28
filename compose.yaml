@@ -76,6 +76,8 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - PORT=4030
+      - SUPABASE_PROXY_URL=ws://supabase-proxy:4010/ws
+      - DMDATA_PROXY_URL=ws://dmdata-proxy:4020/ws
     restart: always
     depends_on:
       supabase-proxy:

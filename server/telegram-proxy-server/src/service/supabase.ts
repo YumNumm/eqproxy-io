@@ -26,4 +26,7 @@ export async function startListeningSupabaseProxy() {
       broadcast(JSON.stringify(json));
     }
 	};
+	ws.onerror = event => {
+		console.error(`Error from Supabase Proxy: ${event}`);
+	}
 }

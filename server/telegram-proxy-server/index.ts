@@ -1,5 +1,7 @@
 import { exit } from 'process';
 import { config } from './src/config/config';
+import { startListeningSupabaseProxy } from './src/service/supabase';
+import { startListeningDmdataProxy } from './src/service/dmdata';
 
 let connectionCount = 0;
 
@@ -46,3 +48,7 @@ export function broadcast(data: string) {
 }
 
 console.log(`Server running at ${httpServer.url}`);
+
+
+startListeningSupabaseProxy();
+startListeningDmdataProxy();

@@ -8,7 +8,7 @@ import { parseNumber, parseNumberOrNull } from '../extension/number';
 import { broadcast } from '../..';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
-async function startListeningDmdataProxy() {
+export async function startListeningDmdataProxy() {
 	const url = new URL(config.DMDATA_PROXY_URL);
 	const ws = new WebSocket(url);
 	ws.onopen = () => {
@@ -64,6 +64,9 @@ async function startListeningDmdataProxy() {
 		}
 		console.log(`Telegram配信条件を満たしませんでした: ${data.classification}`);
 	};
+	ws.onerror = event => {
+		console.error(`Error from DMDATA Proxy: ${JSON.stringify(event)}`);
+	}
 }
 
 function json2object<T>(data: string | ArrayBuffer) {
