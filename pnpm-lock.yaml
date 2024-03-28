@@ -181,9 +181,6 @@ importers:
       log4js:
         specifier: ^6.9.1
         version: 6.9.1
-      newrelic:
-        specifier: ^11.12.0
-        version: 11.12.0
       typescript:
         specifier: ^5.4.2
         version: 5.4.2
