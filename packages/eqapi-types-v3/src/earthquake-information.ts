@@ -1,4 +1,3 @@
-import { type } from 'os'
 import { EqmonitorTelegramSchema } from './telegram_v3'
 import * as dmdata from '@dmdata/telegram-json-types'
 

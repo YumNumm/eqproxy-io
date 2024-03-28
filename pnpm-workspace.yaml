@@ -4,3 +4,4 @@ packages:
   - "service/*"
   - "packages/*"
   - "!service/supabase-proxy" # Bun
+  - "!server/telegram-proxy-server" # Bun

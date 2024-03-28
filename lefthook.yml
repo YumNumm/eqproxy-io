@@ -1,6 +1,0 @@
-pre-commit:
-  parallel: true
-  commands:
-    pretty:
-      glob: './src/**'
-      run: yarn prettier --write {staged_files}

@@ -1,0 +1,11 @@
+**/node_modules/
+**/.git
+**/npm-debug.log
+test-resources
+dump
+
+./compose.yaml
+Dockerfile
+.env
+
+deploy/

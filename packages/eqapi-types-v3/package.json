@@ -1,14 +1,15 @@
 {
   "name": "@eqproxy-io/eqapi-types-v3",
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
+    "@dmdata/telegram-json-types": "^1.1.14",
     "@eqproxy-io/eslint-config": "workspace:^",
     "@eqproxy-io/ts-config": "workspace:^",
     "typescript": "^5.4.2"

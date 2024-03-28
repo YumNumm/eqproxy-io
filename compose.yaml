@@ -2,7 +2,7 @@ services:
   eqproxy-io:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./server/eqproxy-io/Dockerfile
       args:
         NODE_VERSION: 20.11.1
     env_file:
@@ -21,6 +21,7 @@ services:
       options:
         max-size: 1m
         max-file: '3'
+
   dmdata-proxy:
     build:
       context: .
@@ -30,6 +31,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - WEBSOCKET_PORT=4020
+      - NEW_RELIC_APP_NAME=dmdata-proxy
     restart: always
     ports:
       - 4020:4020
@@ -38,6 +40,12 @@ services:
       options:
         max-size: 1m
         max-file: '3'
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4020/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   supabase-proxy:
     build: ./service/supabase-proxy
@@ -54,3 +62,36 @@ services:
       options:
         max-size: 1m
         max-file: '3'
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4010/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  telegram-proxy-server:
+    build: ./server/telegram-proxy-server
+    env_file:
+      - ./server/telegram-proxy-server/.env
+    environment:
+      - TZ=Asia/Tokyo
+      - PORT=4030
+    restart: always
+    depends_on:
+      supabase-proxy:
+        condition: service_healthy
+      dmdata-proxy:
+        condition: service_healthy
+    ports:
+      - 4030:4030
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: '3'
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4030/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s

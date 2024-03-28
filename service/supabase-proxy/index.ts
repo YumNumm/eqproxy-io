@@ -13,7 +13,6 @@ let wsConnectionCount: number = 0
 const httpServer = Bun.serve({
   fetch(req, server) {
     const url = new URL(req.url)
-    console.log(`Request: ${url.pathname}`)
     if (url.pathname === '/health') {
       return new Response('OK', { status: 200 })
     }
@@ -22,6 +21,7 @@ const httpServer = Bun.serve({
         wsConnectionCount
        })
     }
+    console.log(`Request: ${url.pathname}`)
     if (url.pathname === "/ws") {
       // upgrade the request to a WebSocket
       if (server.upgrade(req)) {
@@ -35,11 +35,12 @@ const httpServer = Bun.serve({
     message(_, __) {}, // a message is received
     open(ws) {
       ws.subscribe('supabase')
+      console.log(`Socket opened: ${ws.remoteAddress}`)
       wsConnectionCount++;
     }, // a socket is opened
     close(ws, code, message) {
       wsConnectionCount--;
-      console.log(`Socket closed: ${code} ${message}`)
+      console.log(`Socket closed: ${code} ${message} ${ws.remoteAddress}`)
     }, // a socket is closed
     drain(ws) { }, // the socket is ready to receive more data
     sendPings: true, // send pings to the client

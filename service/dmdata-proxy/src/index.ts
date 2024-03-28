@@ -4,7 +4,7 @@ import { exit } from 'process'
 import { IncomingWebhook } from '@slack/webhook'
 import { config } from './config/config'
 import { startDmDataWs } from './dmdata/dmdata'
-import { wss } from './websocket/websocket'
+import { startHttpServer, wss } from './websocket/websocket'
 require('newrelic')
 
 export const Logger = getLogger()
@@ -61,6 +61,7 @@ export const dmdata = new DMDATA({
 
 async function main() {
   try {
+    startHttpServer()
     startDmDataWs()
     wss;
   } catch (e: any) {

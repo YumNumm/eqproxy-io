@@ -14,13 +14,13 @@ COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
-RUN pnpm --filter @eqproxy-io/dmdata-proxy deploy --prod deploy/dmdata-proxy
+RUN pnpm --filter @eqproxy-io/eqproxy-io deploy --prod deploy/eqproxy-io
 
 FROM base AS dmdata-proxy
-COPY --from=build /app/deploy/dmdata-proxy/node_modules/ /app/deploy/dmdata-proxy/node_modules/
-COPY --from=build /app/deploy/dmdata-proxy/dist/ /app/deploy/dmdata-proxy/dist/
-COPY --from=build /app/deploy/dmdata-proxy/package.json /app/deploy/dmdata-proxy/package.json
-WORKDIR /app/deploy/dmdata-proxy
+COPY --from=build /app/deploy/eqproxy-io/node_modules/ /app/deploy/eqproxy-io/node_modules/
+COPY --from=build /app/deploy/eqproxy-io/dist/ /app/deploy/eqproxy-io/dist/
+COPY --from=build /app/deploy/eqproxy-io/package.json /app/deploy/eqproxy-io/package.json
+WORKDIR /app/deploy/eqproxy-io
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
     NEW_RELIC_LOG=stdout \
     NODE_ENV=production

@@ -1,0 +1,61 @@
+{
+  "name": "@eqproxy-io/eqproxy-io",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:YumNumm/eqproxy-io.git",
+  "author": "YumNumm <onory0917@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "dev:watch": "ts-node-dev --respawn src/index.ts",
+    "clean": "rimraf dist/*",
+    "tsc": "tsc",
+    "build": "npm-run-all clean tsc",
+    "start": "node ."
+  },
+  "dependencies": {
+    "@dmdata/api-types": "^2.0.12",
+    "@dmdata/sdk-js": "^0.2.6",
+    "@dmdata/telegram-json-types": "^1.1.14",
+    "@eqproxy-io/eqapi-types-v1": "workspace:^",
+    "@eqproxy-io/eqapi-types-v3": "workspace:^",
+    "@eqproxy-io/eslint-config": "workspace:^",
+    "@eqproxy-io/ts-config": "workspace:^",
+    "@hono/node-server": "^1.8.2",
+    "@slack/webhook": "^7.0.2",
+    "@socket.io/admin-ui": "^0.5.1",
+    "@supabase/supabase-js": "^2.39.8",
+    "axios": "^1.6.7",
+    "config": "^3.3.11",
+    "date-fns": "^3.4.0",
+    "date-utils": "^1.2.21",
+    "fs": "0.0.1-security",
+    "hono": "^4.1.0",
+    "log4js": "^6.9.1",
+    "newrelic": "^11.12.0",
+    "npm-run-all": "^4.1.5",
+    "prom-client": "^15.1.0",
+    "rimraf": "^5.0.5",
+    "socket.io": "^4.7.4",
+    "socket.io-prometheus": "^0.3.0",
+    "ts-node-dev": "^2.0.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.28.0"
+  },
+  "devDependencies": {
+    "@types/config": "^3.3.3",
+    "@types/date-utils": "^1.2.5",
+    "@types/node": "^20.11.26",
+    "@types/websocket": "^1.0.10",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  }
+}
