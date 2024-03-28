@@ -1,0 +1,21 @@
+{
+  "name": "supabase-proxy",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.40.0",
+    "log4js": "^6.9.1"
+  },
+  "scripts": {
+    "build": "bun build index.ts --outfile=server.js --target=bun"
+  },
+  "trustedDependencies": [
+    "supabase"
+  ]
+}

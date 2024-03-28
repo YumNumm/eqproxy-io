@@ -5,6 +5,10 @@
   "repository": "git@github.com:YumNumm/eqproxy-io.git",
   "author": "YumNumm <onory0917@gmail.com>",
   "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "ts-node src/index.ts",
     "dev:watch": "ts-node-dev --respawn src/index.ts",

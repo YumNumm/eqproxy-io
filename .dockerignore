@@ -7,3 +7,5 @@ dump
 ./compose.yaml
 Dockerfile
 .env
+
+deploy/

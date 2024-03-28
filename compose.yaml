@@ -38,3 +38,19 @@ services:
       options:
         max-size: 1m
         max-file: '3'
+
+  supabase-proxy:
+    build: ./service/supabase-proxy
+    env_file:
+      - ./service/supabase-proxy/.env
+    environment:
+      - TZ=Asia/Tokyo
+      - PORT=4010
+    restart: always
+    ports:
+      - 4010:4010
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: '3'

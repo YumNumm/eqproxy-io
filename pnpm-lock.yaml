@@ -193,6 +193,19 @@ importers:
         specifier: ^8.16.0
         version: 8.16.0
 
+  service/telegram-transformer:
+    dependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.4.2
+    devDependencies:
+      '@eqproxy-io/eqapi-types-v1':
+        specifier: workspace:*
+        version: link:../../packages/eqapi-types-v1
+      '@types/bun':
+        specifier: latest
+        version: 1.0.10
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
@@ -640,6 +653,12 @@ packages:
   /@types/bcryptjs@2.4.6:
     resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
     dev: false
+
+  /@types/bun@1.0.10:
+    resolution: {integrity: sha512-Jaz6YYAdm1u3NVlgSyEK+qGmrlLQ20sbWeEoXD64b9w6z/YKYNWlfaphu+xF2Kiy5Tpykm5Q9jIquLegwXx4ng==}
+    dependencies:
+      bun-types: 1.0.33
+    dev: true
 
   /@types/bun@1.0.8:
     resolution: {integrity: sha512-E6UWZuN4ymAxzUBWVIGDHJ3Zey7I8cMzDZ+cB1BqhZsmd1uPb9iAQzpWMruY1mKzsuD3R+dZPoBkZz8QL1KhSA==}
@@ -1337,6 +1356,13 @@ packages:
 
   /bun-types@1.0.29:
     resolution: {integrity: sha512-Z+U1ORr/2UCwxelIZxE83pyPLclviYL9UewQCNEUmGeLObY8ao+3WF3D8N1+NMv2+S+hUWsdBJam+4GoPEz35g==}
+    dependencies:
+      '@types/node': 20.11.26
+      '@types/ws': 8.5.10
+    dev: true
+
+  /bun-types@1.0.33:
+    resolution: {integrity: sha512-L5tBIf9g6rBBkvshqysi5NoLQ9NnhSPU1pfJ9FzqoSfofYdyac3WLUnOIuQ+M5za/sooVUOP2ko+E6Tco0OLIA==}
     dependencies:
       '@types/node': 20.11.26
       '@types/ws': 8.5.10

@@ -1,26 +1,22 @@
-FROM node:20 AS base
+FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-COPY . /app
 WORKDIR /app
 
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-
 FROM base AS build
-WORKDIR /app/service/dmdata-proxy
+COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build
+COPY . .
+RUN pnpm run -r build
 
-FROM base
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=base /app/sample ./sample
-COPY --from=build /app/dist /app/dist
+RUN pnpm --filter @eqproxy-io/dmdata-proxy deploy --prod deploy/dmdata-proxy
+
+FROM base AS dmdata-proxy
+COPY --from=build /app/deploy/dmdata-proxy/node_modules/ /app/deploy/dmdata-proxy/node_modules/
+COPY --from=build /app/deploy/dmdata-proxy/dist/ /app/deploy/dmdata-proxy/dist/
+COPY --from=build /app/deploy/dmdata-proxy/package.json /app/deploy/dmdata-proxy/package.json
+WORKDIR /app/deploy/dmdata-proxy
 EXPOSE 3000
+CMD ["pnpm", "start"]
 
-ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
-    NEW_RELIC_LOG=stdout \
-    NODE_ENV=production
-
-CMD [ "pnpm", "start-prod" ]
