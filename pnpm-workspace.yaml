@@ -3,3 +3,4 @@ packages:
   - "server/*"
   - "service/*"
   - "packages/*"
+  - "!service/supabase-proxy" # Bun

@@ -7,7 +7,6 @@ WORKDIR /app
 FROM base AS build
 COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-COPY . .
 RUN pnpm run -r build
 
 RUN pnpm --filter @eqproxy-io/dmdata-proxy deploy --prod deploy/dmdata-proxy

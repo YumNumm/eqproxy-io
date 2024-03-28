@@ -11,6 +11,7 @@
     "@dmdata/sdk-js": "^0.2.6",
     "@eqproxy-io/eslint-config": "workspace:^",
     "@eqproxy-io/ts-config": "workspace:^",
+    "@slack/webhook": "^7.0.2",
     "@types/ws": "^8.5.10",
     "log4js": "^6.9.1",
     "newrelic": "^11.12.0",

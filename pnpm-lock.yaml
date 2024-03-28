@@ -177,6 +177,9 @@ importers:
       '@eqproxy-io/ts-config':
         specifier: workspace:^
         version: link:../../packages/ts-config
+      '@slack/webhook':
+        specifier: ^7.0.2
+        version: 7.0.2
       '@types/ws':
         specifier: ^8.5.10
         version: 8.5.10
@@ -195,13 +198,16 @@ importers:
 
   service/telegram-transformer:
     dependencies:
+      '@dmdata/telegram-json-types':
+        specifier: ^1.1.14
+        version: 1.1.14
       typescript:
         specifier: ^5.0.0
         version: 5.4.2
     devDependencies:
       '@eqproxy-io/eqapi-types-v1':
-        specifier: workspace:*
-        version: link:../../packages/eqapi-types-v1
+        specifier: link:@eqproxy-io/eqapi-types-v1
+        version: link:@eqproxy-io/eqapi-types-v1
       '@types/bun':
         specifier: latest
         version: 1.0.10

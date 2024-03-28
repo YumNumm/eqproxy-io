@@ -22,6 +22,10 @@ wss.on('connection', (ws) => {
   }, 5000)
   Logger.info(`WebSocket connected: ${ws.protocol}`)
   ws.on('error', (err) => Logger.error(`WebSocket error: ${err}`))
+  ws.on("close", () => {
+    Logger.info(`WebSocket closed: ${ws.protocol}`)
+    clearInterval(interval)
+  })
   ws.on('pong', () => {
     isAlive = true
   })
