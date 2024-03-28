@@ -9,7 +9,6 @@ require('newrelic')
 
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()
-import { startListeningSupabase } from './supabase'
 // Logger.level = 'debug'
 Logger.level = 'info'
 
@@ -65,9 +64,6 @@ async function main() {
   try {
     await websocket.start()
     await startDmDataWs()
-    await startListeningSupabase().then(() => {
-      Logger.info('startListeningSupabase')
-    })
   } catch (e: any) {
     Logger.error(e)
     exit(1)
