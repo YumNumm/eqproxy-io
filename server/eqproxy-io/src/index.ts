@@ -5,7 +5,6 @@ import { IncomingWebhook } from '@slack/webhook'
 import { config } from './config/config'
 import { websocket } from './websocket/websocket'
 import { startDmDataWs } from './dmdata/dmdata'
-require('newrelic')
 
 export const isProd = process.env.NODE_ENV == 'production'
 export const Logger = getLogger()

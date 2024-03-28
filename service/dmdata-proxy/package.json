@@ -4,8 +4,7 @@
   "scripts": {
     "tsc": "tsc",
     "build": "tsc",
-    "start": "node .",
-    "start-prod": "node -r newrelic ."
+    "start": "node ."
   },
   "dependencies": {
     "@dmdata/sdk-js": "^0.2.6",
