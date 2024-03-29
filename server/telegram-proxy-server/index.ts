@@ -37,7 +37,12 @@ const httpServer = Bun.serve({
       ws.subscribe("public")
       // ping timer every 15 seconds
       setInterval(() => {
-        ws.ping()
+        ws.ping(
+          JSON.stringify({
+            type: "ping",
+            timestamp: new Date().toISOString(),
+          })
+        )
       }, 1000 * 15)
     },
     close(ws, code, message) {
