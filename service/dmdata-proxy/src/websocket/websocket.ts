@@ -9,7 +9,6 @@ let totalWsConnections = 0
 const httpServer = createServer((req, response) => {
   response.writeHead(200)
   if (req.url === "/metrics") {
-    response.setHeader("Content-Type", "text/plain")
     response.write(`# HELP ws_connections_total 現在のWebSocketの接続数\n`)
     response.write(`# TYPE ws_connections_total gauge\n`)
     response.write(`ws_connections_total ${wsConnectionCount}\n`)
