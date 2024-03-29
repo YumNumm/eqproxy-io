@@ -4,6 +4,7 @@ import { startListeningSupabaseProxy } from "./src/service/supabase"
 import { startListeningDmdataProxy } from "./src/service/dmdata"
 
 let connectionCount = 0
+let totalConnectionCount = 0
 
 const httpServer = Bun.serve({
   fetch(request, server) {
@@ -15,9 +16,19 @@ const httpServer = Bun.serve({
     }
     if (auth === "Bearer " + config.JWT) {
       if (pathname === "/metrics") {
-        return Response.json({
-          connectionCount,
-        })
+        return new Response(
+          "# HELP ws_connections_total 現在のWebSocketの接続数\n" +
+            "# TYPE ws_connections_total gauge\n" +
+            `ws_connections_total ${connectionCount}\n` +
+            "# HELP ws_connections_total 累計のWebSocketの接続数\n" +
+            "# TYPE ws_connections_total counter\n" +
+            `total_ws_connections_total ${totalConnectionCount}\n`,
+          {
+            headers: {
+              "Content-Type": "text/plain",
+            },
+          }
+        )
       }
     }
     if (pathname === "/ws") {
@@ -34,6 +45,7 @@ const httpServer = Bun.serve({
     },
     open(ws) {
       connectionCount++
+      totalConnectionCount++
       ws.subscribe("public")
       // ping timer every 15 seconds
       setInterval(() => {
