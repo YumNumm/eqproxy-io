@@ -1,0 +1,22 @@
+name: Deploy to Production
+description: Deploy to Production
+
+runs:
+  using: "composite"
+  steps:
+    - name: Git pull
+      shell: bash
+      run: |
+        cd /opt/eqproxy-io
+        git pull
+    - name: Docker build
+      shell: bash
+      run: |
+        cd /opt/eqproxy-io
+        docker compose build
+    - name: Docker up
+      shell: bash
+      run: |
+        cd /opt/eqproxy-io
+        docker compose up -d
+        docker compose ps
