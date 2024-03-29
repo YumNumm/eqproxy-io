@@ -1,54 +1,62 @@
-import { exit } from 'process';
-import { config } from './src/config/config';
-import { startListeningSupabaseProxy } from './src/service/supabase';
-import { startListeningDmdataProxy } from './src/service/dmdata';
+import { exit } from "process"
+import { config } from "./src/config/config"
+import { startListeningSupabaseProxy } from "./src/service/supabase"
+import { startListeningDmdataProxy } from "./src/service/dmdata"
 
-let connectionCount = 0;
+let connectionCount = 0
 
 const httpServer = Bun.serve({
-	fetch(request, server) {
-		const { searchParams, pathname } = new URL(request.url);
-		const auth =
-			searchParams.get('key') ?? request.headers.get('Authorization');
+  fetch(request, server) {
+    const { searchParams, pathname } = new URL(request.url)
+    const auth = searchParams.get("key") ?? request.headers.get("Authorization")
 
-		if (pathname === '/health') {
-			return new Response('OK', { status: 200 });
-		}
-		if (auth === 'Bearer ' + config.JWT) {
-			if (pathname === '/metrics') {
-				return Response.json({
-					connectionCount,
-				});
-			}
-		}
-		if (pathname === '/ws') {
-			if (server.upgrade(request)) {
-				return;
-			}
-			return new Response('Upgrade failed', { status: 500 });
-		}
-		return new Response(undefined, { status: 404 });
-	},
-	websocket: {
-		message(ws, __) {
-			ws.close(1000, 'Not implemented');
-		},
-		open(ws) {
-			connectionCount++;
-			ws.subscribe('public');
-		},
-		close(ws, code, message) {
-			connectionCount--;
-		},
-	},
-});
+    if (pathname === "/health") {
+      return new Response("OK", { status: 200 })
+    }
+    if (auth === "Bearer " + config.JWT) {
+      if (pathname === "/metrics") {
+        return Response.json({
+          connectionCount,
+        })
+      }
+    }
+    if (pathname === "/ws") {
+      if (server.upgrade(request)) {
+        return
+      }
+      return new Response("Upgrade failed", { status: 500 })
+    }
+    return new Response(undefined, { status: 404 })
+  },
+  websocket: {
+    message(ws, __) {
+      ws.close(1000, "Not implemented")
+    },
+    open(ws) {
+      connectionCount++
+      ws.subscribe("public")
+      // ping timer every 15 seconds
+      setInterval(() => {
+        ws.ping()
+      }, 1000 * 15)
+    },
+    close(ws, code, message) {
+      connectionCount--
+    },
+    perMessageDeflate: true,
+    sendPings: true,
+    backpressureLimit: 1024 * 1024, // 1MB
+    closeOnBackpressureLimit: true,
+    idleTimeout: 20, // seconds
+    maxPayloadLength: 1024, // 1KB
+  },
+})
 
 export function broadcast(data: string) {
-	httpServer.publish('public', data);
+  httpServer.publish("public", data)
 }
 
-console.log(`Server running at ${httpServer.url}`);
+console.log(`Server running at ${httpServer.url}`)
 
-
-startListeningSupabaseProxy();
-startListeningDmdataProxy();
+startListeningSupabaseProxy()
+startListeningDmdataProxy()
