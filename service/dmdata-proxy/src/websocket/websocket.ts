@@ -9,13 +9,13 @@ let totalWsConnections = 0
 const httpServer = createServer((req, response) => {
   response.writeHead(200)
   if (req.url === "/metrics") {
+    response.setHeader("Content-Type", "text/plain")
     response.write(`# HELP ws_connections_total 現在のWebSocketの接続数\n`)
     response.write(`# TYPE ws_connections_total gauge\n`)
     response.write(`ws_connections_total ${wsConnectionCount}\n`)
     response.write(`# HELP ws_connections_total 累計のWebSocketの接続数\n`)
     response.write(`# TYPE ws_connections_total counter\n`)
     response.write(`total_ws_connections_total ${totalWsConnections}\n`)
-    response.setHeader("Content-Type", "text/plain")
   }
   response.end()
 })
@@ -25,8 +25,8 @@ export const wss = new WebSocketServer({
 })
 
 wss.on("connection", (ws) => {
-	wsConnectionCount++
-	totalWsConnections++
+  wsConnectionCount++
+  totalWsConnections++
   var isAlive = true
   var interval = setInterval(() => {
     if (ws.readyState === ws.OPEN) {
@@ -42,8 +42,8 @@ wss.on("connection", (ws) => {
   Logger.info(`WebSocket connected: ${ws.protocol}`)
   ws.on("error", (err) => Logger.error(`WebSocket error: ${err}`))
   ws.on("close", () => {
-		Logger.info(`WebSocket closed: ${ws.protocol}`)
-		wsConnectionCount--
+    Logger.info(`WebSocket closed: ${ws.protocol}`)
+    wsConnectionCount--
     clearInterval(interval)
   })
   ws.on("pong", () => {
