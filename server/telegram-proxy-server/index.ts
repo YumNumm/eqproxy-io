@@ -71,6 +71,7 @@ const httpServer = Bun.serve({
 })
 
 export function broadcast(data: string) {
+  console.log(`Broadcasting: ${JSON.stringify(data, null, 2)}`)
   httpServer.publish("public", data)
 }
 
@@ -78,4 +79,3 @@ console.log(`Server running at ${httpServer.url}`)
 
 startListeningSupabaseProxy()
 startListeningDmdataProxy()
-

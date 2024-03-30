@@ -19,7 +19,9 @@ export async function startListeningDmdataProxy() {
     exit(1)
   }
   ws.onmessage = (event) => {
-    console.log(`Message from DMDATA Proxy: ${JSON.stringify(event)}`)
+    console.log(
+      `Message from DMDATA Proxy: ${JSON.stringify(event.data, null, 2)}`
+    )
     const data = json2object<APITypes.WebSocketV2.Event.Data>(
       event.data.toString()
     )
