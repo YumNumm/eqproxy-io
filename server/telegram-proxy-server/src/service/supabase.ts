@@ -14,14 +14,12 @@ export async function startListeningSupabaseProxy() {
     exit(1)
   }
   ws.onmessage = (event) => {
-    console.log(
-      `Message from Supabase Proxy: ${JSON.stringify(event.data, null, 2)}`
-    )
     const json = JSON.parse(
       event.data.toString()
     ) as RealtimePostgresChangesPayload<{
       [key: string]: any
     }>
+    console.log(`Message from Supabase Proxy: ${JSON.stringify(json, null, 2)}`)
     if (json.table !== "eew") {
       broadcast(JSON.stringify(json))
     }

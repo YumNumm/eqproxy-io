@@ -19,12 +19,10 @@ export async function startListeningDmdataProxy() {
     exit(1)
   }
   ws.onmessage = (event) => {
-    console.log(
-      `Message from DMDATA Proxy: ${JSON.stringify(event.data, null, 2)}`
-    )
     const data = json2object<APITypes.WebSocketV2.Event.Data>(
       event.data.toString()
     )
+    console.log(`Message from DMDATA Proxy: ${JSON.stringify(data, null, 2)}`)
     if (data === null) {
       console.error("Failed to parse DMDATA data")
       return
@@ -35,7 +33,7 @@ export async function startListeningDmdataProxy() {
         data.format == "json" &&
         data.encoding == "base64"
       ) {
-        const gzipped = btoa(data.body)
+        const gzipped = Buffer.from(data.body, "base64")
         const decompressed = Bun.gunzipSync(gzipped)
         const decoder = new TextDecoder()
         const text = decoder.decode(decompressed)
@@ -55,7 +53,7 @@ export async function startListeningDmdataProxy() {
               table: "eew",
               errors: [],
             }
-            broadcast(JSON.stringify(broadcastData))
+            broadcast(JSON.stringify(broadcastData, null, 2))
           }
           // DO SOMETHING
         }
