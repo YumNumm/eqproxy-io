@@ -9,7 +9,6 @@ let totalConnectionCount = 0
 const httpServer = Bun.serve({
   fetch(request, server) {
     const { searchParams, pathname } = new URL(request.url)
-    console.log(request.headers)
     const auth = searchParams.get("key") ?? request.headers.get("Authorization")
 
     if (pathname === "/health") {
