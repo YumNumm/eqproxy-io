@@ -53,7 +53,7 @@ export async function startListeningDmdataProxy() {
               table: "eew",
               errors: [],
             }
-            broadcast(JSON.stringify(broadcastData, null, 2))
+            broadcast(broadcastData)
           }
           // DO SOMETHING
         }

@@ -69,9 +69,9 @@ const httpServer = Bun.serve({
   },
 })
 
-export function broadcast(data: string) {
+export function broadcast(data: { [key: string]: any }) {
   console.log(`Broadcasting: ${JSON.stringify(data, null, 2)}`)
-  httpServer.publish("public", data)
+  httpServer.publish("public", JSON.stringify(data))
 }
 
 console.log(`Server running at ${httpServer.url}`)

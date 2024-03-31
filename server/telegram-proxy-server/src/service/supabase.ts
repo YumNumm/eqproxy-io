@@ -21,7 +21,7 @@ export async function startListeningSupabaseProxy() {
     }>
     console.log(`Message from Supabase Proxy: ${JSON.stringify(json, null, 2)}`)
     if (json.table !== "eew") {
-      broadcast(JSON.stringify(json))
+      broadcast(json)
     }
   }
   ws.onerror = (event) => {
