@@ -120,6 +120,7 @@ export type Database = {
       }
       eew: {
         Row: {
+          accuracy: Json | null
           arrival_time: string | null
           depth: number | null
           event_id: number
@@ -137,6 +138,7 @@ export type Database = {
           info_type: string
           is_canceled: boolean
           is_last_info: boolean
+          is_plum: boolean
           is_warning: boolean | null
           latitude: number | null
           longitude: number | null
@@ -150,6 +152,7 @@ export type Database = {
           type: string
         }
         Insert: {
+          accuracy?: Json | null
           arrival_time?: string | null
           depth?: number | null
           event_id: number
@@ -167,6 +170,7 @@ export type Database = {
           info_type: string
           is_canceled: boolean
           is_last_info: boolean
+          is_plum: boolean
           is_warning?: boolean | null
           latitude?: number | null
           longitude?: number | null
@@ -180,6 +184,7 @@ export type Database = {
           type: string
         }
         Update: {
+          accuracy?: Json | null
           arrival_time?: string | null
           depth?: number | null
           event_id?: number
@@ -197,6 +202,7 @@ export type Database = {
           info_type?: string
           is_canceled?: boolean
           is_last_info?: boolean
+          is_plum?: boolean
           is_warning?: boolean | null
           latitude?: number | null
           longitude?: number | null
@@ -406,6 +412,7 @@ export type Database = {
       latest_eew: {
         Args: Record<PropertyKey, never>
         Returns: {
+          accuracy: Json | null
           arrival_time: string | null
           depth: number | null
           event_id: number
@@ -423,6 +430,7 @@ export type Database = {
           info_type: string
           is_canceled: boolean
           is_last_info: boolean
+          is_plum: boolean
           is_warning: boolean | null
           latitude: number | null
           longitude: number | null

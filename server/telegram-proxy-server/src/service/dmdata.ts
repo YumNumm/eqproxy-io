@@ -150,6 +150,9 @@ function dmdataEewToV1(telegram: EewInformation.Latest.Main) {
             }) ?? []
           ) ?? null,
         report_time: telegram.reportDateTime,
+        accuracy:
+          formatToJson(telegram.body.earthquake.hypocenter.accuracy) ?? null,
+        is_plum: telegram.body.earthquake.condition === "仮定震源要素",
       }
       return result
     }
@@ -182,6 +185,8 @@ function dmdataEewToV1(telegram: EewInformation.Latest.Main) {
         origin_time: null,
         regions: null,
         report_time: telegram.reportDateTime,
+        accuracy: null,
+        is_plum: false,
       }
       return result
     }
