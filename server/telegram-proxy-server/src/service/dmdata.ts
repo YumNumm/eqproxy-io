@@ -149,6 +149,7 @@ function dmdataEewToV1(telegram: EewInformation.Latest.Main) {
               }
             }) ?? []
           ) ?? null,
+        report_time: telegram.reportDateTime,
       }
       return result
     }
@@ -180,6 +181,7 @@ function dmdataEewToV1(telegram: EewInformation.Latest.Main) {
         magnitude: null,
         origin_time: null,
         regions: null,
+        report_time: telegram.reportDateTime,
       }
       return result
     }

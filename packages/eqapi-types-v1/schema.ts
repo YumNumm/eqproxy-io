@@ -143,6 +143,7 @@ export type Database = {
           magnitude: number | null
           origin_time: string | null
           regions: Json | null
+          report_time: string
           schema_type: string
           serial_no: number | null
           status: string
@@ -172,6 +173,7 @@ export type Database = {
           magnitude?: number | null
           origin_time?: string | null
           regions?: Json | null
+          report_time?: string
           schema_type: string
           serial_no?: number | null
           status: string
@@ -201,6 +203,7 @@ export type Database = {
           magnitude?: number | null
           origin_time?: string | null
           regions?: Json | null
+          report_time?: string
           schema_type?: string
           serial_no?: number | null
           status?: string
@@ -426,6 +429,7 @@ export type Database = {
           magnitude: number | null
           origin_time: string | null
           regions: Json | null
+          report_time: string
           schema_type: string
           serial_no: number | null
           status: string
