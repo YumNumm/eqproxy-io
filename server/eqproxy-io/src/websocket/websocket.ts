@@ -1,7 +1,6 @@
 import { Server, Socket } from 'socket.io'
 import { App, TemplatedApp } from 'uWebSockets.js'
 import { Logger } from '..'
-import { EqmonitorTelegramSchemaSample } from '../sample/sample'
 import { ClientToServerEvents, ServerToClientEvents } from './model'
 import { instrument } from '@socket.io/admin-ui'
 import { exit } from 'process'
@@ -59,12 +58,7 @@ class WebSocketProvider {
   public async start() {
     this.io.on('connection', socket => {
       Logger.debug('socket connected')
-      socket.on('message', data => {
-        Logger.debug('socket message: ' + data)
-        if (data.toString().includes('sample')) {
-          EqmonitorTelegramSchemaSample.sample(socket)
-          return
-        }
+      socket.on('message', _ => {
         socket.disconnect()
       })
       socket.on('disconnect', (reason: any) => {

@@ -5,13 +5,13 @@ import fs from 'fs'
 import { Socket } from 'socket.io'
 import { EewInformation as ei } from '@eqproxy-io/eqapi-types-v3'
 
-export namespace EqmonitorTelegramSchemaSample {
-  export function vxse45Sample(): EqmonitorTelegramSchema.TelegramV3[] {
+ namespace EqmonitorTelegramSchemaSample {
+   function vxse45Sample(): EqmonitorTelegramSchema.TelegramV3[] {
     throw new Error('Not implemented')
   }
 
   // stream
-  export async function sample(socket: Socket) {
+   async function sample(socket: Socket) {
     // ディレクトリのファイル一覧を取得 sample_
     const files = await fs.promises.readdir('./sample/20171213b/json')
     // すべて読み込む
