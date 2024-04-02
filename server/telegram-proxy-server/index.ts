@@ -45,7 +45,7 @@ const httpServer = Bun.serve({
   websocket: {
     message(ws, message) {
       if (message === "sample/eew") {
-        ws.send(JSON.stringify(eewSamplePayload))
+        ws.send(JSON.stringify(eewSamplePayload()))
         return
       }
 
