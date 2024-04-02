@@ -33,7 +33,7 @@ export async function startListeningSupabaseProxy() {
 export const eewSamplePayload: RealtimePostgresChangesPayload<
   Database["public"]["Tables"]["eew"]["Row"]
 > = {
-  commit_timestamp: Date.now().toString(),
+  commit_timestamp: new Date().toISOString(),
   errors: [],
   eventType: "INSERT",
   schema: "public",
@@ -42,8 +42,8 @@ export const eewSamplePayload: RealtimePostgresChangesPayload<
 
   new: {
     id: -1,
-    arrival_time: Date.now().toString(),
-    origin_time: Date.now().toString(),
+    arrival_time: new Date().toISOString(),
+    origin_time: new Date().toISOString(),
     depth: 12,
     event_id: 20240404125959,
     forecast_max_intensity: "5+",
@@ -61,7 +61,7 @@ export const eewSamplePayload: RealtimePostgresChangesPayload<
     longitude: 140.0,
     magnitude: 6.8,
     regions: [],
-    report_time: Date.now().toString(),
+    report_time: new Date().toISOString(),
     schema_type: "eew-information",
     serial_no: 14,
     status: "通常",
