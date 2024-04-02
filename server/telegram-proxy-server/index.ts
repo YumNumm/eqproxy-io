@@ -1,6 +1,7 @@
 import { exit } from "process"
 import { config } from "./src/config/config"
 import {
+  eewCancelSamplePayload,
   eewSamplePayload,
   startListeningSupabaseProxy,
 } from "./src/service/supabase"
@@ -46,6 +47,10 @@ const httpServer = Bun.serve({
     message(ws, message) {
       if (message === "sample/eew") {
         ws.send(JSON.stringify(eewSamplePayload()))
+        return
+      }
+      if (message === "sample/eew-cancel") {
+        ws.send(JSON.stringify(eewCancelSamplePayload()))
         return
       }
 

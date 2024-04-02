@@ -71,3 +71,35 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
     },
   }
 }
+
+export function eewCancelSamplePayload(): RealtimePostgresChangesPayload<
+  Database["public"]["Tables"]["eew"]["Insert"]
+> {
+  return {
+    commit_timestamp: new Date().toISOString(),
+    errors: [],
+    eventType: "INSERT",
+    schema: "public",
+    table: "eew",
+    old: {},
+
+    new: {
+      id: -1,
+      arrival_time: new Date().toISOString(),
+      origin_time: new Date().toISOString(),
+      event_id: 20240404125959,
+      serial_no: 15,
+      headline: "先ほどの緊急地震速報はキャンセルされました",
+      is_canceled: true,
+      is_last_info: true,
+      status: "通常",
+      type: "eew",
+      accuracy: null,
+      is_plum: false,
+      is_warning: false,
+      depth: null,
+      info_type: "",
+      schema_type: "eew-information",
+    },
+  }
+}
