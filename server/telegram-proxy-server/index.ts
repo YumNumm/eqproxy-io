@@ -1,6 +1,9 @@
 import { exit } from "process"
 import { config } from "./src/config/config"
-import { startListeningSupabaseProxy } from "./src/service/supabase"
+import {
+  eewSamplePayload,
+  startListeningSupabaseProxy,
+} from "./src/service/supabase"
 import { startListeningDmdataProxy } from "./src/service/dmdata"
 
 let connectionCount = 0
@@ -40,7 +43,12 @@ const httpServer = Bun.serve({
     return new Response(undefined, { status: 404 })
   },
   websocket: {
-    message(ws, __) {
+    message(ws, message) {
+      if (message === "sample/eew") {
+        ws.send(JSON.stringify(eewSamplePayload))
+        return
+      }
+
       ws.close(1000, "Not implemented")
     },
     open(ws) {

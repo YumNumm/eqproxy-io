@@ -2,6 +2,7 @@ import { exit } from "process"
 import { config } from "../config/config"
 import { RealtimePostgresChangesPayload } from "@supabase/supabase-js"
 import { broadcast } from "../.."
+import { Database } from "@eqproxy-io/eqapi-types-v1"
 
 export async function startListeningSupabaseProxy() {
   const url = new URL(config.SUPABASE_PROXY_URL)
@@ -27,4 +28,44 @@ export async function startListeningSupabaseProxy() {
   ws.onerror = (event) => {
     console.error(`Error from Supabase Proxy: ${event}`)
   }
+}
+
+export const eewSamplePayload: RealtimePostgresChangesPayload<
+  Database["public"]["Tables"]["eew"]["Row"]
+> = {
+  commit_timestamp: Date.now().toString(),
+  errors: [],
+  eventType: "INSERT",
+  schema: "public",
+  table: "eew",
+  old: {},
+
+  new: {
+    id: -1,
+    arrival_time: Date.now().toString(),
+    origin_time: Date.now().toString(),
+    depth: 12,
+    event_id: 20240404125959,
+    forecast_max_intensity: "5+",
+    forecast_max_intensity_is_over: false,
+    forecast_max_lpgm_intensity: "3",
+    forecast_max_lpgm_intensity_is_over: true,
+    headline: "XX県で地震発生 YY地方では強い揺れに警戒",
+    hypo_name: "XX県沖",
+    info_type: "通常",
+    is_canceled: false,
+    is_last_info: false,
+    is_plum: true,
+    is_warning: true,
+    latitude: 38.0,
+    longitude: 140.0,
+    magnitude: 6.8,
+    regions: [],
+    report_time: Date.now().toString(),
+    schema_type: "eew-information",
+    serial_no: 14,
+    status: "通常",
+    type: "eew",
+    accuracy: null,
+  },
 }
