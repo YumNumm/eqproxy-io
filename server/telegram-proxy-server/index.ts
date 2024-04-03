@@ -1,22 +1,23 @@
-import { exit } from "process"
-import { config } from "./src/config/config"
+import { exit } from "process";
+import { config } from "./src/config/config";
 import {
   eewCancelSamplePayload,
   eewSamplePayload,
   startListeningSupabaseProxy,
-} from "./src/service/supabase"
-import { startListeningDmdataProxy } from "./src/service/dmdata"
+} from "./src/service/supabase";
+import { startListeningDmdataProxy } from "./src/service/dmdata";
 
-let connectionCount = 0
-let totalConnectionCount = 0
+let connectionCount = 0;
+let totalConnectionCount = 0;
 
 const httpServer = Bun.serve({
   fetch(request, server) {
-    const { searchParams, pathname } = new URL(request.url)
-    const auth = searchParams.get("key") ?? request.headers.get("Authorization")
+    const { searchParams, pathname } = new URL(request.url);
+    const auth =
+      searchParams.get("key") ?? request.headers.get("Authorization");
 
     if (pathname === "/health") {
-      return new Response("OK", { status: 200 })
+      return new Response("OK", { status: 200 });
     }
     if (auth === "Bearer " + config.JWT) {
       if (pathname === "/metrics") {
@@ -31,47 +32,47 @@ const httpServer = Bun.serve({
             headers: {
               "Content-Type": "text/plain",
             },
-          }
-        )
+          },
+        );
       }
     }
     if (pathname === "/ws") {
       if (server.upgrade(request)) {
-        return
+        return;
       }
-      return new Response("Upgrade failed", { status: 500 })
+      return new Response("Upgrade failed", { status: 500 });
     }
-    return new Response(undefined, { status: 404 })
+    return new Response(undefined, { status: 404 });
   },
   websocket: {
     message(ws, message) {
       if (message === "sample/eew") {
-        ws.send(JSON.stringify(eewSamplePayload()))
-        return
+        ws.send(JSON.stringify(eewSamplePayload()));
+        return;
       }
       if (message === "sample/eew-cancel") {
-        ws.send(JSON.stringify(eewCancelSamplePayload()))
-        return
+        ws.send(JSON.stringify(eewCancelSamplePayload()));
+        return;
       }
 
-      ws.close(1000, "Not implemented")
+      ws.close(1000, "Not implemented");
     },
     open(ws) {
-      connectionCount++
-      totalConnectionCount++
-      ws.subscribe("public")
+      connectionCount++;
+      totalConnectionCount++;
+      ws.subscribe("public");
       // ping timer every 15 seconds
       setInterval(() => {
         ws.ping(
           JSON.stringify({
             type: "ping",
             timestamp: new Date().toISOString(),
-          })
-        )
-      }, 1000 * 15)
+          }),
+        );
+      }, 1000 * 15);
     },
     close(ws, code, message) {
-      connectionCount--
+      connectionCount--;
     },
     perMessageDeflate: true,
     sendPings: true,
@@ -80,14 +81,14 @@ const httpServer = Bun.serve({
     idleTimeout: 20, // seconds
     maxPayloadLength: 1024, // 1KB
   },
-})
+});
 
 export function broadcast(data: { [key: string]: any }) {
-  console.log(`Broadcasting: ${JSON.stringify(data, null, 2)}`)
-  httpServer.publish("public", JSON.stringify(data))
+  console.log(`Broadcasting: ${JSON.stringify(data, null, 2)}`);
+  httpServer.publish("public", JSON.stringify(data));
 }
 
-console.log(`Server running at ${httpServer.url}`)
+console.log(`Server running at ${httpServer.url}`);
 
-startListeningSupabaseProxy()
-startListeningDmdataProxy()
+startListeningSupabaseProxy();
+startListeningDmdataProxy();

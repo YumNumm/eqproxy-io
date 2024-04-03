@@ -20,7 +20,7 @@ services:
       driver: json-file
       options:
         max-size: 1m
-        max-file: '3'
+        max-file: "3"
 
   dmdata-proxy:
     build:
@@ -39,7 +39,7 @@ services:
       driver: json-file
       options:
         max-size: 1m
-        max-file: '3'
+        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4020/health"]
       interval: 5s
@@ -61,7 +61,7 @@ services:
       driver: json-file
       options:
         max-size: 1m
-        max-file: '3'
+        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4010/health"]
       interval: 5s
@@ -90,7 +90,7 @@ services:
       driver: json-file
       options:
         max-size: 1m
-        max-file: '3'
+        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4030/health"]
       interval: 5s

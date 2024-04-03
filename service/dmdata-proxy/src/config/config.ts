@@ -1,8 +1,8 @@
 interface Config {
-  DMDATA_API_KEY: string
-  SLACK_WEBHOOK_URL: string
-  SERVERNAME: string
-  WEBSOCKET_PORT: number
+  DMDATA_API_KEY: string;
+  SLACK_WEBHOOK_URL: string;
+  SERVERNAME: string;
+  WEBSOCKET_PORT: number;
 }
 
 export const config: Config = {
@@ -10,4 +10,4 @@ export const config: Config = {
   SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL!,
   SERVERNAME: process.env.SERVERNAME!,
   WEBSOCKET_PORT: Number(process.env.WEBSOCKET_PORT!),
-}
+};

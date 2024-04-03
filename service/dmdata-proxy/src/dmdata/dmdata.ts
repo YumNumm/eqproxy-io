@@ -1,33 +1,33 @@
-import { WebSocketService } from "@dmdata/sdk-js"
-import { Logger, dmdata, slackWebhook } from ".."
-import { exit } from "process"
-import { config } from "../config/config"
-import { wss } from "../websocket/websocket"
+import { WebSocketService } from "@dmdata/sdk-js";
+import { Logger, dmdata, slackWebhook } from "..";
+import { exit } from "process";
+import { config } from "../config/config";
+import { wss } from "../websocket/websocket";
 
-export let webSocketService: WebSocketService
+export let webSocketService: WebSocketService;
 
 export async function startDmDataWs() {
-  Logger.info("Starting WebSocketService")
+  Logger.info("Starting WebSocketService");
   try {
     webSocketService = await dmdata.socket.start({
       classifications: ["eew.forecast", "telegram.earthquake"],
       appName: config.SERVERNAME,
       formatMode: "json",
       test: "no",
-    })
+    });
   } catch (e: any) {
     // axios error
     if (e.response) {
-      Logger.error(e.response.data)
+      Logger.error(e.response.data);
     }
-    Logger.error(e)
-    throw e
+    Logger.error(e);
+    throw e;
   }
-  Logger.info("WebSocketService started")
+  Logger.info("WebSocketService started");
 
   // data時の処理
   webSocketService.on("start", async (connInfo) => {
-    Logger.info(connInfo)
+    Logger.info(connInfo);
     await slackWebhook.send({
       username: process.env.SERVERNAME,
       icon_url:
@@ -48,8 +48,8 @@ export async function startDmDataWs() {
         },
       ],
       text: "DM-D.S.S WebSocketService started",
-    })
-  })
+    });
+  });
   webSocketService.on("close", async () => {
     await slackWebhook.send({
       username: process.env.SERVERNAME,
@@ -68,9 +68,9 @@ export async function startDmDataWs() {
         },
       ],
       text: "DM-D.S.S WebSocketService closed",
-    })
-    exit(1)
-  })
+    });
+    exit(1);
+  });
   webSocketService.on("error", async (err) => {
     await slackWebhook.send({
       username: process.env.SERVERNAME,
@@ -91,15 +91,15 @@ export async function startDmDataWs() {
           ],
         },
       ],
-    })
-    exit(1)
-  })
+    });
+    exit(1);
+  });
   webSocketService.on("data", async (data) => {
-    Logger.info("Received data from WS")
-    Logger.info(data)
+    Logger.info("Received data from WS");
+    Logger.info(data);
 
     wss.clients.forEach((client) => {
-      client.send(JSON.stringify(data))
-    })
-  })
+      client.send(JSON.stringify(data));
+    });
+  });
 }

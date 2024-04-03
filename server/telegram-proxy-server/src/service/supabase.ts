@@ -1,33 +1,35 @@
-import { exit } from "process"
-import { config } from "../config/config"
-import { RealtimePostgresChangesPayload } from "@supabase/supabase-js"
-import { broadcast } from "../.."
-import { Database } from "@eqproxy-io/eqapi-types-v1"
+import { exit } from "process";
+import { config } from "../config/config";
+import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import { broadcast } from "../..";
+import { Database } from "@eqproxy-io/eqapi-types-v1";
 
 export async function startListeningSupabaseProxy() {
-  const url = new URL(config.SUPABASE_PROXY_URL)
-  const ws = new WebSocket(url)
+  const url = new URL(config.SUPABASE_PROXY_URL);
+  const ws = new WebSocket(url);
   ws.onopen = () => {
-    console.log(`Connected to Supabase Proxy: ${url}`)
-  }
+    console.log(`Connected to Supabase Proxy: ${url}`);
+  };
   ws.onclose = () => {
-    console.log(`Disconnected from Supabase Proxy: ${url}`)
-    exit(1)
-  }
+    console.log(`Disconnected from Supabase Proxy: ${url}`);
+    exit(1);
+  };
   ws.onmessage = (event) => {
     const json = JSON.parse(
-      event.data.toString()
+      event.data.toString(),
     ) as RealtimePostgresChangesPayload<{
-      [key: string]: any
-    }>
-    console.log(`Message from Supabase Proxy: ${JSON.stringify(json, null, 2)}`)
+      [key: string]: any;
+    }>;
+    console.log(
+      `Message from Supabase Proxy: ${JSON.stringify(json, null, 2)}`,
+    );
     if (json.table !== "eew") {
-      broadcast(json)
+      broadcast(json);
     }
-  }
+  };
   ws.onerror = (event) => {
-    console.error(`Error from Supabase Proxy: ${event}`)
-  }
+    console.error(`Error from Supabase Proxy: ${event}`);
+  };
 }
 
 export function eewSamplePayload(): RealtimePostgresChangesPayload<
@@ -63,22 +65,47 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
       magnitude: 6.8,
       regions: [
         {
-          code: "101",
-          name: "",
-          isPlum: true,
-          isWarning: true,
-          forecastMaxInt: "5-",
-          forecastMaxLgInt: "3",
+          code: "342",
+          name: "千葉県南部",
+          isPlum: false,
+          isWarning: false,
+          forecastMaxInt: {
+            to: "4",
+            from: "4",
+          },
+          forecastMaxLgInt: {
+            to: "0",
+            from: "0",
+          },
         },
-
         {
-          code: "121",
-          name: "",
-          isPlum: true,
-          isWarning: true,
-          forecastMaxInt: "5-",
-          forecastMaxLgInt: "3",
-        }
+          code: "341",
+          name: "千葉県南部",
+          isPlum: false,
+          isWarning: false,
+          forecastMaxInt: {
+            to: "5-",
+            from: "5-",
+          },
+          forecastMaxLgInt: {
+            to: "0",
+            from: "0",
+          },
+        },
+        {
+          code: "310",
+          name: "千葉県南部",
+          isPlum: false,
+          isWarning: false,
+          forecastMaxInt: {
+            to: "2",
+            from: "2",
+          },
+          forecastMaxLgInt: {
+            to: "3",
+            from: "3",
+          },
+        },
       ],
       report_time: new Date().toISOString(),
       schema_type: "eew-information",
@@ -92,7 +119,7 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
         numberOfMagnitudeCalculation: "0",
       },
     },
-  }
+  };
 }
 
 export function eewCancelSamplePayload(): RealtimePostgresChangesPayload<
@@ -125,5 +152,5 @@ export function eewCancelSamplePayload(): RealtimePostgresChangesPayload<
       schema_type: "eew-information",
       report_time: new Date().toISOString(),
     },
-  }
+  };
 }

@@ -1,17 +1,17 @@
-import { DMDATA } from "@dmdata/sdk-js"
-import { getLogger } from "log4js"
-import { exit } from "process"
-import { IncomingWebhook } from "@slack/webhook"
-import { config } from "./config/config"
-import { startDmDataWs } from "./dmdata/dmdata"
-import { startHttpServer, wss } from "./websocket/websocket"
+import { DMDATA } from "@dmdata/sdk-js";
+import { getLogger } from "log4js";
+import { exit } from "process";
+import { IncomingWebhook } from "@slack/webhook";
+import { config } from "./config/config";
+import { startDmDataWs } from "./dmdata/dmdata";
+import { startHttpServer, wss } from "./websocket/websocket";
 
-export const Logger = getLogger()
-Logger.level = "debug"
-export const isProd = process.env.NODE_ENV == "production"
-export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL)
+export const Logger = getLogger();
+Logger.level = "debug";
+export const isProd = process.env.NODE_ENV == "production";
+export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
 process.on("uncaughtException", async (err) => {
-  Logger.error(err)
+  Logger.error(err);
   await slackWebhook.send({
     username: process.env.SERVERNAME,
     icon_url:
@@ -42,31 +42,31 @@ process.on("uncaughtException", async (err) => {
         ],
       },
     ],
-  })
+  });
   // wait 500ms
-  await new Promise((resolve) => setTimeout(resolve, 500))
-  exit(1)
-})
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  exit(1);
+});
 
 export const dmdata = new DMDATA({
   credentials: {
     getAuthorization: async () => {
       return (
         "Basic " + Buffer.from(config.DMDATA_API_KEY + ":").toString("base64")
-      )
+      );
     },
   },
-})
+});
 
 async function main() {
   try {
-    startHttpServer()
-    startDmDataWs()
-    wss
+    startHttpServer();
+    startDmDataWs();
+    wss;
   } catch (e: any) {
-    Logger.error(e)
-    exit(1)
+    Logger.error(e);
+    exit(1);
   }
 }
 
-main()
+main();

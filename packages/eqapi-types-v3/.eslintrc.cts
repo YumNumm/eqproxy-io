@@ -1,5 +1,5 @@
 module.exports = {
   root: true,
-  extends: ['@eqproxy-io/eslint-config'],
-  ignorePatterns: '/lib/**/*',
-}
+  extends: ["@eqproxy-io/eslint-config"],
+  ignorePatterns: "/lib/**/*",
+};

@@ -1,11 +1,6 @@
 {
-  "extends": [
-    "@eqproxy-io/ts-config"
-  ],
-  "include": [
-    "index.ts",
-    "src/**/*"
-  ],
+  "extends": ["@eqproxy-io/ts-config"],
+  "include": ["index.ts", "src/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
     "declaration": true
