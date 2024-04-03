@@ -65,7 +65,7 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
       report_time: new Date().toISOString(),
       schema_type: "eew-information",
       serial_no: 14,
-      status: "通常",
+      status: "試験",
       type: "eew",
       accuracy: {
         depth: "4",
@@ -97,7 +97,7 @@ export function eewCancelSamplePayload(): RealtimePostgresChangesPayload<
       headline: "先ほどの緊急地震速報はキャンセルされました",
       is_canceled: true,
       is_last_info: true,
-      status: "通常",
+      status: "試験",
       type: "eew",
       accuracy: null,
       is_plum: false,
