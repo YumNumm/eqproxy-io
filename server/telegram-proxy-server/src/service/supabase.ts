@@ -61,7 +61,25 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
       latitude: 38.0,
       longitude: 140.0,
       magnitude: 6.8,
-      regions: [],
+      regions: [
+        {
+          code: "101",
+          name: "",
+          isPlum: true,
+          isWarning: true,
+          forecastMaxInt: "5-",
+          forecastMaxLgInt: "3",
+        },
+
+        {
+          code: "121",
+          name: "",
+          isPlum: true,
+          isWarning: true,
+          forecastMaxInt: "5-",
+          forecastMaxLgInt: "3",
+        }
+      ],
       report_time: new Date().toISOString(),
       schema_type: "eew-information",
       serial_no: 14,
