@@ -56,7 +56,7 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
       info_type: "通常",
       is_canceled: false,
       is_last_info: false,
-      is_plum: true,
+      is_plum: false,
       is_warning: true,
       latitude: 38.0,
       longitude: 140.0,
@@ -67,7 +67,12 @@ export function eewSamplePayload(): RealtimePostgresChangesPayload<
       serial_no: 14,
       status: "通常",
       type: "eew",
-      accuracy: null,
+      accuracy: {
+        depth: "4",
+        epicenters: ["4", "9"],
+        magnitudeCalculation: "2",
+        numberOfMagnitudeCalculation: "0",
+      },
     },
   }
 }
