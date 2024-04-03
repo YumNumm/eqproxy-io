@@ -100,6 +100,7 @@ export function eewCancelSamplePayload(): RealtimePostgresChangesPayload<
       depth: null,
       info_type: "",
       schema_type: "eew-information",
+      report_time: new Date().toISOString(),
     },
   }
 }
