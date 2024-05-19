@@ -11,7 +11,7 @@
   "dependencies": {
     "@dmdata/api-types": "^2.0.12",
     "@dmdata/telegram-json-types": "^1.1.14",
-    "@eqproxy-io/eqapi-types-v1": "link:@eqproxy-io/eqapi-types-v1",
+    "@eqproxy-io/eqapi-types-v1": "workspace:*",
     "@supabase/supabase-js": "^2.41.1"
   },
   "scripts": {

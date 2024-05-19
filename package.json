@@ -8,5 +8,10 @@
   "private": true,
   "scripts": {},
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "workspaces": [
+    "packages/*",
+    "server/*",
+    "service/*"
+  ]
 }

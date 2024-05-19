@@ -70,7 +70,9 @@ services:
       start_period: 30s
 
   telegram-proxy-server:
-    build: ./server/telegram-proxy-server
+    build:
+      context: .
+      dockerfile: ./server/telegram-proxy-server/Dockerfile
     env_file:
       - ./server/telegram-proxy-server/.env
     environment:

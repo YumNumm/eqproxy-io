@@ -26,6 +26,7 @@ FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
+WORKDIR /usr/src/app/server/telegram-proxy-server
 ENV NODE_ENV=production
 RUN bun run build
 
