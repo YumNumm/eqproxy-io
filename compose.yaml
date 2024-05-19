@@ -131,6 +131,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXP: ${JWT_EXPIRY}
       POSTGRES_INITDB_ARGS: --locale=ja_JP.utf8
+      TZ: Asia/Tokyo
     volumes:
       # Must be superuser to alter reserved role
       - ./db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
