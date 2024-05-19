@@ -5,7 +5,7 @@ RUN corepack enable
 WORKDIR /app
 # Install curl
 RUN apt-get update && \
-    apt-get install -y curl && \
+    apt-get install -y curl python3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
