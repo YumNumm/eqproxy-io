@@ -18,46 +18,56 @@ CREATE TYPE jma_intensity AS ENUM ('0', '1', '2', '3', '4', '!5-', '5-', '5+', '
 CREATE TYPE jma_lg_intensity AS ENUM ('0', '1', '2', '3', '4');
 
 --------------- TELEGRAM TABLE ---------------
-CREATE TABLE telegram (
-  id SERIAL PRIMARY KEY NOT NULL,
-  event_id BIGINT NOT NULL,
-  type TEXT NOT NULL,
-  schema_type TEXT NOT NULL,
-  status TEXT NOT NULL,
-  info_type TEXT NOT NULL,
-  press_time TIMESTAMPTZ NOT NULL,
-  report_time TIMESTAMPTZ NOT NULL,
-  valid_time TIMESTAMPTZ,
-  serial_no INT,
-  headline TEXT,
-  body JSONB NOT NULL
-);
+create table
+  public.telegram (
+    id serial,
+    event_id bigint not null,
+    type text not null,
+    schema_type text not null,
+    status text not null,
+    info_type text not null,
+    press_time timestamp with time zone not null,
+    report_time timestamp with time zone not null,
+    valid_time timestamp with time zone null,
+    serial_no integer null,
+    headline text null,
+    body jsonb not null,
+    constraint telegram_pkey primary key (id)
+  ) tablespace pg_default;
 
 ALTER TABLE telegram ENABLE ROW LEVEL SECURITY;
 CREATE POLICY telegram_select_policy ON telegram FOR SELECT USING (true);
 
-CREATE TABLE eew (
-  id SERIAL PRIMARY KEY NOT NULL,
-  event_id BIGINT NOT NULL,
-  type TEXT NOT NULL,
-  schema_type TEXT NOT NULL,
-  status TEXT NOT NULL,
-  info_type TEXT NOT NULL,
-  serial_no INT,
-  headline TEXT,
-  is_canceled BOOLEAN NOT NULL,
-  is_warning BOOLEAN,
-  is_last_info BOOLEAN NOT NULL,
-  origin_time TIMESTAMPTZ,
-  arrival_time TIMESTAMPTZ,
-  hypo_name TEXT,
-  depth SMALLINT,
-  latitude DECIMAL(3,1),
-  longitude DECIMAL(4,1),
-  magnitude DECIMAL(2,1),
-  forecast_max_intensity jma_intensity,
-  forecast_max_lpgm_intensity jma_lg_intensity
-);
+create table
+  public.eew (
+    id serial,
+    event_id bigint not null,
+    type text not null,
+    schema_type text not null,
+    status text not null,
+    info_type text not null,
+    serial_no integer null,
+    headline text null,
+    is_canceled boolean not null,
+    is_warning boolean null,
+    is_last_info boolean not null,
+    origin_time timestamp with time zone null,
+    arrival_time timestamp with time zone null,
+    hypo_name text null,
+    depth smallint null,
+    latitude numeric(3, 1) null,
+    longitude numeric(4, 1) null,
+    magnitude numeric(2, 1) null,
+    forecast_max_intensity public.jma_intensity null,
+    forecast_max_lpgm_intensity public.jma_lg_intensity null,
+    regions jsonb null,
+    forecast_max_intensity_is_over boolean null,
+    forecast_max_lpgm_intensity_is_over boolean null,
+    report_time timestamp with time zone not null default (now() at time zone 'utc'::text),
+    accuracy jsonb null,
+    is_plum boolean not null,
+    constraint eew_pkey primary key (id)
+  ) tablespace pg_default;
 
 ALTER TABLE eew ENABLE ROW LEVEL SECURITY;
 CREATE POLICY eew_select_policy ON eew FOR SELECT USING (true);
@@ -101,18 +111,21 @@ create index if not exists earthquake_origin_time_idx on public.earthquake using
 ALTER TABLE earthquake ENABLE ROW LEVEL SECURITY;
 CREATE POLICY earthquake_select_policy ON earthquake FOR SELECT USING (true);
 --------------- INTENSITY SUB DIVISION TABLE ---------------
-CREATE TABLE IF NOT EXISTS intensity_sub_division (
-  id SERIAL PRIMARY KEY NOT NULL,
-  event_id BIGINT NOT NULL REFERENCES public.earthquake(event_id),
-  area_code VARCHAR(5) NOT NULL,
-  max_intensity jma_intensity NOT NULL,
-  max_lpgm_intensity jma_lg_intensity NULL,
-  UNIQUE("event_id", "area_code")
-);
+create table
+  public.intensity_sub_division (
+    id serial,
+    event_id bigint not null,
+    area_code character varying(5) not null,
+    max_intensity public.jma_intensity not null,
+    max_lpgm_intensity public.jma_lg_intensity null,
+    constraint intensity_sub_division_pkey primary key (id),
+    constraint intensity_sub_division_event_id_area_code_key unique (event_id, area_code),
+    constraint public_intensity_sub_division_event_id_fkey foreign key (event_id) references earthquake (event_id) on update cascade on delete cascade
+  ) tablespace pg_default;
 
-CREATE INDEX intensity_sub_division_max_intensity_idx ON intensity_sub_division("max_intensity");
-CREATE INDEX intensity_sub_division_max_lpgm_intensity_idx ON intensity_sub_division("max_lpgm_intensity");
+create index if not exists intensity_sub_division_max_intensity_idx on public.intensity_sub_division using btree (max_intensity) tablespace pg_default;
 
+create index if not exists intensity_sub_division_max_lpgm_intensity_idx on public.intensity_sub_division using btree (max_lpgm_intensity) tablespace pg_default;
 ALTER TABLE intensity_sub_division ENABLE ROW LEVEL SECURITY;
 CREATE POLICY intensity_sub_division_select_policy ON intensity_sub_division FOR SELECT USING (true);
 
@@ -120,16 +133,18 @@ CREATE POLICY intensity_sub_division_select_policy ON intensity_sub_division FOR
 CREATE TYPE information_author AS ENUM('jma', 'developer', 'unknown');
 CREATE TYPE information_level AS ENUM('info', 'warning', 'critical');
 
-CREATE TABLE information (
-  id SERIAL PRIMARY KEY NOT NULL,
-  title TEXT NOT NULL,
-  author information_author NOT NULL DEFAULT 'unknown',
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  event_id INT,
-  type TEXT NOT NULL,
-  level information_level NOT NULL,
-  body JSONB NOT NULL
-);
+create table
+  public.information (
+    id serial,
+    title text not null,
+    author public.information_author not null default 'unknown'::information_author,
+    created_at timestamp with time zone not null default current_timestamp,
+    event_id bigint null,
+    type text not null,
+    level public.information_level not null,
+    body jsonb not null,
+    constraint information_pkey primary key (id)
+  ) tablespace pg_default;
 
 ALTER TABLE information ENABLE ROW LEVEL SECURITY;
 CREATE POLICY information_select_policy ON information FOR SELECT USING (true);
