@@ -41,8 +41,5 @@
     "slonik": "^45.4.1",
     "ws": "^8.16.0",
     "zlib": "^1.0.5"
-  },
-  "optionalDependencies": {
-    "bufferutil": "^4.0.8"
   }
 }
