@@ -104,7 +104,7 @@ services:
 
   db:
     container_name: supabase-db
-    image: supabase/postgres:15.1.1.52
+    build: ./db
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s
@@ -130,15 +130,16 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXP: ${JWT_EXPIRY}
+      POSTGRES_INITDB_ARGS: --locale=ja_JP.utf8
     volumes:
       # Must be superuser to alter reserved role
-      - ./volumes/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
+      - ./db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
       # PGDATA directory is persisted between restarts
-      - ./volumes/db/data:/var/lib/postgresql/data:Z
-      - ./volumes/db/init/data.sql:/docker-entrypoint-initdb.d/migrations/99-data.sql:Z
+      - ./db/data:/var/lib/postgresql/data:Z
+      - ./db/init/data.sql:/docker-entrypoint-initdb.d/migrations/99-data.sql:Z
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
-      - ./volumes/db/postgresql.conf:/etc/postgresql/postgresql.conf:Z
+      - ./db/postgresql.conf:/etc/postgresql/postgresql.conf:Z
 
 volumes:
   db-config:
