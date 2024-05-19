@@ -1,12 +1,12 @@
 # use the official Bun image
 # see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 as base
+FROM oven/bun:1-slim as base
 WORKDIR /usr/src/app
 # Install curl
-RUN apt-get update && \
-    apt-get install -y curl python3 build-essential && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add curl build-base git linux-headers \
+    python3 python3-dev py3-pip \
+    python3-dev && pip3 install --upgrade pip
 
 FROM base as cache
 COPY . .
