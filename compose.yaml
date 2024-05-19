@@ -142,5 +142,14 @@ services:
       - db-config:/etc/postgresql-custom
       - ./db/postgresql.conf:/etc/postgresql/postgresql.conf:Z
 
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: quay.io/prometheuscommunity/postgres-exporter
+    hostname: postgres-exporter
+    env_file:
+      - .env
+    ports:
+      - 9187:9187
+
 volumes:
   db-config:
