@@ -16,3 +16,6 @@ db
 deploy
 gorush
 node_modules
+
+Dockerfile
+.env
