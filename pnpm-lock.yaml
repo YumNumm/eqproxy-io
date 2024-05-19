@@ -196,12 +196,18 @@ importers:
       '@pgtyped/runtime':
         specifier: ^2.3.0
         version: 2.3.0
+      '@types/pg':
+        specifier: ^8.11.6
+        version: 8.11.6
       date-fns:
         specifier: ^3.4.0
         version: 3.4.0
       firebase-admin:
         specifier: ^12.1.0
         version: 12.1.0
+      pg:
+        specifier: ^8.11.5
+        version: 8.11.5
       rabbitmq-client:
         specifier: ^4.6.0
         version: 4.6.0
@@ -938,6 +944,9 @@ packages:
 
   '@types/node@20.11.26':
     resolution: {integrity: sha512-YwOMmyhNnAWijOBQweOJnQPl068Oqd4K3OFbTc6AHJwzweUwwWG3GIFY74OKks2PJUDkQPeddOQES9mLn1CTEQ==}
+
+  '@types/pg@8.11.6':
+    resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
 
   '@types/phoenix@1.6.4':
     resolution: {integrity: sha512-B34A7uot1Cv0XtaHRYDATltAdKx0BvVKNgYNqE4WjtPUa4VQJM7kxeXcVKaH+KS+kCmZ+6w+QaUdcljiheiBJA==}
@@ -4629,6 +4638,12 @@ snapshots:
   '@types/node@20.11.26':
     dependencies:
       undici-types: 5.26.5
+
+  '@types/pg@8.11.6':
+    dependencies:
+      '@types/node': 20.11.26
+      pg-protocol: 1.6.1
+      pg-types: 4.0.2
 
   '@types/phoenix@1.6.4': {}
 
