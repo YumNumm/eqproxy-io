@@ -4,7 +4,7 @@ FROM oven/bun:1 as base
 WORKDIR /usr/src/app
 # Install curl
 RUN apt-get update && \
-    apt-get install -y curl python3 build-essentials && \
+    apt-get install -y curl python3 build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
