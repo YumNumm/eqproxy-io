@@ -8,33 +8,20 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# install dependencies into temp directory
-# this will cache them and speed up future builds
-FROM base AS install
-RUN mkdir -p /temp/dev
-COPY package.json bun.lockb /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
-
-# install with --production (exclude devDependencies)
-RUN mkdir -p /temp/prod
-COPY package.json bun.lockb /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
-
-# copy node_modules from temp directory
-# then copy all (non-ignored) project files into the image
-FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
+FROM base as cache
 COPY . .
+RUN bun install
 
 WORKDIR /usr/src/app/server/telegram-proxy-server
 ENV NODE_ENV=production
+RUN bun install
 RUN bun run build
 
 # copy production dependencies and source code into final image
-FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/server.js .
-COPY --from=prerelease /usr/src/app/package.json .
+FROM base
+COPY --from=cache /usr/src/app/server/telegram-proxy-server/package.json .
+COPY --from=cache /usr/src/app/server/telegram-proxy-server/server.js .
+COPY --from=cache /usr/src/app/node_modules ./node_modules
 
 # run the app
 USER bun
