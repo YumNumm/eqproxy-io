@@ -9,3 +9,10 @@ Dockerfile
 .env
 
 deploy/
+data/
+.github
+.vscode
+db
+deploy
+gorush
+node_modules
