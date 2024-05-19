@@ -151,5 +151,67 @@ services:
     ports:
       - 9187:9187
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12.14
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    cap_add:
+      - ALL
+    ports:
+      - 15672:15672
+      - 15692:15692
+      - 5672:5672
+    labels:
+      NAME: "rabbitmq1"
+    volumes:
+      - ./rabbitmq:/etc/rabbitmq:Z
+
+  notification-producer:
+    container_name: notification-producer
+    build:
+      context: .
+      dockerfile: ./service/notification-producer/Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+      - RABBITMQ_HOST=rabbitmq
+    restart: always
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "3"
+
+  notification-worker:
+    container_name: notification-worker
+    build:
+      context: .
+      dockerfile: ./service/notification-worker/Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+      - RABBITMQ_HOST=rabbitmq
+    restart: always
+    volumes:
+      - ./service/notification-worker/credentials.json:/app/credentials.json:ro
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "3"
+
 volumes:
   db-config:

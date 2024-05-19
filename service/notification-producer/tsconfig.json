@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  // Best practices
+  "strict": true,
+  "skipLibCheck": true,
+  "noFallthroughCasesInSwitch": true,
+  // Some stricter flags (disabled by default)
+  "noUnusedLocals": false,
+  "noUnusedParameters": false,
+  "noPropertyAccessFromIndexSignature": false,
+}

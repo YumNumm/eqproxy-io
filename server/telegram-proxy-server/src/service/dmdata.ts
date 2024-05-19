@@ -3,7 +3,6 @@ import { config } from "../config/config";
 import { APITypes } from "@dmdata/api-types";
 import { EewInformation } from "@dmdata/telegram-json-types";
 import { Database, Json } from "@eqproxy-io/eqapi-types-v1";
-import { assert } from "console";
 import { parseNumber, parseNumberOrNull } from "../extension/number";
 import { broadcast } from "../..";
 import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
