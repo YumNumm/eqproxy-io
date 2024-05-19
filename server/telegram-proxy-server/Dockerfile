@@ -4,7 +4,8 @@ FROM oven/bun:1 as base
 WORKDIR /usr/src/app
 # Install curl
 RUN apt-get update && \
-    apt-get install -y curl python3 python3-pip python3-dev build-essential llvm-15 && \
+    apt-get install -y curl python3 python3-pip python3-dev build-essential llvm-11 \
+    					build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
