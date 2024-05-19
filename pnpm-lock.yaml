@@ -220,10 +220,6 @@ importers:
       zlib:
         specifier: ^1.0.5
         version: 1.0.5
-    optionalDependencies:
-      bufferutil:
-        specifier: ^4.0.8
-        version: 4.0.8
     devDependencies:
       '@eqproxy-io/eslint-config':
         specifier: workspace:^

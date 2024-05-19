@@ -1,10 +1,11 @@
 # use the official Bun image
 # see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 as base
+FROM node:lts as base
 WORKDIR /usr/src/app
+RUN npm i -g bun
 # Install curl
 RUN apt-get update && \
-    apt-get install -y curl python3 python3-pip python3-dev build-essential llvm-11 \
+    apt-get install -y curl python3 python3-pip python3-dev build-essential \
     					build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -25,5 +26,4 @@ COPY --from=cache /usr/src/app/server/telegram-proxy-server/server.js .
 COPY --from=cache /usr/src/app/node_modules ./node_modules
 
 # run the app
-USER bun
 ENTRYPOINT [ "bun", "run", "server.js" ]

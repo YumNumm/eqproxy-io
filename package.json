@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {},
-  "dependencies": {},
   "devDependencies": {},
   "workspaces": [
     "packages/*",
