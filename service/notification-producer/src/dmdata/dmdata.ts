@@ -9,6 +9,7 @@ import {
 import { rabbitService } from ".."
 import { fcmMessageGenerator } from "./fcm_message_generator"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
+import { WebSocket } from "ws"
 
 class DmdataService {
   async start() {
