@@ -11,8 +11,9 @@ const host = config.RABBITMQ_HOST
 const port = config.RABBITMQ_PORT
 const user = config.RABBITMQ_USER
 const password = config.RABBITMQ_PASSWORD
-const rabbit = new Connection(`amqp://${user}:${password}@${host}:${port}`)
-console.log(`Connecting to RabbitMQ at ${host}:${port}`)
+const url = `amqp://${user}:${password}@${host}:${port}`
+console.log(`Connecting to RabbitMQ at ${url}`)
+const rabbit = new Connection({ url: url })
 
 rabbit.on("error", (err) => {
   console.error(err)
