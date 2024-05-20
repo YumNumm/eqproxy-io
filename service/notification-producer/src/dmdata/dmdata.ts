@@ -11,19 +11,18 @@ import { fcmMessageGenerator } from "./fcm_message_generator"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
 
 class DmdataService {
-  url = new URL(config.DMDATA_PROXY_URL)
-  ws = new WebSocket(this.url)
-
   async start() {
-    this.ws.onopen = () => {
-      console.log(`Connected to DMDATA Proxy: ${this.url}`)
+    const url = new URL(config.DMDATA_PROXY_URL)
+    const ws = new WebSocket(url)
+    ws.onopen = () => {
+      console.log(`Connected to DMDATA Proxy: ${url}`)
     }
-    this.ws.onclose = () => {
-      console.log(`Disconnected from DMDATA Proxy: ${this.url}`)
+    ws.onclose = () => {
+      console.log(`Disconnected from DMDATA Proxy: ${url}`)
       process.exit(1)
     }
 
-    this.ws.onmessage = (event) => {
+    ws.onmessage = (event) => {
       const data = json2object<APITypes.WebSocketV2.Event.Data>(
         event.data.toString()
       )
