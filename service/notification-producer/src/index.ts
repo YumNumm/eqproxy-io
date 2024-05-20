@@ -5,10 +5,10 @@ import { RabbitService } from "./rabbitmq/rabbitmq"
 import { dmdataService } from "./dmdata/dmdata"
 
 export const rabbitService = new RabbitService()
-;async () => {
+;(async () => {
   console.log("Starting notification producer")
   await rabbitService.start()
   console.log("Notification producer started")
   dmdataService.start()
   console.log("DMData service started")
-}
+})()
