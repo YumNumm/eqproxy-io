@@ -183,6 +183,8 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
+    env_file:
+      - .env
     restart: always
     depends_on:
       rabbitmq:
@@ -202,6 +204,8 @@ services:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
       - GOOGLE_APPLICATION_CREDENTIALS=./credentials.json
+    env_file:
+      - .env
     restart: always
     volumes:
       - ./service/notification-worker/credentials.json:/app/credentials.json:ro
