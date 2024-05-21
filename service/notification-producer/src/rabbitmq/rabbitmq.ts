@@ -18,7 +18,7 @@ export class RabbitService {
       },
       messages
     )
-    console.log("Published message", result)
+    console.log("Published message", JSON.stringify(result, null, 2))
   }
 
   async start() {
