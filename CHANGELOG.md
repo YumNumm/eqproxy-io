@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.0.18](https://github.com/YumNumm/eqproxy-io/compare/v0.0.17...v0.0.18) - 2024-05-21
+
 ## [v0.0.17](https://github.com/YumNumm/eqproxy-io/compare/v0.0.16...v0.0.17) - 2024-05-19
 
 ## [v0.0.16](https://github.com/YumNumm/eqproxy-io/compare/v0.0.15...v0.0.16) - 2024-05-19
