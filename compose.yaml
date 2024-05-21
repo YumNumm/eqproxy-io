@@ -203,7 +203,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
-      - GOOGLE_APPLICATION_CREDENTIALS=./credentials.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     env_file:
       - .env
     restart: always
