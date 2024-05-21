@@ -43,10 +43,9 @@ class DmdataService {
         if (telegram.status != "通常") return
         if (data.classification == "eew.forecast") {
           const body = telegram as EewInformation.Latest.Main
-          if (
-            body.type === "リアルタイム震度" ||
-            body.type === "緊急地震速報配信テスト"
-          ) {
+
+          if (body.type !== "緊急地震速報（地震動予報）") {
+            console.log(`${body.type} is not supported`)
             return
           }
           const message = fcmMessageGenerator.handleEewForecast(body)
