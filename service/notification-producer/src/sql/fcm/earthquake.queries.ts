@@ -2,7 +2,6 @@
 import { PreparedQuery } from "@pgtyped/runtime"
 
 export type jma_intensity =
-  | "!5-"
   | "0"
   | "1"
   | "2"

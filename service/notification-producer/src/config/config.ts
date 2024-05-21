@@ -4,6 +4,13 @@ type Config = {
   RABBITMQ_USER: string
   RABBITMQ_PASSWORD: string
   DMDATA_PROXY_URL: string
+  postgres: {
+    host: string
+    port: number
+    user: string
+    password: string
+    database: string
+  }
 }
 
 function getConfig(): Config {
@@ -12,8 +19,14 @@ function getConfig(): Config {
     RABBITMQ_PORT: parseInt(process.env.RABBITMQ_PORT!),
     RABBITMQ_USER: process.env.RABBITMQ_USER!,
     RABBITMQ_PASSWORD: process.env.RABBITMQ_PASSWORD!,
-    DMDATA_PROXY_URL: process.env.DMDATA_PROXY_URL!
-
+    DMDATA_PROXY_URL: process.env.DMDATA_PROXY_URL!,
+    postgres: {
+      host: process.env.POSTGRES_HOST!,
+      port: parseInt(process.env.POSTGRES_PORT!),
+      user: process.env.POSTGRES_USER!,
+      password: process.env.POSTGRES_PASSWORD!,
+      database: process.env.POSTGRES_DB!,
+    },
   }
 }
 

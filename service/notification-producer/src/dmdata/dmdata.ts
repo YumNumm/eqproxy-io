@@ -52,6 +52,8 @@ class DmdataService {
           if (message) {
             rabbitService.send(message)
           }
+
+          // SQL Service
         } else if (data.classification == "telegram.earthquake") {
           const body = telegram as EarthquakeInformation.Latest.Main
           var message: Message[]
@@ -77,6 +79,7 @@ class DmdataService {
           if (message) {
             rabbitService.send(message)
           }
+          // SQL Service
         }
       }
     }
