@@ -241,7 +241,7 @@ function generateBodyForAndroid(message: GenMessage): string {
   if (message.subtitle === "") {
     return message.body
   }
-  return message.subtitle + "\n" + message
+  return message.subtitle + "\n" + message.body
 }
 
 enum NotificationChannel {
