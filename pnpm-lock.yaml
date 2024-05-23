@@ -206,6 +206,12 @@ importers:
 
   service/notification-producer:
     dependencies:
+      '@bufbuild/buf':
+        specifier: ^1.32.1
+        version: 1.32.1
+      '@bufbuild/protobuf':
+        specifier: ^1.9.0
+        version: 1.9.0
       '@dmdata/api-types':
         specifier: ^2.0.12
         version: 2.0.12
@@ -243,12 +249,6 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
     devDependencies:
-      '@bufbuild/buf':
-        specifier: ^1.32.1
-        version: 1.32.1
-      '@bufbuild/protobuf':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@eqproxy-io/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
