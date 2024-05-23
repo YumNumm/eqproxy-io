@@ -1,10 +1,14 @@
-import { EewInformation } from "@dmdata/telegram-json-types"
+import {
+  EarthquakeInformation,
+  EewInformation,
+} from "@dmdata/telegram-json-types"
 import { JmaIntensity, SqlService, sqlService } from "../sql/sql_service"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import {
   NotificationPayload,
   NotificationPayload_EewRegionIntensity,
   NotificationPayload_JmaIntensity,
+  NotificationPayload_Type,
 } from "@eqproxy-io/notification-data"
 import {
   messageGenerator,
@@ -101,9 +105,6 @@ export class NotifcationService {
             title: message.title.toHalfWidth(),
             body: message.body.toHalfWidth(),
           },
-          data: {
-            payload: gzipSync(payload.toBinary()).toString("base64"),
-          },
           apns: {
             payload: {
               aps: {
@@ -118,6 +119,7 @@ export class NotifcationService {
                 "relevance-score": 1,
                 "interruption-level": "time-sensitive",
               },
+              payload: gzipSync(payload.toBinary()).toString("base64"),
             },
           },
           android: {
@@ -141,6 +143,123 @@ export class NotifcationService {
       })
     }
     return null
+  }
+
+  async handleVxse5x(
+    message: GenMessage,
+    telegram:
+      | EarthquakeInformation.Latest.PublicVXSE51
+      | EarthquakeInformation.Latest.PublicVXSE52
+      | EarthquakeInformation.Latest.PublicVXSE53
+  ): Promise<Message[] | undefined> {
+    if (message.regions == undefined) {
+      return
+    }
+    const regions: {
+      region_id: number
+      min_jma_intensity: JmaIntensity
+    }[] = message.regions
+      .filter((r) => r.maxInt != undefined)
+      .map((region) => {
+        return {
+          min_jma_intensity: convertJma(region.maxInt!),
+          region_id: Number(region.code),
+        }
+      })
+
+    if (message.maxIntensity !== undefined) {
+      regions.push({
+        min_jma_intensity: convertJma(message.maxIntensity),
+        region_id: 0,
+      })
+    }
+    const payload = new NotificationPayload({
+      eventId: telegram.eventId,
+      type: NotificationPayload_Type.EARTHQUAKE,
+      information: {
+        case: "earthquakeInformation",
+        value: {
+          hypoInformation:
+            telegram.type === "震度速報"
+              ? undefined
+              : {
+                  code: Number(telegram.body.earthquake.hypocenter.code),
+                  depth: Number(
+                    telegram.body.earthquake.hypocenter.depth.value
+                  ),
+                  latitude: Number(
+                    telegram.body.earthquake?.hypocenter.coordinate.latitude
+                      ?.value
+                  ),
+                  longitude: Number(
+                    telegram.body.earthquake?.hypocenter.coordinate.longitude
+                      ?.value
+                  ),
+                  magnitude: Number(telegram.body.earthquake.magnitude.value),
+                  name: telegram.body.earthquake.hypocenter.name,
+                },
+          maxIntensity:
+            message.maxIntensity !== undefined
+              ? convertJmaNotification(message.maxIntensity)
+              : undefined,
+          regionIntensities: message.regions
+            .filter((t) => t.maxInt != undefined)
+            .map((region) => {
+              const m: NotificationPayload_EewRegionIntensity =
+                new NotificationPayload_EewRegionIntensity()
+              m.code = region.code
+              m.intensity = convertJmaNotification(region.maxInt!)
+              return m
+            }),
+        },
+      },
+    })
+
+    const targetDevices = await this.sqlService.fetchEarthquake(regions)
+
+    return targetDevices.map((device) => {
+      return {
+        token: device.fcm_token,
+        notification: {
+          title: message.title.toHalfWidth(),
+          body: message.body.toHalfWidth(),
+        },
+        apns: {
+          payload: {
+            aps: {
+              mutableContent: true,
+              sound: "default",
+              threadId: telegram.eventId,
+              contentAvailable: true,
+              badge: 0,
+              alert: {
+                subtitle: message.subtitle.toHalfWidth(),
+              },
+              "relevance-score": 1,
+              "interruption-level": "time-sensitive",
+            },
+            payload: gzipSync(payload.toBinary()).toString("base64"),
+          },
+        },
+        android: {
+          collapseKey: telegram.eventId,
+          priority: "high",
+          notification: {
+            priority: "high",
+            visibility: "public",
+            channelId:
+              telegram.infoKind === "震度速報"
+                ? NotificationChannel.VXSE51
+                : telegram.infoKind === "震源速報"
+                  ? NotificationChannel.VXSE52
+                  : NotificationChannel.VXSE53,
+            icon: "@mipmap/ic_launcher_foreground",
+            imageUrl: undefined,
+            body: generateBodyForAndroid(message),
+          },
+        },
+      }
+    })
   }
 }
 

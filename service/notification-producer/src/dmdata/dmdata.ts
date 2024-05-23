@@ -12,6 +12,7 @@ import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import { WebSocket } from "ws"
 import { messageGenerator } from "./message_generator"
 import { notificationService } from "../notification/notification_service"
+import { Message as GenMessage } from "./message_generator"
 
 class DmdataService {
   async start() {
@@ -25,7 +26,7 @@ class DmdataService {
       process.exit(1)
     }
 
-    ws.onmessage =async (event) => {
+    ws.onmessage = async (event) => {
       const data = json2object<APITypes.WebSocketV2.Event.Data>(
         event.data.toString()
       )
@@ -67,6 +68,7 @@ class DmdataService {
             messageBody,
             body
           )
+          console.log(messages)
           if (messages) {
             rabbitService.send(messages)
           }
@@ -76,11 +78,31 @@ class DmdataService {
           if (body.infoType !== "発表") {
             return
           }
+          let genMessage: GenMessage | undefined = undefined
           switch (body.type) {
             case "震度速報":
             case "震源に関する情報":
             case "震源・震度に関する情報": {
-              message = fcmMessageGenerator.handleVxse5x(body)
+              switch (body.type) {
+                case "震度速報": {
+                  genMessage = messageGenerator.handleVxse51(body)
+                  break
+                }
+                case "震源に関する情報": {
+                  genMessage = messageGenerator.handleVxse52(body)
+                  break
+                }
+                case "震源・震度に関する情報": {
+                  genMessage = messageGenerator.handleVxse53(body)
+                  break
+                }
+                default: {
+                  const neverReached: never = body
+                  genMessage = neverReached
+                  break
+                }
+              }
+              message = fcmMessageGenerator.handleVxse5x(genMessage, body)
               break
             }
             case "地震・津波に関するお知らせ": {
@@ -94,6 +116,23 @@ class DmdataService {
           }
           if (message) {
             rabbitService.send(message)
+          }
+
+          if (
+            body.type === "震度速報" ||
+            body.type === "震源に関する情報" ||
+            body.type === "震源・震度に関する情報"
+          ) {
+            if (genMessage === undefined) {
+              return
+            }
+            const messages = await notificationService.handleVxse5x(
+              genMessage,
+              body
+            )
+            if (messages) {
+              rabbitService.send(messages)
+            }
           }
           // SQL Service
         }

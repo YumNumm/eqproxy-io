@@ -9,26 +9,12 @@ class FcmMessageGenerator {
   constructor() {}
 
   handleVxse5x(
+    message: GenMessage,
     telegram:
       | EarthquakeInformation.Latest.PublicVXSE51
       | EarthquakeInformation.Latest.PublicVXSE52
       | EarthquakeInformation.Latest.PublicVXSE53
   ): Message[] {
-    var message: GenMessage
-    switch (telegram.infoKind) {
-      case "震度速報": {
-        message = messageGenerator.handleVxse51(telegram)
-        break
-      }
-      case "震源速報": {
-        message = messageGenerator.handleVxse52(telegram)
-        break
-      }
-      case "地震情報": {
-        message = messageGenerator.handleVxse53(telegram)
-        break
-      }
-    }
 
     const messages: Message[] = []
     const data: MessageData = {

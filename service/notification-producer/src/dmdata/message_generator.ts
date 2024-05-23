@@ -3,6 +3,7 @@ import {
   EewInformation,
 } from "@dmdata/telegram-json-types"
 import { format } from "date-fns"
+import { JmaIntensity } from "../sql/sql_service"
 
 class MessageGenerator {
   private eewHistory: EewFcmHistory[] = []
@@ -54,10 +55,14 @@ class MessageGenerator {
       subtitle,
       body,
       topics,
+      regions: telegram.body.intensity.regions,
+      maxIntensity: telegram.body.intensity.maxInt,
     }
   }
 
-  handleVxse52(telegram: EarthquakeInformation.Latest.PublicVXSE52): Message {
+  handleVxse52(telegram: EarthquakeInformation.Latest.PublicVXSE52): Message & {
+    previous: EarthquakeInformation.Latest.PublicVXSE51 | undefined
+  } {
     // vxse51Historyに同じEventIdの電文があれば取得
     const vxse51 = this.vxse51History.find((e) => e.eventId == telegram.eventId)
     this.vxse51History = this.vxse51History.filter(
@@ -130,7 +135,15 @@ class MessageGenerator {
       title = `震源情報`
       body = `${telegram.body.earthquake.hypocenter.name}で${magnitude} 深さ${depth}の地震がありました`
     }
-    return { title: title, body, subtitle: "", topics }
+    return {
+      title: title,
+      body,
+      subtitle: "",
+      topics,
+      regions: vxse51?.body.intensity.regions,
+      maxIntensity: vxse51?.body.intensity.maxInt,
+      previous: vxse51,
+    }
   }
 
   handleVxse53(telegram: EarthquakeInformation.Latest.PublicVXSE53): Message {
@@ -261,7 +274,14 @@ class MessageGenerator {
       ttsMessage += "。"
       ttsMessage += telegram.body.comments.free ?? ""
     }
-    return { title, body, subtitle: "", topics }
+    return {
+      title,
+      body,
+      subtitle: "",
+      topics,
+      regions: telegram.body.intensity?.regions,
+      maxIntensity: telegram.body.intensity?.maxInt,
+    }
   }
 
   handleVxse62(telegram: EarthquakeInformation.Latest.PublicVXSE62): Message {
@@ -287,14 +307,28 @@ class MessageGenerator {
       maxLgIntMoreThan1 ? "など" : ""
     }で観測しています。これらの地域では、周期の長い揺れが発生しました。`
 
-    return { title, body, subtitle: "", topics }
+    return {
+      title,
+      body,
+      subtitle: "",
+      topics,
+      regions: undefined,
+      maxIntensity: undefined,
+    }
   }
 
   handleVzse40(telegram: EarthquakeInformation.Latest.PublicVZSE40): Message {
     let topics = ["basic_vzse40"]
     const title = telegram.headline ?? ""
     const body = telegram.body.text ?? ""
-    return { title, body, subtitle: "", topics }
+    return {
+      title,
+      body,
+      subtitle: "",
+      topics,
+      regions: undefined,
+      maxIntensity: undefined,
+    }
   }
 
   handleEew(
@@ -328,6 +362,8 @@ class MessageGenerator {
         subtitle: "",
         body: telegram.body.text ?? "",
         topics,
+        regions: undefined,
+        maxIntensity: undefined,
       }
     }
 
@@ -552,6 +588,8 @@ class MessageGenerator {
       topics,
       isOnePointEew,
       isWarning: body.isWarning,
+      regions: undefined,
+      maxIntensity: undefined,
     }
   }
 }
@@ -561,6 +599,11 @@ export type Message = {
   subtitle: string
   body: string
   topics: string[]
+  regions:
+    | EarthquakeInformation.Latest.IntensityMaxInt[]
+    | EarthquakeInformation.Latest.IntensityMaxIntOnRevise[]
+    | undefined
+  maxIntensity: EarthquakeInformation.Latest.IntensityClass | undefined
 }
 
 interface EewFcmHistory {

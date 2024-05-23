@@ -13,11 +13,7 @@ export interface IFcmEarthquakeParams {
 
 /** 'FcmEarthquake' return type */
 export interface IFcmEarthquakeResult {
-  created_at: Date;
   fcm_token: string;
-  id: string;
-  notification_volume: string | null;
-  updated_at: Date;
 }
 
 /** 'FcmEarthquake' query type */
@@ -26,18 +22,15 @@ export interface IFcmEarthquakeQuery {
   result: IFcmEarthquakeResult;
 }
 
-const fcmEarthquakeIR: any = {"usedParamSet":{"items":true},"params":[{"name":"items","required":false,"transform":{"type":"pick_array_spread","keys":[{"name":"region_id","required":false},{"name":"min_jma_intensity","required":false}]},"locs":[{"a":330,"b":335}]}],"statement":"select\n   u.fcm_token, notification_settings.*\nFROM\n  public.devices AS u\nINNER JOIN\n  public.devices_notification_settings AS notification_settings\n    ON u.id = notification_settings.id\nWHERE\n  u.id IN (\n    SELECT id\n    FROM\n      public.devices_earthquake_settings\n    WHERE\n      (region_id, min_jma_intensity) IN (\n        :items\n      )\n    )\n  AND fcm_token IS NOT NULL"};
+const fcmEarthquakeIR: any = {"usedParamSet":{"items":true},"params":[{"name":"items","required":false,"transform":{"type":"pick_array_spread","keys":[{"name":"region_id","required":false},{"name":"min_jma_intensity","required":false}]},"locs":[{"a":191,"b":196}]}],"statement":"select\n   u.fcm_token\nFROM\n  public.devices AS u\nWHERE\n  u.id IN (\n    SELECT id\n    FROM\n      public.devices_earthquake_settings\n    WHERE\n      (region_id, min_jma_intensity) IN (\n        :items\n      )\n    )\n  AND fcm_token IS NOT NULL"};
 
 /**
  * Query generated from SQL:
  * ```
  * select
- *    u.fcm_token, notification_settings.*
+ *    u.fcm_token
  * FROM
  *   public.devices AS u
- * INNER JOIN
- *   public.devices_notification_settings AS notification_settings
- *     ON u.id = notification_settings.id
  * WHERE
  *   u.id IN (
  *     SELECT id

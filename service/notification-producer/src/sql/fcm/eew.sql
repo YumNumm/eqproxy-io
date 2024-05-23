@@ -3,12 +3,9 @@
 @param items -> ((region_id, min_jma_intensity)...)
  */
 select
-   u.fcm_token, notification_settings.*
+   u.fcm_token
 FROM
   public.devices AS u
-INNER JOIN
-  public.devices_notification_settings AS notification_settings
-    ON u.id = notification_settings.id
 WHERE
   u.id IN (
     SELECT id
