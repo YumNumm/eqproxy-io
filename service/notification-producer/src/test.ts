@@ -100,6 +100,7 @@ async function main() {
     return
   }
   const result = await notificationService.handleEewForecast(messaege, payload)
+  
   console.log(result)
 }
 

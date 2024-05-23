@@ -177,6 +177,31 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.90.3)
 
+  server/fcm-token-verify:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^1.8.2
+        version: 1.8.2
+      '@hono/valibot-validator':
+        specifier: ^0.2.5
+        version: 0.2.5(hono@4.1.0)(valibot@0.31.0-rc.1)
+      firebase-admin:
+        specifier: ^12.1.0
+        version: 12.1.0
+      hono:
+        specifier: ^4.1.0
+        version: 4.1.0
+      valibot:
+        specifier: 0.31.0-rc.1
+        version: 0.31.0-rc.1
+    devDependencies:
+      '@eqproxy-io/ts-config':
+        specifier: workspace:^
+        version: link:../../packages/ts-config
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.2
+
   service/dmdata-proxy:
     dependencies:
       '@dmdata/sdk-js':
@@ -197,12 +222,13 @@ importers:
       log4js:
         specifier: ^6.9.1
         version: 6.9.1
-      typescript:
-        specifier: ^5.4.2
-        version: 5.4.2
       ws:
         specifier: ^8.16.0
         version: 8.16.0(bufferutil@4.0.8)
+    devDependencies:
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.2
 
   service/notification-producer:
     dependencies:
@@ -648,6 +674,12 @@ packages:
   '@hono/node-server@1.8.2':
     resolution: {integrity: sha512-h8l2TBLCPHZBUrrkosZ6L5CpBLj6zdESyF4B+zngiCDF7aZFQJ0alVbLx7jn8PCVi9EyoFf8a4hOZFi1tD95EA==}
     engines: {node: '>=18.14.1'}
+
+  '@hono/valibot-validator@0.2.5':
+    resolution: {integrity: sha512-3XWssyNMiMKfsbHHpS3ykUWbIJlfdVML+io7MOr0IQ8VFf9cHdijw8jEaYPh92B3MxfFByOUPe/nY52JRq3VuQ==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      valibot: '>=0.13.1 <1'
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -3645,6 +3677,9 @@ packages:
     resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
     engines: {node: '>=10.12.0'}
 
+  valibot@0.31.0-rc.1:
+    resolution: {integrity: sha512-aoWT63r9d/QbioSkJb1ANJwacEXa5PvlKcFcBm6vvveTe8eR/2tFiUm9NNhiBWwX7VbggCrO/r+T01zxjE41HQ==}
+
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -4200,6 +4235,11 @@ snapshots:
     optional: true
 
   '@hono/node-server@1.8.2': {}
+
+  '@hono/valibot-validator@0.2.5(hono@4.1.0)(valibot@0.31.0-rc.1)':
+    dependencies:
+      hono: 4.1.0
+      valibot: 0.31.0-rc.1
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -7875,6 +7915,8 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
+
+  valibot@0.31.0-rc.1: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:

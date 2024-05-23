@@ -218,5 +218,19 @@ services:
         max-size: 1m
         max-file: "3"
 
+  fcm-token-verify:
+    build:
+      context: .
+      target: fcm-token-verify
+    environment:
+      - TZ=Asia/Tokyo
+      - PORT=3000
+    env_file:
+      - .env
+    ports:
+      - 8020:3000
+    volumes:
+      - ./server/fcm-token-verify/credentials.json:/prod/server/fcm-token-verify/credentials.json:ro
+
 volumes:
   db-config:
