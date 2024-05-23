@@ -10,6 +10,8 @@ import { rabbitService } from ".."
 import { fcmMessageGenerator } from "./fcm_message_generator"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import { WebSocket } from "ws"
+import { messageGenerator } from "./message_generator"
+import { notificationService } from "../notification/notification_service"
 
 class DmdataService {
   async start() {
@@ -23,7 +25,7 @@ class DmdataService {
       process.exit(1)
     }
 
-    ws.onmessage = (event) => {
+    ws.onmessage =async (event) => {
       const data = json2object<APITypes.WebSocketV2.Event.Data>(
         event.data.toString()
       )
@@ -48,12 +50,26 @@ class DmdataService {
             console.log(`${body.type} is not supported`)
             return
           }
-          const message = fcmMessageGenerator.handleEewForecast(body)
+          const messageBody = messageGenerator.handleEew(body)
+          if (messageBody === null) {
+            return
+          }
+          const message = fcmMessageGenerator.handleEewForecast(
+            messageBody,
+            body
+          )
           if (message) {
             rabbitService.send(message)
           }
 
           // SQL Service
+          const messages = await notificationService.handleEewForecast(
+            messageBody,
+            body
+          )
+          if (messages) {
+            rabbitService.send(messages)
+          }
         } else if (data.classification == "telegram.earthquake") {
           const body = telegram as EarthquakeInformation.Latest.Main
           var message: Message[]

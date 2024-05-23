@@ -1,5 +1,5 @@
 /*
-@name fcm_earthquake
+@name fcm_eew
 @param items -> ((region_id, min_jma_intensity)...)
  */
 select
@@ -13,7 +13,7 @@ WHERE
   u.id IN (
     SELECT id
     FROM
-      public.devices_earthquake_settings
+      public.devices_eew_settings
     WHERE
       (region_id, min_jma_intensity) IN (
         :items

@@ -32,7 +32,7 @@ class FcmMessageGenerator {
 
     const messages: Message[] = []
     const data: MessageData = {
-      page: `earthquake-history/details/${telegram.eventId}`,
+      page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -84,7 +84,7 @@ class FcmMessageGenerator {
     const message = messageGenerator.handleVxse62(telegram)
     const messages: Message[] = []
     const data: MessageData = {
-      page: `earthquake-history/details/${telegram.eventId}`,
+      page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -132,7 +132,7 @@ class FcmMessageGenerator {
     const messages: Message[] = []
     const data: MessageData = {
       // TODO(YumNumm): 通知のリンク先を変更する
-      page: `earthquake-history/details/${telegram.eventId}`,
+      page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -176,15 +176,20 @@ class FcmMessageGenerator {
   }
 
   handleEewForecast(
+    message:
+      | (GenMessage & {
+          isOnePointEew?: boolean | undefined
+          isWarning?: boolean | undefined
+        })
+      | null,
     telegram: EewInformation.Latest.PublicCommon | EewInformation.Latest.Cancel
   ): Message[] | null {
-    const message = messageGenerator.handleEew(telegram)
     if (message === null) {
       return null
     }
     const messages: Message[] = []
     const data: MessageData = {
-      page: `earthquake-history/details/${telegram.eventId}`,
+      page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -234,17 +239,17 @@ class FcmMessageGenerator {
 }
 
 type MessageData = {
-  page: string
+  page?: string
 }
 
-function generateBodyForAndroid(message: GenMessage): string {
+export function generateBodyForAndroid(message: GenMessage): string {
   if (message.subtitle === "") {
     return message.body
   }
   return message.subtitle + "\n" + message.body
 }
 
-enum NotificationChannel {
+export enum NotificationChannel {
   VXSE51 = "VXSE51",
   VXSE52 = "VXSE52",
   VXSE53 = "VXSE53",

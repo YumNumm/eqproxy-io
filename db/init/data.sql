@@ -184,47 +184,47 @@ $$ LANGUAGE SQL;
 
 
 --------------- USERS TABLE ---------------
-CREATE TABLE public.users (
+CREATE TABLE public.devices (
   id UUID UNIQUE DEFAULT uuid_generate_v7(),
   fcm_token TEXT,
   /* apns_token TEXT DEFAULT null 今後の拡張用 */
   PRIMARY KEY (id, fcm_token)
 );
 
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.devices ENABLE ROW LEVEL SECURITY;
 
 --------------- USERS_NOTIFICATION_SETTINGS TABLE ---------------
-CREATE TABLE public.users_notification_settings (
-  id UUID REFERENCES public.users(id),
+CREATE TABLE public.devices_notification_settings (
+  id UUID REFERENCES public.devices(id),
   notification_volume DECIMAL(2,1) DEFAULT 1.0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, /* upsert時に一緒に書き換え忘れずに (TRIGGER書いても良い。) */
   /*　もろもろの設定 */
   PRIMARY KEY (id)
 );
-ALTER TABLE public.users_notification_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.devices_notification_settings ENABLE ROW LEVEL SECURITY;
 
 --------------- USERS_EARTHQUAKE_SETTINGS TABLE ---------------
-CREATE TABLE public.users_earthquake_settings (
-  id UUID REFERENCES public.users(id),
+CREATE TABLE public.devices_earthquake_settings (
+  id UUID REFERENCES public.devices(id),
   region_id SMALLINT NOT NULL, /* 気象庁のコード表22府県予報区:code (9011~9474) */
   min_jma_intensity jma_intensity NOT NULL, /* 通知する最低震度 */
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, /* upsert時に一緒に書き換え忘れずに (TRIGGER書いても良い。) */
   PRIMARY KEY (id, region_id)
 );
-ALTER TABLE public.users_earthquake_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.devices_earthquake_settings ENABLE ROW LEVEL SECURITY;
 
 --------------- USERS_EEW_SETTINGS TABLE ---------------
-CREATE TABLE public.users_eew_settings (
-  id UUID REFERENCES public.users(id),
+CREATE TABLE public.devices_eew_settings (
+  id UUID REFERENCES public.devices(id),
   region_id SMALLINT NOT NULL DEFAULT 0, /* 気象庁のコード表23都道府県等: code (01~47) */
   min_jma_intensity jma_intensity NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, /* upsert時に一緒に書き換え忘れずに (TRIGGER書いても良い。) */
   PRIMARY KEY (id, region_id)
 );
-ALTER TABLE public.users_eew_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.devices_eew_settings ENABLE ROW LEVEL SECURITY;
 
 /*
 
@@ -240,76 +240,3 @@ CREATE SUBSCRIPTION supabase_replication
   */
 
 alter user postgres with superuser
-
-
-
-
-
---------------- Metrics ---------------
--- To use IF statements, hence to be able to check if the user exists before
--- attempting creation, we need to switch to procedural SQL (PL/pgSQL)
--- instead of standard SQL.
--- More: https://www.postgresql.org/docs/9.3/plpgsql-overview.html
--- To preserve compatibility with <9.0, DO blocks are not used; instead,
--- a function is created and dropped.
-CREATE OR REPLACE FUNCTION __tmp_create_user() returns void as $$
-BEGIN
-  IF NOT EXISTS (
-          SELECT                       -- SELECT list can stay empty for this
-          FROM   pg_catalog.pg_user
-          WHERE  usename = 'postgres_exporter') THEN
-    CREATE USER postgres_exporter;
-  END IF;
-END;
-$$ language plpgsql;
-
-SELECT __tmp_create_user();
-DROP FUNCTION __tmp_create_user();
-
--- passwordを適宜変更
-ALTER USER postgres_exporter WITH PASSWORD 'postgres_exporter';
-ALTER USER postgres_exporter SET SEARCH_PATH TO postgres_exporter,pg_catalog;
-
--- If deploying as non-superuser (for example in AWS RDS), uncomment the GRANT
--- line below and replace <MASTER_USER> with your root user.
--- GRANT postgres_exporter TO <MASTER_USER>;
-CREATE SCHEMA IF NOT EXISTS postgres_exporter;
-GRANT USAGE ON SCHEMA postgres_exporter TO postgres_exporter;
-GRANT CONNECT ON DATABASE postgres TO postgres_exporter;
-
-CREATE OR REPLACE FUNCTION get_pg_stat_activity() RETURNS SETOF pg_stat_activity AS
-$$ SELECT * FROM pg_catalog.pg_stat_activity; $$
-LANGUAGE sql
-VOLATILE
-SECURITY DEFINER;
-
-CREATE OR REPLACE VIEW postgres_exporter.pg_stat_activity
-AS
-  SELECT * from get_pg_stat_activity();
-
-GRANT SELECT ON postgres_exporter.pg_stat_activity TO postgres_exporter;
-
-CREATE OR REPLACE FUNCTION get_pg_stat_replication() RETURNS SETOF pg_stat_replication AS
-$$ SELECT * FROM pg_catalog.pg_stat_replication; $$
-LANGUAGE sql
-VOLATILE
-SECURITY DEFINER;
-
-CREATE OR REPLACE VIEW postgres_exporter.pg_stat_replication
-AS
-  SELECT * FROM get_pg_stat_replication();
-
-GRANT SELECT ON postgres_exporter.pg_stat_replication TO postgres_exporter;
-
-CREATE OR REPLACE FUNCTION get_pg_stat_statements() RETURNS SETOF pg_stat_statements AS
-$$ SELECT * FROM public.pg_stat_statements; $$
-LANGUAGE sql
-VOLATILE
-SECURITY DEFINER;
-
--- pg_stat_statementsを利用しない場合は以降は実行しない
-CREATE OR REPLACE VIEW postgres_exporter.pg_stat_statements
-AS
-  SELECT * FROM get_pg_stat_statements();
-
-GRANT SELECT ON postgres_exporter.pg_stat_statements TO postgres_exporter;

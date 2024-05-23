@@ -44,6 +44,25 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0(eslint@8.57.0)(typescript@5.4.2)
 
+  packages/notification-data:
+    dependencies:
+      '@bufbuild/buf':
+        specifier: ^1.32.1
+        version: 1.32.1
+      '@bufbuild/protobuf':
+        specifier: ^1.9.0
+        version: 1.9.0
+      '@bufbuild/protoc-gen-es':
+        specifier: ^1.9.0
+        version: 1.9.0(@bufbuild/protobuf@1.9.0)
+    devDependencies:
+      '@eqproxy-io/ts-config':
+        specifier: workspace:^
+        version: link:../ts-config
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.2
+
   packages/ts-config: {}
 
   server/eqproxy-io:
@@ -193,6 +212,9 @@ importers:
       '@dmdata/telegram-json-types':
         specifier: ^1.1.14
         version: 1.1.14
+      '@eqproxy-io/notification-data':
+        specifier: workspace:^
+        version: link:../../packages/notification-data
       '@pgtyped/runtime':
         specifier: ^2.3.0
         version: 2.3.0
@@ -221,6 +243,12 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
     devDependencies:
+      '@bufbuild/buf':
+        specifier: ^1.32.1
+        version: 1.32.1
+      '@bufbuild/protobuf':
+        specifier: ^1.9.0
+        version: 1.9.0
       '@eqproxy-io/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
@@ -459,6 +487,63 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@bufbuild/buf-darwin-arm64@1.32.1':
+    resolution: {integrity: sha512-Duw4StB5sth8s4cQfOa7Be6+OAXfGuuo3ZOkUzJTxWOVH0sWq0nTkO90kXMJOjOkmB/JMnqRQcVAdKuu9u1pcw==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@bufbuild/buf-darwin-x64@1.32.1':
+    resolution: {integrity: sha512-3ANVbOoSmfdFxhOvjMDLTr2u35+mdEQcF9Tx39ZEA+Las0WucV6n/bGPwucpH04a9UsW59npNt3IzA4VvUDcyw==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@bufbuild/buf-linux-aarch64@1.32.1':
+    resolution: {integrity: sha512-QdGirTSFU/WzI/lBo9ph4ThQJS9S8Zm3l/7hg+07GrF57VqB1pUZvnh2298R10/kLKP6lpMtqeVrjMhIcHtxTw==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@bufbuild/buf-linux-x64@1.32.1':
+    resolution: {integrity: sha512-6R8whslj+6WQi9nUjVkNx6AW64czFOFD22dLmrB4i3bY/WDku+/5CNHBU/On738pmgujQrEVT4ztB6fVmVtKOg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+
+  '@bufbuild/buf-win32-arm64@1.32.1':
+    resolution: {integrity: sha512-QPDxdLRxJpiCTEx7/5bIN3V3EPGvZ1+dyEco6d1qIydDrH9BbCWNy9YLPJOaDxAbewW4lrAX73FmMTTM4tNtbw==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@bufbuild/buf-win32-x64@1.32.1':
+    resolution: {integrity: sha512-rZSM5id3zko+YQICZB3ypj+AVL0rcN7gra8SN4Ep4aOWAH6gib3RgH51cFcq9VgI1N1xTBy8wZvQMnMLPBn2zg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [win32]
+
+  '@bufbuild/buf@1.32.1':
+    resolution: {integrity: sha512-uPVhqDzYtz9Q7WTodCschf9xXKL5/TQHtU1fKOUmain/dGe66YtSU4LQ0SWmxAQEJIUSmkH4UOPgKEzNMKdWeg==}
+    engines: {node: '>=12'}
+    hasBin: true
+
+  '@bufbuild/protobuf@1.9.0':
+    resolution: {integrity: sha512-W7gp8Q/v1NlCZLsv8pQ3Y0uCu/SHgXOVFK+eUluUKWXmsb6VHkpNx0apdOWWcDbB9sJoKeP8uPrjmehJz6xETQ==}
+
+  '@bufbuild/protoc-gen-es@1.9.0':
+    resolution: {integrity: sha512-LJy1nC3Jsfdhs9v48P7qF6YXIqh+usFhXSVzJDTmw0yKjxQ3CKBNISRtaMql/g9hb1MLRU6unHCcFfdz4HSO/Q==}
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      '@bufbuild/protobuf': 1.9.0
+    peerDependenciesMeta:
+      '@bufbuild/protobuf':
+        optional: true
+
+  '@bufbuild/protoplugin@1.9.0':
+    resolution: {integrity: sha512-/mxMiGs5h78RUHT7v4+mv0Wt0gyRf/SOS5PLzKEg2sclEAlFPbXfZ8HjlvxJpXZP/YpP3HvsW/mil3E69G0mXg==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -1049,6 +1134,9 @@ packages:
   '@typescript-eslint/visitor-keys@7.2.0':
     resolution: {integrity: sha512-c6EIQRHhcpl6+tO8EMR+kjkkV+ugUNXOmeASA1rlzkd8EPIriavpWoiEz1HR/VLhbVIdhqnV6E7JZm00cBDx2A==}
     engines: {node: ^16.0.0 || >=18.0.0}
+
+  '@typescript/vfs@1.5.0':
+    resolution: {integrity: sha512-AJS307bPgbsZZ9ggCT3wwpg3VbTKMFNHfaY/uF0ahSkYYrPF2dSSKDNIDIQAHm9qJqbLvCsSJH7yN4Vs/CsMMg==}
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
@@ -3502,6 +3590,11 @@ packages:
       typescript:
         optional: true
 
+  typescript@4.5.2:
+    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+
   typescript@5.4.2:
     resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
     engines: {node: '>=14.17'}
@@ -3918,6 +4011,51 @@ snapshots:
       to-fast-properties: 2.0.0
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@bufbuild/buf-darwin-arm64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf-darwin-x64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf-linux-aarch64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf-linux-x64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf-win32-arm64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf-win32-x64@1.32.1':
+    optional: true
+
+  '@bufbuild/buf@1.32.1':
+    optionalDependencies:
+      '@bufbuild/buf-darwin-arm64': 1.32.1
+      '@bufbuild/buf-darwin-x64': 1.32.1
+      '@bufbuild/buf-linux-aarch64': 1.32.1
+      '@bufbuild/buf-linux-x64': 1.32.1
+      '@bufbuild/buf-win32-arm64': 1.32.1
+      '@bufbuild/buf-win32-x64': 1.32.1
+
+  '@bufbuild/protobuf@1.9.0': {}
+
+  '@bufbuild/protoc-gen-es@1.9.0(@bufbuild/protobuf@1.9.0)':
+    dependencies:
+      '@bufbuild/protoplugin': 1.9.0
+    optionalDependencies:
+      '@bufbuild/protobuf': 1.9.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@bufbuild/protoplugin@1.9.0':
+    dependencies:
+      '@bufbuild/protobuf': 1.9.0
+      '@typescript/vfs': 1.5.0
+      typescript: 4.5.2
+    transitivePeerDependencies:
+      - supports-color
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -4779,6 +4917,12 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 7.2.0
       eslint-visitor-keys: 3.4.3
+
+  '@typescript/vfs@1.5.0':
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
 
   '@ungap/structured-clone@1.2.0': {}
 
@@ -7687,6 +7831,8 @@ snapshots:
       typescript: 5.4.2
     transitivePeerDependencies:
       - supports-color
+
+  typescript@4.5.2: {}
 
   typescript@5.4.2: {}
 
