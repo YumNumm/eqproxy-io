@@ -12,13 +12,23 @@ export class RabbitService {
     if (!this.pub) {
       throw new Error("RabbitMQ connection not established")
     }
-    const result = await this.pub.send(
-      {
-        routingKey: this.queue,
-      },
-      messages
+    if (messages.length === 0) {
+      console.log("No messages to send")
+      return
+    }
+    // 500件ずつ送信
+    const chunked = chunk(messages, 500)
+    const results = await Promise.all(
+      chunked.map((chunk) =>
+        this.pub!.send(
+          {
+            routingKey: this.queue,
+          },
+          chunk
+        )
+      )
     )
-    console.log("Published message", JSON.stringify(result, null, 2))
+    console.log(results)
   }
 
   async start() {
@@ -52,4 +62,10 @@ export class RabbitService {
       rabbit.close()
     })
   }
+}
+
+const chunk = <T>(array: T[], size: number): T[][] => {
+  return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
+    array.slice(i * size, (i + 1) * size)
+  )
 }
