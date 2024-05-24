@@ -7,8 +7,8 @@ import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import {
   NotificationPayload,
   NotificationPayload_EewRegionIntensity,
-  NotificationPayload_JmaIntensity,
   NotificationPayload_Type,
+  JmaIntensity as NotificationPayload_JmaIntensity,
 } from "@eqproxy-io/notification-data"
 import {
   messageGenerator,
