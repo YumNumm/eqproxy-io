@@ -2,6 +2,8 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
+package eqmonitor;
+
 message NotificationPayload {
   string event_id = 1;
   Type type = 2;
@@ -48,20 +50,18 @@ message NotificationPayload {
     int32 depth = 5;
     float magnitude = 6;
   }
+}
 
-
-  enum JmaIntensity {
-    JMA_INTENSITY_UNSPECIFIED = 0;
-    JMA_INTENSITY_0 = 10;
-    JMA_INTENSITY_1 = 20;
-    JMA_INTENSITY_2 = 30;
-    JMA_INTENSITY_3 = 40;
-    JMA_INTENSITY_4 = 45;
-    JMA_INTENSITY_5_MINUS = 50;
-    JMA_INTENSITY_5_PLUS = 55;
-    JMA_INTENSITY_6_MINUS = 60;
-    JMA_INTENSITY_6_PLUS = 65;
-    JMA_INTENSITY_7 = 70;
-  }
-
+enum JmaIntensity {
+  JMA_INTENSITY_UNSPECIFIED = 0;
+  JMA_INTENSITY_0 = 10;
+  JMA_INTENSITY_1 = 20;
+  JMA_INTENSITY_2 = 30;
+  JMA_INTENSITY_3 = 40;
+  JMA_INTENSITY_4 = 45;
+  JMA_INTENSITY_5_MINUS = 50;
+  JMA_INTENSITY_5_PLUS = 55;
+  JMA_INTENSITY_6_MINUS = 60;
+  JMA_INTENSITY_6_PLUS = 65;
+  JMA_INTENSITY_7 = 70;
 }

@@ -290,7 +290,7 @@ function convertJma(
   }
 }
 
-function convertJmaNotification(
+export function convertJmaNotification(
   f: "0" | "1" | "2" | "3" | "4" | "5-" | "5+" | "6-" | "6+" | "7" | "不明"
 ): NotificationPayload_JmaIntensity {
   switch (f) {

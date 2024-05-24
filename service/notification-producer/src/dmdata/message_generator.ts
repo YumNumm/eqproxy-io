@@ -55,7 +55,7 @@ class MessageGenerator {
       subtitle,
       body,
       topics,
-      regions: telegram.body.intensity.regions,
+      regions: telegram.body.intensity?.regions,
       maxIntensity: telegram.body.intensity.maxInt,
     }
   }
@@ -568,12 +568,6 @@ class MessageGenerator {
 
     message = message.toHalfWidth()
 
-    //! FCM送信
-
-    let intensity = body.intensity
-    if (intensity != undefined) {
-      intensity!.regions = []
-    }
     // 通常送信
     let topics = isOnePointEew ? ["eew_low_accuracy"] : ["eew", "eew_all"]
     if (!isOnePointEew && maxInt !== undefined) {
