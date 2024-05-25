@@ -100,8 +100,6 @@ services:
       retries: 5
       start_period: 30s
 
-  ######### 以下 Supabase 関連のサービス #########
-
   db:
     container_name: supabase-db
     build: ./db
