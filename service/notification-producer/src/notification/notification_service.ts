@@ -43,23 +43,25 @@ export class NotifcationService {
       }[] =
         telegram.body.intensity?.regions
           .map((region) => {
-            if (
-              region.forecastMaxInt.from === "0" ||
-              region.forecastMaxInt.from === "不明"
-            ) {
+            const intensity = getMaxForecastIntensity(region.forecastMaxInt)
+            if (intensity === null) {
               return null
             }
             return {
               region_id: Number(region.code),
-              min_jma_intensity: convertJma(region.forecastMaxInt.from),
+              min_jma_intensity: intensity,
             }
           })
           .flatMap((f) => (f ? [f] : [])) ?? []
-      regions.push({
-        min_jma_intensity: JmaIntensity.Int0,
-        region_id: 0,
-      })
-
+      const maxIntensity = getMaxForecastIntensity(
+        telegram.body.intensity?.forecastMaxInt
+      )
+      if (maxIntensity !== null) {
+        regions.push({
+          min_jma_intensity: maxIntensity,
+          region_id: 0,
+        })
+      }
       const payload = new NotificationPayload({
         eventId: telegram.eventId,
         information: {
@@ -97,8 +99,10 @@ export class NotifcationService {
         },
       })
 
-      const targetUsers = await this.sqlService.fetchEew(regions)
-      return targetUsers.map((user) => {
+      const targetDevices = await this.sqlService.fetchEew(regions)
+      console.log(`devices: ${JSON.stringify(targetDevices, null, 2)}`)
+
+      return targetDevices.map((user) => {
         return {
           token: user.fcm_token,
           notification: {
@@ -153,6 +157,7 @@ export class NotifcationService {
       | EarthquakeInformation.Latest.PublicVXSE53
   ): Promise<Message[] | undefined> {
     if (message.regions == undefined) {
+      console.log("regions is undefined")
       return
     }
     const regions: {
@@ -216,6 +221,7 @@ export class NotifcationService {
     })
 
     const targetDevices = await this.sqlService.fetchEarthquake(regions)
+    console.log(`devices: ${JSON.stringify(targetDevices, null, 2)}`)
 
     return targetDevices.map((device) => {
       return {
@@ -317,4 +323,22 @@ export function convertJmaNotification(
     case "不明":
       return NotificationPayload_JmaIntensity.JMA_INTENSITY_UNSPECIFIED
   }
+}
+
+export function getMaxForecastIntensity(
+  intensity: EewInformation.Latest.IntensityForecastMaxInt | undefined
+): JmaIntensity | null {
+  if (intensity === undefined) {
+    return null
+  }
+  if (intensity.to === "over") {
+    if (intensity.from === "不明" || intensity.from === "0") {
+      return null
+    }
+    return convertJma(intensity.from)
+  }
+  if (intensity.from === "不明" || intensity.from === "0") {
+    return null
+  }
+  return convertJma(intensity.from)
 }

@@ -24,7 +24,7 @@ export class SqlService {
     // min_jma_intensityについて、enumのindexが小さいものをすべて取得する
     const regions = []
     for (const param of params) {
-      const intensities = getLowerOfEqualJmaIntensities(param.min_jma_intensity)
+      const intensities = getLowerOrEqualJmaIntensities(param.min_jma_intensity)
       for (const intensity of intensities) {
         regions.push({
           region_id: param.region_id,
@@ -50,7 +50,7 @@ export class SqlService {
   ) {
     const regions = []
     for (const param of params) {
-      const intensities = getLowerOfEqualJmaIntensities(param.min_jma_intensity)
+      const intensities = getLowerOrEqualJmaIntensities(param.min_jma_intensity)
       for (const intensity of intensities) {
         regions.push({
           region_id: param.region_id,
@@ -84,7 +84,7 @@ export enum JmaIntensity {
   "Int7" = "7",
 }
 
-function getLowerOfEqualJmaIntensities(
+function getLowerOrEqualJmaIntensities(
   intensity: JmaIntensity
 ): JmaIntensity[] {
   const intensities = Object.values(JmaIntensity)
