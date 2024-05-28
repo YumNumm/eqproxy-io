@@ -22,7 +22,10 @@ export class SqlService {
     }[]
   ) {
     // min_jma_intensityについて、enumのindexが小さいものをすべて取得する
-    const regions = []
+    const regions: {
+      region_id: number | void | null
+      min_jma_intensity: void | jma_intensity | null
+    }[] = []
     for (const param of params) {
       const intensities = getLowerOrEqualJmaIntensities(param.min_jma_intensity)
       for (const intensity of intensities) {
@@ -35,7 +38,7 @@ export class SqlService {
     console.log(regions)
     const result = await fcmEarthquake.run(
       {
-        items: params,
+        items: regions,
       },
       this.client
     )
@@ -48,13 +51,16 @@ export class SqlService {
       min_jma_intensity: JmaIntensity
     }[]
   ) {
-    const regions = []
+    const regions: {
+      region_id: number | void | null
+      min_jma_intensity: void | jma_intensity | null
+    }[] = []
     for (const param of params) {
       const intensities = getLowerOrEqualJmaIntensities(param.min_jma_intensity)
       for (const intensity of intensities) {
         regions.push({
           region_id: param.region_id,
-          min_intensity: intensity,
+          min_jma_intensity: intensity,
         })
       }
     }

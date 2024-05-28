@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@eqproxy-io/ts-config": "workspace:^",
     "typescript": "^5.4.2"
   },
   "dependencies": {
@@ -19,6 +18,7 @@
     "@hono/valibot-validator": "^0.2.5",
     "firebase-admin": "^12.1.0",
     "hono": "^4.1.0",
-    "valibot": "0.31.0-rc.1"
+    "valibot": "0.31.0-rc.1",
+    "@eqproxy-io/ts-config": "workspace:^"
   }
 }

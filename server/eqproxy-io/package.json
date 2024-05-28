@@ -49,6 +49,7 @@
     "@types/date-utils": "^1.2.5",
     "@types/node": "^20.11.26",
     "@types/websocket": "^1.0.10",
+    "@types/ws": "^8.5.10",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",

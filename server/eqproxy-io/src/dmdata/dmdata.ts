@@ -20,13 +20,10 @@ export async function startDmDataWs() {
       formatMode: 'json',
       test: 'no',
     })
-  } catch (e: any) {
+  } catch (e) {
     // axios error
-    if (e.response) {
-      Logger.error(e.response.data)
-    }
     Logger.error(e)
-    throw e
+    process.exit(1)
   }
   Logger.info('WebSocketService started')
 

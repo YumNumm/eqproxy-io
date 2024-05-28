@@ -2,9 +2,7 @@ services:
   eqproxy-io:
     build:
       context: .
-      dockerfile: ./server/eqproxy-io/Dockerfile
-      args:
-        NODE_VERSION: 20.11.1
+      target: eqproxy-io
     env_file:
       - .env
     environment:
@@ -25,7 +23,7 @@ services:
   dmdata-proxy:
     build:
       context: .
-      dockerfile: ./service/dmdata-proxy/Dockerfile
+      target: dmdata-proxy
     env_file:
       - ./service/dmdata-proxy/.env
     environment:
@@ -177,7 +175,7 @@ services:
     container_name: notification-producer
     build:
       context: .
-      dockerfile: ./service/notification-producer/Dockerfile
+      target: notification-producer
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
@@ -197,7 +195,7 @@ services:
     container_name: notification-worker
     build:
       context: .
-      dockerfile: ./service/notification-worker/Dockerfile
+      target: notification-worker
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
@@ -206,7 +204,7 @@ services:
       - .env
     restart: always
     volumes:
-      - ./service/notification-worker/credentials.json:/app/credentials.json:ro
+      - ./service/notification-worker/credentials.json:/prod/notification-worker/credentials.json:ro
     depends_on:
       rabbitmq:
         condition: service_healthy
