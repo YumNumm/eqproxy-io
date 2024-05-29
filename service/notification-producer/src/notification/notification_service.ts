@@ -61,6 +61,11 @@ export class NotifcationService {
           min_jma_intensity: maxIntensity,
           region_id: 0,
         })
+      } else {
+        regions.push({
+          min_jma_intensity: JmaIntensity.Int0,
+          region_id: 0,
+        })
       }
       const payload = new NotificationPayload({
         eventId: telegram.eventId,
