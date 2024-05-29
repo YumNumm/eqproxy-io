@@ -67,7 +67,7 @@ export class SqlService {
     console.log(regions)
     const result = await fcmEew.run(
       {
-        items: params,
+        items: regions,
       },
       this.client
     )
