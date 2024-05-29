@@ -204,7 +204,7 @@ services:
       - .env
     restart: always
     volumes:
-      - ./service/notification-worker/credentials.json:/prod/notification-worker/credentials.json:ro
+      - ./service/notification-worker/credentials.json:/app/credentials.json:ro
     depends_on:
       rabbitmq:
         condition: service_healthy
