@@ -229,12 +229,17 @@ export class NotifcationService {
     console.log(`devices: ${JSON.stringify(targetDevices, null, 2)}`)
 
     return targetDevices.map((device) => {
-      return {
+      const data: FcmDataPayload = {
+        // 画面遷移
+        route: `/earthquake-history-details/${telegram.eventId}`,
+      }
+      const m: Message = {
         token: device.fcm_token,
         notification: {
           title: message.title.toHalfWidth(),
           body: message.body.toHalfWidth(),
         },
+        data: data,
         apns: {
           payload: {
             aps: {
@@ -270,6 +275,7 @@ export class NotifcationService {
           },
         },
       }
+      return m
     })
   }
 }
@@ -346,4 +352,9 @@ export function getMaxForecastIntensity(
     return null
   }
   return convertJma(intensity.from)
+}
+
+type FcmDataPayload = {
+  url?: string
+  route?: string
 }
