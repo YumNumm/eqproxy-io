@@ -193,7 +193,7 @@ class MessageGenerator {
     let title =
       telegram.body.intensity == undefined
         ? `地震情報 `
-        : `地震情報 最大震度 ${maxInt} `
+        : `地震情報 最大震度 ${maxInt}`
 
     // x日xx時xx分ころ、地震による.... の x日xx時xx分ころ を取得
     const dateTime = telegram.headline?.match(/(.*)、/)?.[0] ?? ""

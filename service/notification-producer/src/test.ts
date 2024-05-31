@@ -71,7 +71,8 @@ import {
     console.log(JSON.stringify(payload.toJson(), null, 2))
 
     const fcmMessage: Message = {
-      token: "",
+      token:
+        "d5_mWkCBzkFRirAxmqnIRW:APA91bG6D8fRrutTMqf7mAnGLoggzJR1Sz0KRMGj_uB3nnPrCPGoBwNBF6IRuAA6xpdDaIbLEZrl1PmYWISVAD-jjdTpLxaNoVhmcZGtVuhV8poRTt9Q7qReiUtBRpxPIRGlUJpLWU1G",
       notification: {
         title: message.title.toHalfWidth(),
         body: message.body.toHalfWidth(),
@@ -110,6 +111,9 @@ import {
         },
         ttl: 0,
       },
+    }
+    if (fcmMessage.token === undefined) {
+      throw new Error("Not implemented")
     }
 
     console.log(JSON.stringify(fcmMessage))
