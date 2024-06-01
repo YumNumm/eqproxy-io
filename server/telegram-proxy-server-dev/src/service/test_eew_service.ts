@@ -41,14 +41,17 @@ class TestEewService {
           title: "緊急地震速報（地震動予報）",
         })
       )
+      data.push(payload)
     }
     // 最もpressDateTimeが古いものを取得
+    console.log(data)
     const oldestTelegram = data
       .filter((data) => data.pressDateTime !== null)
       .sort(
         (a, b) =>
           new Date(a.pressDateTime).getTime() - new Date(b.pressDateTime).getTime()
-      )[0]
+    )
+    console.log(oldestTelegram)
 
     if (oldestTelegram === undefined) {
       ws.send(
@@ -59,15 +62,17 @@ class TestEewService {
       )
       return
     }
-    const firstPressTime = new Date(oldestTelegram.pressDateTime)
+    const firstPressTime = new Date(oldestTelegram[0].pressDateTime)
 
     const promises = data.map((data) => {
       const next = new Date(data.pressDateTime)
-      const diff = next.getTime() - firstPressTime.getTime()
-      console.log(`Waiting ${diff}ms`)
+      const delay = next.getTime() - firstPressTime.getTime()
+      console.log(`Waiting ${delay}ms`)
       return new Promise<void>((resolve) => {
         setTimeout(() => {
           var eewV1 = dmdataEewToV1(data)
+          // 現在時刻と本来の発表時刻の差分
+          const diff = new Date().getTime() - new Date(data.pressDateTime).getTime()
           console.log(eewV1)
           if (eewV1 !== null) {
             eewV1.arrival_time =
@@ -108,7 +113,7 @@ class TestEewService {
             console.log("eewV1 is null")
           }
           resolve()
-        }, diff)
+        }, delay)
       })
     })
     await Promise.allSettled(promises)
