@@ -68,6 +68,7 @@ class TestEewService {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
           var eewV1 = dmdataEewToV1(data)
+          console.log(eewV1)
           if (eewV1 !== null) {
             eewV1.arrival_time =
               eewV1.arrival_time !== null
@@ -103,6 +104,8 @@ class TestEewService {
             const str = JSON.stringify(broadcastData, null, 2)
             console.log(str)
             ws.send(str)
+          } else {
+            console.log("eewV1 is null")
           }
           resolve()
         }, diff)
