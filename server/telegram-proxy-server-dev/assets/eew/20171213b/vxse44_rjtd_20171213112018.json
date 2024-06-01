@@ -1,0 +1,426 @@
+{
+    "_originalId": "TELEGRAM_ID",
+    "_schema": {
+        "type": "eew-information",
+        "version": "1.0.0"
+    },
+    "type": "緊急地震速報（予報）",
+    "title": "緊急地震速報（予報）",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "気象庁本庁",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2017-12-13T02:20:18Z",
+    "reportDateTime": "2017-12-13T11:20:18+09:00",
+    "targetDateTime": "2017-12-13T11:20:18+09:00",
+    "eventId": "20171213112000",
+    "serialNo": "4",
+    "infoKind": "緊急地震速報",
+    "infoKindVersion": "1.0_0",
+    "headline": null,
+    "body": {
+        "isLastInfo": false,
+        "isCanceled": false,
+        "isWarning": true,
+        "earthquake": {
+            "originTime": "2017-12-13T11:19:37+09:00",
+            "arrivalTime": "2017-12-13T11:20:00+09:00",
+            "hypocenter": {
+                "code": "288",
+                "name": "三陸沖",
+                "coordinate": {
+                    "latitude": {
+                        "text": "38.1˚N",
+                        "value": "38.1000"
+                    },
+                    "longitude": {
+                        "text": "142.9˚E",
+                        "value": "142.9000"
+                    },
+                    "height": {
+                        "type": "高さ",
+                        "unit": "m",
+                        "value": "-10000"
+                    },
+                    "geodeticSystem": "日本測地系"
+                },
+                "depth": {
+                    "type": "深さ",
+                    "unit": "km",
+                    "value": "10"
+                },
+                "reduce": {
+                    "code": "9738",
+                    "name": "三陸沖"
+                },
+                "landOrSea": "海域",
+                "accuracy": {
+                    "epicenters": [
+                        "4",
+                        "4"
+                    ],
+                    "depth": "4",
+                    "magnitudeCalculation": "4",
+                    "numberOfMagnitudeCalculation": "5"
+                }
+            },
+            "magnitude": {
+                "type": "マグニチュード",
+                "value": "7.4",
+                "unit": "Mj"
+            }
+        },
+        "intensity": {
+            "forecastMaxInt": {
+                "from": "5-",
+                "to": "5-"
+            },
+            "appendix": {
+                "maxIntChange": "0",
+                "maxIntChangeReason": "0"
+            },
+            "regions": [
+                {
+                    "code": "222",
+                    "name": "宮城県中部",
+                    "forecastMaxInt": {
+                        "from": "5-",
+                        "to": "5-"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:20+09:00"
+                },
+                {
+                    "code": "213",
+                    "name": "岩手県内陸南部",
+                    "forecastMaxInt": {
+                        "from": "5-",
+                        "to": "5-"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:21+09:00"
+                },
+                {
+                    "code": "220",
+                    "name": "宮城県北部",
+                    "forecastMaxInt": {
+                        "from": "5-",
+                        "to": "5-"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:21+09:00"
+                },
+                {
+                    "code": "221",
+                    "name": "宮城県南部",
+                    "forecastMaxInt": {
+                        "from": "5-",
+                        "to": "5-"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:26+09:00"
+                },
+                {
+                    "code": "211",
+                    "name": "岩手県沿岸南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:19+09:00"
+                },
+                {
+                    "code": "210",
+                    "name": "岩手県沿岸北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:25+09:00"
+                },
+                {
+                    "code": "251",
+                    "name": "福島県浜通り",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:26+09:00"
+                },
+                {
+                    "code": "250",
+                    "name": "福島県中通り",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:34+09:00"
+                },
+                {
+                    "code": "241",
+                    "name": "山形県最上",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:36+09:00"
+                },
+                {
+                    "code": "212",
+                    "name": "岩手県内陸北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:37+09:00"
+                },
+                {
+                    "code": "242",
+                    "name": "山形県村山",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": true,
+                    "kind": {
+                        "name": "緊急地震速報（警報）",
+                        "code": "10"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:38+09:00"
+                },
+                {
+                    "code": "243",
+                    "name": "山形県置賜",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:42+09:00"
+                },
+                {
+                    "code": "252",
+                    "name": "福島県会津",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:43+09:00"
+                },
+                {
+                    "code": "233",
+                    "name": "秋田県内陸南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:44+09:00"
+                },
+                {
+                    "code": "300",
+                    "name": "茨城県北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:45+09:00"
+                },
+                {
+                    "code": "240",
+                    "name": "山形県庄内",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:48+09:00"
+                },
+                {
+                    "code": "231",
+                    "name": "秋田県沿岸南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:51+09:00"
+                },
+                {
+                    "code": "310",
+                    "name": "栃木県北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:51+09:00"
+                },
+                {
+                    "code": "202",
+                    "name": "青森県三八上北",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:55+09:00"
+                },
+                {
+                    "code": "301",
+                    "name": "茨城県南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:55+09:00"
+                },
+                {
+                    "code": "230",
+                    "name": "秋田県沿岸北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:20:58+09:00"
+                },
+                {
+                    "code": "203",
+                    "name": "青森県下北",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "00"
+                    },
+                    "arrivalTime": "2017-12-13T11:21:10+09:00"
+                }
+            ]
+        },
+        "comments": {
+            "warning": {
+                "text": "強い揺れに警戒してください。",
+                "codes": [
+                    "0201"
+                ]
+            }
+        }
+    }
+}

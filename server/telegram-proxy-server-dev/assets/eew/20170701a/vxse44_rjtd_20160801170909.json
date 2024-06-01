@@ -1,0 +1,76 @@
+{
+    "_originalId": "TELEGRAM_ID",
+    "_schema": {
+        "type": "eew-information",
+        "version": "1.0.0"
+    },
+    "type": "緊急地震速報（予報）",
+    "title": "緊急地震速報（予報）",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "気象庁本庁",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2016-08-01T08:09:09Z",
+    "reportDateTime": "2016-08-01T17:09:09+09:00",
+    "targetDateTime": "2016-08-01T17:09:09+09:00",
+    "eventId": "20160801170904",
+    "serialNo": "2",
+    "infoKind": "緊急地震速報",
+    "infoKindVersion": "1.0_0",
+    "headline": null,
+    "body": {
+        "isLastInfo": false,
+        "isCanceled": false,
+        "isWarning": false,
+        "earthquake": {
+            "originTime": "2016-08-01T17:09:02+09:00",
+            "arrivalTime": "2016-08-01T17:09:04+09:00",
+            "hypocenter": {
+                "code": "477",
+                "name": "東京湾",
+                "coordinate": {
+                    "latitude": {
+                        "text": "35.4˚N",
+                        "value": "35.4000"
+                    },
+                    "longitude": {
+                        "text": "139.9˚E",
+                        "value": "139.9000"
+                    },
+                    "height": {
+                        "type": "高さ",
+                        "unit": "m",
+                        "value": "-10000"
+                    },
+                    "geodeticSystem": "日本測地系"
+                },
+                "depth": {
+                    "type": "深さ",
+                    "unit": "km",
+                    "value": "10"
+                },
+                "reduce": {
+                    "code": "9768",
+                    "name": "東京湾"
+                },
+                "landOrSea": "海域",
+                "accuracy": {
+                    "epicenters": [
+                        "1",
+                        "1"
+                    ],
+                    "depth": "1",
+                    "magnitudeCalculation": "5",
+                    "numberOfMagnitudeCalculation": "1"
+                }
+            },
+            "magnitude": {
+                "type": "マグニチュード",
+                "value": "9.2",
+                "unit": "Mj"
+            }
+        }
+    }
+}

@@ -1,0 +1,144 @@
+{
+    "_originalId": "TELEGRAM_ID",
+    "_schema": {
+        "type": "eew-information",
+        "version": "1.0.0"
+    },
+    "type": "緊急地震速報（予報）",
+    "title": "緊急地震速報（予報）",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "気象庁本庁",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2017-12-13T02:20:08Z",
+    "reportDateTime": "2017-12-13T11:20:08+09:00",
+    "targetDateTime": "2017-12-13T11:20:08+09:00",
+    "eventId": "20171213112000",
+    "serialNo": "1",
+    "infoKind": "緊急地震速報",
+    "infoKindVersion": "1.0_0",
+    "headline": null,
+    "body": {
+        "isLastInfo": false,
+        "isCanceled": false,
+        "isWarning": false,
+        "earthquake": {
+            "originTime": "2017-12-13T11:19:52+09:00",
+            "arrivalTime": "2017-12-13T11:20:00+09:00",
+            "hypocenter": {
+                "code": "287",
+                "name": "宮城県沖",
+                "coordinate": {
+                    "latitude": {
+                        "text": "38.6˚N",
+                        "value": "38.6000"
+                    },
+                    "longitude": {
+                        "text": "141.8˚E",
+                        "value": "141.8000"
+                    },
+                    "height": {
+                        "type": "高さ",
+                        "unit": "m",
+                        "value": "-10000"
+                    },
+                    "geodeticSystem": "日本測地系"
+                },
+                "depth": {
+                    "type": "深さ",
+                    "unit": "km",
+                    "value": "10"
+                },
+                "reduce": {
+                    "code": "9737",
+                    "name": "宮城沖"
+                },
+                "landOrSea": "海域",
+                "accuracy": {
+                    "epicenters": [
+                        "3",
+                        "3"
+                    ],
+                    "depth": "3",
+                    "magnitudeCalculation": "1",
+                    "numberOfMagnitudeCalculation": "3"
+                }
+            },
+            "magnitude": {
+                "type": "マグニチュード",
+                "value": "5.6",
+                "unit": "Mj"
+            }
+        },
+        "intensity": {
+            "forecastMaxInt": {
+                "from": "4",
+                "to": "4"
+            },
+            "regions": [
+                {
+                    "code": "211",
+                    "name": "岩手県沿岸南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "01"
+                    },
+                    "condition": "既に主要動到達と推測"
+                },
+                {
+                    "code": "213",
+                    "name": "岩手県内陸南部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "01"
+                    },
+                    "condition": "既に主要動到達と推測"
+                },
+                {
+                    "code": "222",
+                    "name": "宮城県中部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "01"
+                    },
+                    "condition": "既に主要動到達と推測"
+                },
+                {
+                    "code": "220",
+                    "name": "宮城県北部",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "4"
+                    },
+                    "isPlum": false,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "01"
+                    },
+                    "condition": "既に主要動到達と推測"
+                }
+            ]
+        }
+    }
+}
