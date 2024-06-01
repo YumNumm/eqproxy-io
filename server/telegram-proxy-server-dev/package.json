@@ -1,0 +1,20 @@
+{
+  "name": "telegram-proxy-server-dev",
+  "module": "index.ts",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@dmdata/api-types": "^2.0.12",
+    "@dmdata/telegram-json-types": "^1.1.14",
+    "@eqproxy-io/eqapi-types-v1": "workspace:*",
+    "@supabase/supabase-js": "^2.41.1"
+  },
+  "scripts": {
+    "build": "bun build index.ts --outfile=server.js --target=bun"
+  }
+}
