@@ -100,7 +100,9 @@ class TestEewService {
               table: "eew",
               errors: [],
             }
-            ws.send(JSON.stringify(broadcastData))
+            const str = JSON.stringify(broadcastData, null, 2)
+            console.log(str)
+            ws.send(str)
           }
           resolve()
         }, diff)
