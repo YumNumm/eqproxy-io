@@ -25,6 +25,7 @@ common:
   replication_factor: 1
   compactor_address: http://backend:3100
   storage:
+    type: s3
     s3:
       endpoint: https://4270d8a14dfc1f866629099a788c93e2.r2.cloudflarestorage.com
       bucketnames: eqserver-logs
@@ -32,6 +33,7 @@ common:
       access_key_id: 2ec7c670a2601dc724d164f71b606e69
       secret_access_key: 27e97f4a034bd3689b4d340f90753f0d14ab366cae429a675d58cc2803cea369
       s3forcepathstyle: true
+      insecure: false
   ring:
     kvstore:
       store: memberlist
