@@ -116,7 +116,7 @@ services:
     volumes:
       - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
     healthcheck:
-      test: ["CMD", "curl", "http://localhost:4030/health"]
+      test: ["CMD", "curl", "http://localhost:4031/health"]
       interval: 5s
       timeout: 10s
       retries: 5
