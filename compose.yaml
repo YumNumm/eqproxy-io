@@ -237,8 +237,6 @@ services:
       - 9095
     volumes:
       - ./loki-config.yaml:/etc/loki/config.yaml
-    depends_on:
-      - minio
     healthcheck:
       test:
         [
@@ -267,8 +265,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    depends_on:
-      - minio
 
   alloy:
     image: grafana/alloy-dev:latest
