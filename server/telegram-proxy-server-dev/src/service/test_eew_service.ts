@@ -34,21 +34,21 @@ class TestEewService {
     for (const path of files) {
       console.log(`Reading ${path}`)
       const content = await Bun.file(`./assets/${message}/${path}`).text()
-      data.push(
-        JSON.parse(
-          JSON.stringify({
-            ...JSON.parse(content),
-            type: "緊急地震速報（地震動予報）",
-            title: "緊急地震速報（地震動予報）",
-          })
-        )
+      var payload: EewInformation.Latest.PublicCommon = JSON.parse(
+        JSON.stringify({
+          ...JSON.parse(content),
+          type: "緊急地震速報（地震動予報）",
+          title: "緊急地震速報（地震動予報）",
+        })
       )
     }
-    const oldestTelegram = data.sort(
-      (a, b) =>
-        new Date(a.pressDateTime).getTime() -
-        new Date(b.pressDateTime).getTime()
-    ).shift()
+    const oldestTelegram = data
+      .sort(
+        (a, b) =>
+          new Date(a.pressDateTime).getTime() -
+          new Date(b.pressDateTime).getTime()
+      )
+      .shift()
 
     if (oldestTelegram === undefined) {
       ws.send(
@@ -67,8 +67,27 @@ class TestEewService {
       console.log(`Waiting ${diff}ms`)
       return new Promise<void>((resolve) => {
         setTimeout(() => {
-          const eewV1 = dmdataEewToV1(data)
+          var eewV1 = dmdataEewToV1(data)
           if (eewV1 !== null) {
+            eewV1.arrival_time =
+              eewV1.arrival_time !== null
+                ? // 足す
+                  new Date(
+                    new Date(eewV1.arrival_time).getTime() + diff
+                  ).toISOString()
+                : null
+            eewV1.report_time =
+              // 足す
+              new Date(
+                new Date(eewV1.report_time).getTime() + diff
+              ).toISOString()
+            eewV1.origin_time =
+              eewV1.origin_time !== null
+                ? // 足す
+                  new Date(
+                    new Date(eewV1.origin_time).getTime() + diff
+                  ).toISOString()
+                : null
             // supabase準拠のPayloadを配信
             const broadcastData: RealtimePostgresChangesPayload<{
               [key: string]: any
