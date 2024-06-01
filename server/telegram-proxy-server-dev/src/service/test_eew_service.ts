@@ -42,13 +42,13 @@ class TestEewService {
         })
       )
     }
+    // 最もpressDateTimeが古いものを取得
     const oldestTelegram = data
+      .filter((data) => data.pressDateTime !== null)
       .sort(
         (a, b) =>
-          new Date(a.pressDateTime).getTime() -
-          new Date(b.pressDateTime).getTime()
-      )
-      .shift()
+          new Date(a.pressDateTime).getTime() - new Date(b.pressDateTime).getTime()
+      )[0]
 
     if (oldestTelegram === undefined) {
       ws.send(
