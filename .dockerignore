@@ -25,3 +25,4 @@ node_modules
 .gitignore
 *.md
 dist
+assets/

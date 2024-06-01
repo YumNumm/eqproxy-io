@@ -98,6 +98,30 @@ services:
       retries: 5
       start_period: 30s
 
+  telegram-proxy-server-dev:
+    build:
+      context: .
+      dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+      - PORT=4031
+    restart: always
+    ports:
+      - 4031:4031
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "3"
+    volumes:
+      - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4030/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
   db:
     container_name: supabase-db
     build: ./db

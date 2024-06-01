@@ -1,0 +1,99 @@
+{
+    "_originalId": "TELEGRAM_ID",
+    "_schema": {
+        "type": "eew-information",
+        "version": "1.0.0"
+    },
+    "type": "緊急地震速報（予報）",
+    "title": "緊急地震速報（予報）",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "大阪管区気象台",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2017-12-13T02:10:04Z",
+    "reportDateTime": "2017-12-13T11:10:04+09:00",
+    "targetDateTime": "2017-12-13T11:10:04+09:00",
+    "eventId": "20171213111005",
+    "serialNo": "1",
+    "infoKind": "緊急地震速報",
+    "infoKindVersion": "1.0_0",
+    "headline": null,
+    "body": {
+        "isLastInfo": false,
+        "isCanceled": false,
+        "isWarning": false,
+        "earthquake": {
+            "originTime": "2017-12-13T11:10:02+09:00",
+            "arrivalTime": "2017-12-13T11:10:05+09:00",
+            "condition": "仮定震源要素",
+            "hypocenter": {
+                "code": "741",
+                "name": "熊本県熊本地方",
+                "coordinate": {
+                    "latitude": {
+                        "text": "32.6˚N",
+                        "value": "32.6000"
+                    },
+                    "longitude": {
+                        "text": "130.7˚E",
+                        "value": "130.7000"
+                    },
+                    "height": {
+                        "type": "高さ",
+                        "unit": "m",
+                        "value": "-10000"
+                    },
+                    "geodeticSystem": "日本測地系"
+                },
+                "depth": {
+                    "type": "深さ",
+                    "unit": "km",
+                    "value": "10"
+                },
+                "reduce": {
+                    "code": "9430",
+                    "name": "熊本県"
+                },
+                "accuracy": {
+                    "epicenters": [
+                        "1",
+                        "1"
+                    ],
+                    "depth": "1",
+                    "magnitudeCalculation": "8",
+                    "numberOfMagnitudeCalculation": "1"
+                }
+            },
+            "magnitude": {
+                "type": "マグニチュード",
+                "value": "1.0",
+                "unit": "Mj"
+            }
+        },
+        "intensity": {
+            "forecastMaxInt": {
+                "from": "4",
+                "to": "4"
+            },
+            "regions": [
+                {
+                    "code": "741",
+                    "name": "熊本県熊本",
+                    "forecastMaxInt": {
+                        "from": "4",
+                        "to": "over"
+                    },
+                    "isPlum": true,
+                    "isWarning": false,
+                    "kind": {
+                        "name": "緊急地震速報（予報）",
+                        "code": "09"
+                    },
+                    "arrivalTime": "2017-12-13T11:10:04+09:00"
+                }
+            ]
+        }
+    }
+}

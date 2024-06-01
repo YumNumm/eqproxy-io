@@ -1,0 +1,83 @@
+{
+    "_originalId": "TELEGRAM_ID",
+    "_schema": {
+        "type": "eew-information",
+        "version": "1.0.0"
+    },
+    "type": "緊急地震速報（予報）",
+    "title": "緊急地震速報（予報）",
+    "status": "通常",
+    "infoType": "発表",
+    "editorialOffice": "気象庁本庁",
+    "publishingOffice": [
+        "気象庁"
+    ],
+    "pressDateTime": "2016-08-01T08:09:06Z",
+    "reportDateTime": "2016-08-01T17:09:06+09:00",
+    "targetDateTime": "2016-08-01T17:09:06+09:00",
+    "eventId": "20160801170904",
+    "serialNo": "1",
+    "infoKind": "緊急地震速報",
+    "infoKindVersion": "1.0_0",
+    "headline": null,
+    "body": {
+        "isLastInfo": false,
+        "isCanceled": false,
+        "isWarning": false,
+        "earthquake": {
+            "arrivalTime": "2016-08-01T17:09:04+09:00",
+            "hypocenter": {
+                "code": "014",
+                "name": "関東甲信地方",
+                "coordinate": {
+                    "latitude": {
+                        "text": "35.3˚N",
+                        "value": "35.3000"
+                    },
+                    "longitude": {
+                        "text": "139.9˚E",
+                        "value": "139.9000"
+                    },
+                    "height": {
+                        "type": "高さ",
+                        "unit": "m",
+                        "value": "-10000"
+                    },
+                    "geodeticSystem": "日本測地系"
+                },
+                "depth": {
+                    "type": "深さ",
+                    "unit": "km",
+                    "value": "10"
+                },
+                "reduce": {
+                    "code": "9120",
+                    "name": "千葉県"
+                },
+                "accuracy": {
+                    "epicenters": [
+                        "1",
+                        "1"
+                    ],
+                    "depth": "1",
+                    "magnitudeCalculation": "8",
+                    "numberOfMagnitudeCalculation": "1"
+                }
+            },
+            "magnitude": {
+                "type": "マグニチュード",
+                "value": null,
+                "unit": "Mj",
+                "condition": "Ｍ不明"
+            }
+        },
+        "intensity": {
+            "forecastMaxInt": {
+                "from": "5-",
+                "to": "over"
+            },
+            "regions": []
+        },
+        "text": "１日１７時０９分０４秒頃千葉県富津市付近　　　　　最大震度５弱程度以上と推定"
+    }
+}
