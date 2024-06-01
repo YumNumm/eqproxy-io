@@ -6,50 +6,7 @@ local.file "endpoints" {
     filename = "/etc/alloy/endpoints.json"
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Metrics scraping
-
-// Scrape Tempo, Mimir, Phlare and Loki
-// We use the prometheus.scrape component and give this a unique label.
-prometheus.scrape "mltpg_infra" {
-    // The targets array allows us to specify which service targets to scrape from.
-    // Define the address to scrape from, and add a 'group' and 'service' label for each target.
-    targets = [
-        //  {"__address__" = "mimir:9009", group = "infrastructure", service = "mimir"},
-        // {"__address__" = "tempo:3200", group = "infrastructure", service = "tempo"},
-        {"__address__" = "loki:3100", group = "infrastructure", service = "loki"},
-        // {"__address__" = "pyroscope:4040", group = "infrastructure", service = "pyroscope"},
-        // {"__address__" = "grafana:3000", group = "infrastructure", service = "grafana"},
-    ]
-
-    // Scrape all of these services every 15 seconds.
-    scrape_interval = "15s"
-    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
-    forward_to = [prometheus.remote_write.mimir.receiver]
-    // The job name to add to the scraped metrics.
-    job_name = "mltpg_infra"
-}
-
-// Scrape the local Alloy itself.
-prometheus.scrape "agent" {
-    // Only one target, the Alloy, it's part of the 'infrastructure' group.
-    targets = [{"__address__" = "localhost:12345", group = "infrastructure", service = "alloy"}]
-    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
-    forward_to = [prometheus.remote_write.mimir.receiver]
-    // Attach job name to the metrics.
-    job_name = "alloy"
-}
-
-// The Alloy exports everything, using an empty block.
-prometheus.exporter.unix "default" {
-}
-
-// This component scrapes the Unix exporter metrics generated above.
-prometheus.scrape "unix" {
-    // Use the Unix prometheus exporter as the target.
-    targets = prometheus.exporter.unix.default.targets
-    // Send the metrics to the prometheus remote write receiver for exporting to Mimir.
-    forward_to = [prometheus.remote_write.mimir.receiver]
-    // Attach job name to the metrics.
-    job_name = "node_exporter"
+logging {
+  level  = "info"
+  format = "logfmt"
 }
