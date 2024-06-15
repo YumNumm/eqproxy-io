@@ -252,37 +252,6 @@ services:
     volumes:
       - ./server/fcm-token-verify/credentials.json:/prod/server/fcm-token-verify/credentials.json:ro
 
-  # Grafana Alloy batches and processes traces sent to it, generating
-  # auto-logs from those traces.
-  # Includes Metrics, Logs, Traces and Profiles.
-  alloy:
-    image: grafana/alloy:v1.1.0
-    ports:
-      - "12347:12345"
-      - "12348:12348"
-      - "6832:6832"
-      - "55679:55679"
-    volumes:
-      - "./alloy/config.alloy:/etc/alloy/config.alloy"
-      - "./alloy/endpoints.json:/etc/alloy/endpoints.json"
-    command:
-      [
-        "run",
-        "--server.http.listen-addr=0.0.0.0:12345",
-        "--stability.level=public-preview",
-        "/etc/alloy/config.alloy",
-      ]
-
-  # The Loki service stores logs sent to it, and takes queries from Grafana
-  # to visualise those logs.
-  loki:
-    image: grafana/loki:3.0.0
-    command:
-      ["--pattern-ingester.enabled=true", "-config.file=/etc/loki/loki.yaml"]
-    ports:
-      - "3100:3100"
-    volumes:
-      - "./loki/loki.yaml:/etc/loki/loki.yaml"
 
 volumes:
   db-config:
