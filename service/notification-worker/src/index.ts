@@ -45,13 +45,21 @@ const sub = rabbit.createConsumer(
         })
         return
       }
-      console.log("Received messages:", JSON.stringify(messages, null, 2))
+      console.dir(messages, { depth: null })
       const response = await firebaseApp.messaging().sendEach(messages)
-      console.log(
-        "Successfully sent message:",
-        JSON.stringify(response, null, 2)
-      )
       await reply(response)
+      if (messages.length !== response.responses.length) {
+        console.error("Some messages were not sent")
+        console.dir({ messages, response }, { depth: null })
+        return
+      }
+      const results = response.responses.map((res, i) => {
+        return {
+          message: messages[i],
+          result: res,
+        }
+      })
+      console.dir(results, { depth: null })
     } catch (err) {
       console.error(err)
       await reply(err, {})

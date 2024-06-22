@@ -145,3 +145,4 @@ volumes/storage
 .env
 test.http
 docker-compose.override.yml
+credentials*

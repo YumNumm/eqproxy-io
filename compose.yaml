@@ -252,6 +252,19 @@ services:
     volumes:
       - ./server/fcm-token-verify/credentials.json:/prod/server/fcm-token-verify/credentials.json:ro
 
+  # gorush:
+  #   image: appleboy/gorush
+  #   restart: always
+  #   volumes:
+  #     - ./config/gorush/gorush.yaml:/home/gorush/config.yml
+  #     - ./config/gorush/credentials.json:/home/gorush/credentials.json
+  #   ports:
+  #     - "8088:8088"
+  #     - "9000:9000"
+  #   logging:
+  #     options:
+  #       max-size: "100k"
+  #       max-file: "3"
 
 volumes:
   db-config:

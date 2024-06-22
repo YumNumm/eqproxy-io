@@ -263,6 +263,7 @@ export class NotifcationService {
           notification: {
             priority: "high",
             visibility: "public",
+            
             channelId:
               telegram.infoKind === "震度速報"
                 ? NotificationChannel.VXSE51

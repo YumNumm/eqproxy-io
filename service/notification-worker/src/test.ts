@@ -7,24 +7,26 @@ const firebaseApp = admin.initializeApp({})
 
 ;(async () => {
   const token =
-    "dayhA_4dQ0-1kSvWdFHgbY:APA91bHBtbAxAEEfkS5y5UdLSzdU70k-lWRjPbTesl6cFN1Fd0kgZr-h-CTDFZ1WMZ5m_cp3SxxGAs58ZPAJXrdRSfz9byI6HbkAdq0W-4Gdb2w44U0wPZ1JbAm71KAT869SChqnBy5h"
+    "e8G6o6QagEYFj7FbQAtz9I:APA91bEhF6BnRYtTT-66n7DQ62jUB3L3vhRocRetIKw_-uTgaRaEmEopEoQdEswmFmPi6TcgNLGqdtjPzezr8n6dDA6YYUib615zENUJ6WDjLyxgIyipJYPmWGyZyRVeAObTpdyZdVbE"
   const messages: TokenMessage[] = [
     {
-      token:
-        "d5_mWkCBzkFRirAxmqnIRW:APA91bG6D8fRrutTMqf7mAnGLoggzJR1Sz0KRMGj_uB3nnPrCPGoBwNBF6IRuAA6xpdDaIbLEZrl1PmYWISVAD-jjdTpLxaNoVhmcZGtVuhV8poRTt9Q7qReiUtBRpxPIRGlUJpLWU1G",
+      token: "",
       notification: {
         title:
           "🚨緊急地震速報(警報) 三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ",
         body: "第23報 M8.4 深さ 10km\n14:46:16発生",
+      },
+      data: {
+        enableDebugMode: "true",
       },
       apns: {
         payload: {
           aps: {
             mutableContent: true,
             sound: {
-              critical: true,
+              critical: false,
               name: "default",
-              volume: 1,
+              volume: 0,
             },
             threadId: "20110311144640",
             contentAvailable: true,
@@ -50,6 +52,7 @@ const firebaseApp = admin.initializeApp({})
         ttl: 0,
       },
     },
+    /*
     {
       token:
         "d5_mWkCBzkFRirAxmqnIRW:APA91bG6D8fRrutTMqf7mAnGLoggzJR1Sz0KRMGj_uB3nnPrCPGoBwNBF6IRuAA6xpdDaIbLEZrl1PmYWISVAD-jjdTpLxaNoVhmcZGtVuhV8poRTt9Q7qReiUtBRpxPIRGlUJpLWU1G",
@@ -85,7 +88,7 @@ const firebaseApp = admin.initializeApp({})
         },
         ttl: 0,
       },
-    },
+    },*/
   ]
   messages.forEach((message) => {
     message.token = token
