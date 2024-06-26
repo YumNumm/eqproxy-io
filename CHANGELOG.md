@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.0.23](https://github.com/YumNumm/eqproxy-io/compare/v0.0.22...v0.0.23) - 2024-06-26
+- 開発用WebSocketサーバの作成 by @YumNumm in https://github.com/YumNumm/eqproxy-io/pull/33
+
 ## [v0.0.22](https://github.com/YumNumm/eqproxy-io/compare/v0.0.21...v0.0.22) - 2024-05-29
 
 ## [v0.0.21](https://github.com/YumNumm/eqproxy-io/compare/v0.0.20...v0.0.21) - 2024-05-26
