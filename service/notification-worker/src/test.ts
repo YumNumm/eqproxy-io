@@ -39,14 +39,14 @@ const firebaseApp = admin.initializeApp({})
         },
       },
       android: {
-        collapseKey: "20110311144640",
+        collapseKey: "20110311144641",
         priority: "high",
         notification: {
           priority: "max",
           body: "予想最大震度6強 予想最大長周期階級4\n三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ\n第23報 M8.4 深さ 10km\n14:46:16発生",
           visibility: "public",
           channelId: "eew_warning",
-          icon: "@mipmap/ic_launcher_foreground",
+          icon: "ic_notification_icon",
         },
         ttl: 0,
       },

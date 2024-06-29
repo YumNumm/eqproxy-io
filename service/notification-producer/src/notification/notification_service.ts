@@ -143,7 +143,7 @@ export class NotifcationService {
                 : message?.isWarning
                   ? NotificationChannel.EEW_WARNING
                   : NotificationChannel.EEW_FORECAST,
-              icon: "@mipmap/ic_launcher_foreground",
+              icon: "ic_notification_icon",
               imageUrl: undefined,
             },
             ttl: 0,
@@ -270,7 +270,7 @@ export class NotifcationService {
                 : telegram.infoKind === "震源速報"
                   ? NotificationChannel.VXSE52
                   : NotificationChannel.VXSE53,
-            icon: "@mipmap/ic_launcher_foreground",
+            icon: "ic_notification_icon",
             imageUrl: undefined,
             body: generateBodyForAndroid(message),
           },
