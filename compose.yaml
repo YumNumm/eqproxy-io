@@ -212,7 +212,7 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: 1m
+        max-size: 50m
         max-file: "3"
 
   notification-worker:
@@ -235,7 +235,7 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: 1m
+        max-size: 50m
         max-file: "3"
 
   fcm-token-verify:
