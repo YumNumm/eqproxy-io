@@ -231,7 +231,7 @@ export class NotifcationService {
     return targetDevices.map((device) => {
       const data: FcmDataPayload = {
         // 画面遷移
-        route: `/earthquake-history-details/${telegram.eventId}`,
+        // route: `/earthquake-history-details/${telegram.eventId}`,
       }
       const m: Message = {
         token: device.fcm_token,
@@ -263,7 +263,7 @@ export class NotifcationService {
           notification: {
             priority: "high",
             visibility: "public",
-            
+
             channelId:
               telegram.infoKind === "震度速報"
                 ? NotificationChannel.VXSE51

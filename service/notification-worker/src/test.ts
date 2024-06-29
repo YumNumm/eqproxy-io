@@ -7,14 +7,13 @@ const firebaseApp = admin.initializeApp({})
 
 ;(async () => {
   const token =
-    "e8G6o6QagEYFj7FbQAtz9I:APA91bEhF6BnRYtTT-66n7DQ62jUB3L3vhRocRetIKw_-uTgaRaEmEopEoQdEswmFmPi6TcgNLGqdtjPzezr8n6dDA6YYUib615zENUJ6WDjLyxgIyipJYPmWGyZyRVeAObTpdyZdVbE"
+    "cZUZLkgJQ6Sibkz0-uXA6m:APA91bEcFPhdi6cpfFks0ewOWhDbBDih1l3el0HBsASzvIIaX-VB9OPaNqRIWcs7ruLeK-Ru82aKE25BfiZghD8iCXNB0Jai9ux1SKZoympzALH3G2V2Mq8qq8gfimI-FyI6BOG_gRIq"
   const messages: TokenMessage[] = [
     {
       token: "",
       notification: {
-        title:
-          "🚨緊急地震速報(警報) 三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ",
-        body: "第23報 M8.4 深さ 10km\n14:46:16発生",
+        title: "テスト通知",
+        body: "第23報",
       },
       data: {
         enableDebugMode: "true",
