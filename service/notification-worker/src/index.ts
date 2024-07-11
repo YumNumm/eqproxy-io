@@ -32,7 +32,7 @@ const sub = rabbit.createConsumer(
       durable: true,
     },
     qos: {
-      prefetchCount: 2,
+      prefetchCount: 8,
     },
   },
   async (msg, reply) => {
