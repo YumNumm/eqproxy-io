@@ -10,7 +10,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node -r newrelic dist/index.js",
     "build:watch": "tsc --project . --watch",
     "dev": "ts-node src/index.ts",
     "typecheck": "tsc --project ./tsconfig.typecheck.json",
@@ -34,19 +34,20 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@eqproxy-io/notification-data": "workspace:^",
+    "@bufbuild/buf": "^1.32.1",
+    "@bufbuild/protobuf": "^1.9.0",
     "@dmdata/api-types": "^2.0.12",
     "@dmdata/telegram-json-types": "^1.1.14",
+    "@eqproxy-io/notification-data": "workspace:^",
     "@pgtyped/runtime": "^2.3.0",
     "@types/pg": "^8.11.6",
     "date-fns": "^3.4.0",
     "firebase-admin": "^12.1.0",
+    "newrelic": "^11.23.1",
     "pg": "^8.11.5",
     "rabbitmq-client": "^4.6.0",
     "slonik": "^45.4.1",
     "ws": "^8.16.0",
-    "zlib": "^1.0.5",
-    "@bufbuild/buf": "^1.32.1",
-    "@bufbuild/protobuf": "^1.9.0"
+    "zlib": "^1.0.5"
   }
 }

@@ -9,7 +9,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node -r newrelic dist/index.js",
     "build:watch": "tsc --project . --watch",
     "dev": "ts-node src/index.ts",
     "typecheck": "tsc --project ./tsconfig.typecheck.json",
@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "firebase-admin": "^12.1.0",
+    "newrelic": "^11.23.1",
     "rabbitmq-client": "^4.6.0"
   }
 }
