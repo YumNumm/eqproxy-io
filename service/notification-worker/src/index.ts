@@ -2,6 +2,7 @@ import { Connection } from "rabbitmq-client"
 import { config } from "./config/config"
 import * as admin from "firebase-admin"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
+import { recordLogEvent } from "newrelic"
 
 export const firebaseApp = admin.initializeApp({})
 
@@ -22,6 +23,9 @@ rabbit.on("error", (err) => {
 
 rabbit.on("connection", () => {
   console.log("Connected to RabbitMQ")
+  recordLogEvent({
+    message: "Connected to RabbitMQ",
+  })
 })
 
 const sub = rabbit.createConsumer(
