@@ -21,11 +21,6 @@ services:
       - 4000:4000
       # Prometheus metrics
       - 4002:4002
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-        max-file: "3"
 
   dmdata-proxy:
     build:
@@ -40,11 +35,6 @@ services:
     restart: always
     ports:
       - 4020:4020
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4020/health"]
       interval: 5s
@@ -62,11 +52,6 @@ services:
     restart: always
     ports:
       - 4010:4010
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4010/health"]
       interval: 5s
@@ -93,11 +78,6 @@ services:
         condition: service_healthy
     ports:
       - 4030:4030
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "http://localhost:4030/health"]
       interval: 5s
@@ -115,11 +95,6 @@ services:
     restart: always
     ports:
       - 4031:4031
-    logging:
-      driver: json-file
-      options:
-        max-size: 1m
-        max-file: "3"
     volumes:
       - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
     healthcheck:
@@ -216,11 +191,6 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
-        max-file: "3"
 
   notification-worker:
     container_name: notification-worker
@@ -239,11 +209,6 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
-        max-file: "3"
 
   fcm-token-verify:
     build:
@@ -268,10 +233,6 @@ services:
   #   ports:
   #     - "8088:8088"
   #     - "9000:9000"
-  #   logging:
-  #     options:
-  #       max-size: "100k"
-  #       max-file: "3"
 
 volumes:
   db-config:
