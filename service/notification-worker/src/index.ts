@@ -45,7 +45,9 @@ const sub = rabbit.createConsumer(
         })
         return
       }
-      console.dir(messages, { depth: null })
+      for (const message of messages) {
+        console.log(JSON.stringify(message))
+      }
       const response = await firebaseApp.messaging().sendEach(messages)
       await reply(response)
       if (messages.length !== response.responses.length) {
@@ -59,7 +61,9 @@ const sub = rabbit.createConsumer(
           result: res,
         }
       })
-      console.dir(results, { depth: null })
+      for (const result of results) {
+        console.log(JSON.stringify(result))
+      }
     } catch (err) {
       console.error(err)
       await reply(err, {})

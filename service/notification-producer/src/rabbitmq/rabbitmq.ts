@@ -9,6 +9,7 @@ export class RabbitService {
   queue = "firebase_cloud_messaging"
 
   async send(messages: Message[]) {
+    const start = Date.now()
     if (!this.pub) {
       throw new Error("RabbitMQ connection not established")
     }
@@ -28,8 +29,17 @@ export class RabbitService {
         )
       )
     )
+    const end = Date.now()
+    const totalInMs = end - start
     for (const result of results) {
-      console.log(JSON.stringify(result))
+      console.log(
+        JSON.stringify({
+          ...result,
+          totalTime: totalInMs,
+          startTime: start,
+          endTime: end,
+        })
+      )
     }
   }
 
