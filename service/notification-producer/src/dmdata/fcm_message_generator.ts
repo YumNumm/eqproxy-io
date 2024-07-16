@@ -215,7 +215,7 @@ class FcmMessageGenerator {
             icon: "@mipmap/ic_launcher_foreground",
             imageUrl: undefined,
           },
-          ttl: 10,
+          ttl: 0,
         },
       })
     }

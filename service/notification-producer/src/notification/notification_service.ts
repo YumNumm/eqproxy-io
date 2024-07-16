@@ -146,7 +146,7 @@ export class NotifcationService {
               icon: "ic_notification_icon",
               imageUrl: undefined,
             },
-            ttl: 10,
+            ttl: 0,
           },
         }
       })
