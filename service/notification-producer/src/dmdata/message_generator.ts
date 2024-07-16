@@ -43,7 +43,6 @@ class MessageGenerator {
     }震度${maxIntName}を観測`
 
     const body = `詳しい情報は追ってお知らせします。`
-    const intensityIcon = telegram.body.intensity.maxInt
     let topics = ["earthquake_all"]
     const maxInt = telegram?.body.intensity?.maxInt
     if (maxInt !== null) {

@@ -146,7 +146,7 @@ export class NotifcationService {
               icon: "ic_notification_icon",
               imageUrl: undefined,
             },
-            ttl: 0,
+            ttl: 10,
           },
         }
       })
@@ -178,6 +178,7 @@ export class NotifcationService {
       })
 
     if (message.maxIntensity !== undefined) {
+      // すべての地震情報を受信するユーザ向けにregion_id: 0 を追加
       regions.push({
         min_jma_intensity: convertJma(message.maxIntensity),
         region_id: 0,

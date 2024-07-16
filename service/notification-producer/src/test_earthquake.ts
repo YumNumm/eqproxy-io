@@ -82,14 +82,14 @@ import {
         collapseKey: telegram.eventId,
         priority: "high",
         notification: {
-          priority:  "high",
+          priority: "high",
           body: generateBodyForAndroid(message),
           visibility: "public",
           channelId: NotificationChannel.VXSE53,
           icon: "@mipmap/ic_launcher_foreground",
           imageUrl: undefined,
         },
-        ttl: 0,
+        ttl: 10,
       },
     }
     if (fcmMessage.token === undefined) {

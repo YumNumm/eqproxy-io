@@ -48,7 +48,7 @@ const firebaseApp = admin.initializeApp({})
           channelId: "eew_warning",
           icon: "ic_notification_icon",
         },
-        ttl: 0,
+        ttl: 10,
       },
     },
     /*
@@ -85,7 +85,7 @@ const firebaseApp = admin.initializeApp({})
           channelId: "VXSE53",
           icon: "@mipmap/ic_launcher_foreground",
         },
-        ttl: 0,
+        ttl: 10,
       },
     },*/
   ]

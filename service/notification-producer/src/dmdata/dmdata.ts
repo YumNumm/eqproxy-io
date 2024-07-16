@@ -71,6 +71,7 @@ class DmdataService {
           console.log(messages)
           if (messages) {
             rabbitService.send(messages)
+            return
           }
         } else if (data.classification == "telegram.earthquake") {
           const body = telegram as EarthquakeInformation.Latest.Main

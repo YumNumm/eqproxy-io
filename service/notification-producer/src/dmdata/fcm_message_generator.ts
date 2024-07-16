@@ -15,7 +15,6 @@ class FcmMessageGenerator {
       | EarthquakeInformation.Latest.PublicVXSE52
       | EarthquakeInformation.Latest.PublicVXSE53
   ): Message[] {
-
     const messages: Message[] = []
     const data: MessageData = {
       page: `/earthquake-history-details//${telegram.eventId}`,
@@ -216,7 +215,7 @@ class FcmMessageGenerator {
             icon: "@mipmap/ic_launcher_foreground",
             imageUrl: undefined,
           },
-          ttl: 0,
+          ttl: 10,
         },
       })
     }
