@@ -28,7 +28,9 @@ export class RabbitService {
         )
       )
     )
-    console.log(results)
+    for (const result of results) {
+      console.log(JSON.stringify(result))
+    }
   }
 
   async start() {

@@ -105,7 +105,9 @@ export class NotifcationService {
       })
 
       const targetDevices = await this.sqlService.fetchEew(regions)
-      console.log(`devices: ${JSON.stringify(targetDevices, null, 2)}`)
+      for (const device of targetDevices) {
+        console.log(`device: ${JSON.stringify(device)}`)
+      }
 
       return targetDevices.map((user) => {
         return {

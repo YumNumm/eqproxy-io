@@ -2,7 +2,6 @@ import { Connection } from "rabbitmq-client"
 import { config } from "./config/config"
 import * as admin from "firebase-admin"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
-import { recordLogEvent } from "newrelic"
 
 export const firebaseApp = admin.initializeApp({})
 

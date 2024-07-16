@@ -3,7 +3,7 @@ x-default-logging: &logging
   options:
     max-size: "5m"
     max-file: "2"
-    tag: "{{.Name}}"
+    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
 services:
   eqproxy-io:

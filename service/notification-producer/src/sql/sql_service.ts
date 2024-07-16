@@ -35,7 +35,11 @@ export class SqlService {
         })
       }
     }
-    console.log(regions)
+    for (const region of regions) {
+      console.log(
+        `Region: ${region.region_id}, Intensity: ${region.min_jma_intensity}`
+      )
+    }
     const result = await fcmEarthquake.run(
       {
         items: regions,
@@ -64,7 +68,6 @@ export class SqlService {
         })
       }
     }
-    console.log(regions)
     const result = await fcmEew.run(
       {
         items: regions,
