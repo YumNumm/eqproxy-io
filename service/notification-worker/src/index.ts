@@ -23,9 +23,6 @@ rabbit.on("error", (err) => {
 
 rabbit.on("connection", () => {
   console.log("Connected to RabbitMQ")
-  recordLogEvent({
-    message: "Connected to RabbitMQ",
-  })
 })
 
 const sub = rabbit.createConsumer(
