@@ -143,6 +143,7 @@ services:
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
       - ./db/postgresql.conf:/etc/postgresql/postgresql.conf:Z
+      - ./logs/db:/var/lib/postgresql/data/log:rw
 
   postgres-exporter:
     container_name: postgres-exporter
@@ -209,6 +210,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    extra_hosts:
+      - mac-mini:100.117.92.56
 
   fcm-token-verify:
     build:
