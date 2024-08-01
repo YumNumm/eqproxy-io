@@ -32,6 +32,7 @@ export class NotifcationService {
     },
     telegram: EewInformation.Latest.PublicCommon | EewInformation.Latest.Cancel
   ): Promise<Message[] | null> {
+    console.log(`type: ${telegram.type}, ${Date()}`)
     if (telegram.type !== "緊急地震速報（地震動予報）") {
       console.log(`type is not 緊急地震速報（地震動予報）: ${telegram.type}`)
       return null
@@ -104,10 +105,12 @@ export class NotifcationService {
         },
       })
 
+      console.log(`get devices start: ${Date()}`)
       const targetDevices = await this.sqlService.fetchEew(regions)
-      for (const device of targetDevices) {
-        console.log(`device: ${JSON.stringify(device)}`)
-      }
+      console.log(`devices count: ${targetDevices.length}`)
+      console.log(`get devices end: ${Date()}`)
+
+      const payloadBinary = gzipSync(payload.toBinary()).toString("base64")
 
       return targetDevices.map((user) => {
         return {
@@ -117,6 +120,11 @@ export class NotifcationService {
             body: message.body.toHalfWidth(),
           },
           apns: {
+            headers: {
+              "apns-priority": "10",
+              "apns-expiration": "0",
+              "apns-push-type": "alert",
+            },
             payload: {
               aps: {
                 mutableContent: true,
@@ -130,7 +138,7 @@ export class NotifcationService {
                 "relevance-score": 1,
                 "interruption-level": "time-sensitive",
               },
-              payload: gzipSync(payload.toBinary()).toString("base64"),
+              payload: payloadBinary,
             },
           },
           android: {
@@ -229,7 +237,8 @@ export class NotifcationService {
     })
 
     const targetDevices = await this.sqlService.fetchEarthquake(regions)
-    console.log(`devices: ${JSON.stringify(targetDevices, null, 2)}`)
+    console.log(`devices count: ${targetDevices.length}`)
+    const payloadBinary = gzipSync(payload.toBinary()).toString("base64")
 
     return targetDevices.map((device) => {
       const data: FcmDataPayload = {
@@ -244,6 +253,11 @@ export class NotifcationService {
         },
         data: data,
         apns: {
+          headers: {
+            "apns-priority": "10",
+            "apns-expiration": "0",
+            "apns-push-type": "alert",
+          },
           payload: {
             aps: {
               mutableContent: true,
@@ -257,7 +271,7 @@ export class NotifcationService {
               "relevance-score": 1,
               "interruption-level": "time-sensitive",
             },
-            payload: gzipSync(payload.toBinary()).toString("base64"),
+            payload: payloadBinary,
           },
         },
         android: {

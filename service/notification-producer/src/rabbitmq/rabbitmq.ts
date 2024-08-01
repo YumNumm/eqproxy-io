@@ -18,7 +18,7 @@ export class RabbitService {
       return
     }
     // 500件ずつ送信
-    const chunked = chunk(messages, 500)
+    const chunked = chunk(messages, 400)
     const results = await Promise.all(
       chunked.map((chunk) =>
         this.pub!.send(
@@ -34,7 +34,7 @@ export class RabbitService {
     for (const result of results) {
       console.log(
         JSON.stringify({
-          ...result,
+          appId: result.appId,
           totalTime: totalInMs,
           startTime: start,
           endTime: end,
