@@ -5,7 +5,7 @@ core:
   port: "8088" # ignore this port number if auto_tls is enabled (listen 443).
   worker_num: 0 # default worker number is runtime.NumCPU()
   queue_num: 0 # default queue number is 8192
-  max_notification: 100
+  max_notification: 10000
   # set true if you need get error message from fail push notification in API response.
   # It only works when the queue engine is local.
   sync: true
@@ -77,8 +77,9 @@ ios:
   team_id: "" # TeamID from developer account (View Account -> Membership)
 
 log:
-  format: "json" # string or json
-  access_log: "logs/access.log" # stdout: output to console, or define log path like "log/access_log"
+  format: "string" # string or json
+  access_log: "stdout" # stdout: output to console, or define log path like "log/access_log"
+  #access_log: "logs/access.log" # stdout: output to console, or define log path like "log/access_log"
   access_level: "debug"
   error_log: "logs/error.log" # stderr: output to console, or define log path like "log/error_log"
   error_level: "error"
