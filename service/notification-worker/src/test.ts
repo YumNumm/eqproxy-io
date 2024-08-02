@@ -47,7 +47,6 @@ const firebaseApp = admin.initializeApp({})
           channelId: "eew_warning",
           icon: "ic_notification_icon",
         },
-        ttl: 0,
       },
     },
     /*

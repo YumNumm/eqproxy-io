@@ -89,7 +89,6 @@ import {
           icon: "@mipmap/ic_launcher_foreground",
           imageUrl: undefined,
         },
-        ,
       },
     }
     if (fcmMessage.token === undefined) {
