@@ -3,7 +3,7 @@
 **/npm-debug.log
 test-resources
 dump
-
+/logs
 ./compose.yaml
 Dockerfile
 .env
