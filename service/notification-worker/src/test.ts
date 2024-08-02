@@ -1,19 +1,20 @@
 import * as admin from "firebase-admin"
 import {
   Message,
+  MulticastMessage,
   TokenMessage,
 } from "firebase-admin/lib/messaging/messaging-api"
 const firebaseApp = admin.initializeApp({})
 
 ;(async () => {
   const token =
-    "cZUZLkgJQ6Sibkz0-uXA6m:APA91bEcFPhdi6cpfFks0ewOWhDbBDih1l3el0HBsASzvIIaX-VB9OPaNqRIWcs7ruLeK-Ru82aKE25BfiZghD8iCXNB0Jai9ux1SKZoympzALH3G2V2Mq8qq8gfimI-FyI6BOG_gRIq"
-  const messages: TokenMessage[] = [
+    "cRTH0xoh_01qg-d6Qya4xO:APA91bETBc_dzMMOa_1fpBFe7liCJKWJ-_03jhcetC3CHEqd7d2fRMPushd992YTPFNIoiqruqBHshS1ZOIe0h_PIlqKzbS1NfJ89ws7S-pDnYXitCmNqKS7Ev-L2mTDwpnFMH1nGOxx"
+  const messages: MulticastMessage[] = [
     {
-      token: "",
+      tokens: [],
       notification: {
         title: "テスト通知",
-        body: "第23報",
+        body: "予想最大震度6強 予想最大長周期階級4\n三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ\n第23報 M8.4 深さ 10km\n14:46:16発生",
       },
       data: {
         enableDebugMode: "true",
@@ -22,15 +23,14 @@ const firebaseApp = admin.initializeApp({})
         payload: {
           aps: {
             mutableContent: true,
-            sound: {
-              critical: false,
-              name: "default",
-              volume: 0,
-            },
+            sound: "default",
             threadId: "20110311144640",
             contentAvailable: true,
             badge: 0,
-            alert: { subtitle: "予想最大震度6強 予想最大長周期階級4" },
+            alert: {
+              subtitle: "予想最大震度6強 予想最大長周期階級4",
+              body: "三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ\n第23報 M8.4 深さ 10km\n14:46:16発生",
+            },
             "relevance-score": 1,
             "interruption-level": "time-sensitive",
           },
@@ -44,7 +44,6 @@ const firebaseApp = admin.initializeApp({})
         notification: {
           priority: "max",
           body: "予想最大震度6強 予想最大長周期階級4\n三陸沖で地震　東北　関東　北陸　甲信　東海　北海道　伊豆諸島　近畿で強い揺れ\n第23報 M8.4 深さ 10km\n14:46:16発生",
-          visibility: "public",
           channelId: "eew_warning",
           icon: "ic_notification_icon",
         },
@@ -90,9 +89,19 @@ const firebaseApp = admin.initializeApp({})
     },*/
   ]
   messages.forEach((message) => {
-    message.token = token
+    message.tokens = [token]
   })
 
-  const result = await firebaseApp.messaging().sendEach(messages)
+  console.log(
+    JSON.stringify([
+      {
+        type: "MulticastMessage",
+        message: messages[0],
+      },
+    ])
+  )
+  return
+
+  const result = await firebaseApp.messaging().sendEachForMulticast(messages[0])
   console.log(result)
 })()
