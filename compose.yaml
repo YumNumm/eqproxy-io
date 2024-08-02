@@ -232,8 +232,9 @@ services:
     image: appleboy/gorush
     restart: always
     volumes:
-      - ./config/gorush/gorush.yaml:/home/gorush/config.yml
-      - ./config/gorush/credentials.json:/home/gorush/credentials.json
+      - ./config/gorush/gorush.yaml:/home/gorush/config.yml:ro
+      - ./config/gorush/credentials.json:/home/gorush/credentials.json:ro
+      - ./logs/gorush:/home/gorush/logs:rw
     ports:
       - "8088:8088"
       - "9000:9000"

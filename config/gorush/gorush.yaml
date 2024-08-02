@@ -78,9 +78,9 @@ ios:
 
 log:
   format: "json" # string or json
-  access_log: "log/access.log" # stdout: output to console, or define log path like "log/access_log"
+  access_log: "logs/access.log" # stdout: output to console, or define log path like "log/access_log"
   access_level: "debug"
-  error_log: "log/error.log" # stderr: output to console, or define log path like "log/error_log"
+  error_log: "logs/error.log" # stderr: output to console, or define log path like "log/error_log"
   error_level: "error"
   hide_token: false
   hide_messages: false
