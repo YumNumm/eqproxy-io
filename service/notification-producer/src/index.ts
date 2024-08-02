@@ -3,16 +3,35 @@ import { dmdataService } from "./dmdata/dmdata"
 import { sqlService } from "./sql/sql_service"
 import { IncomingWebhook } from "@slack/webhook"
 import { config } from "./config/config"
+import { GoRush } from "./gorush/gorush"
+
+import { serve } from "@hono/node-server"
+import { Hono } from "hono"
+
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL)
 
-export const rabbitService = new RabbitService()
+// export const rabbitService = new RabbitService()
+
+export const goRush = new GoRush()
 ;(async () => {
   await sqlService.start()
   console.log("SQL service started")
-  await rabbitService.start()
-  console.log("Notification producer started")
   dmdataService.start()
   console.log("DMData service started")
+
+  const app = new Hono()
+  app.onError((err, c) => {
+    return c.json({ error: err }, 500)
+  })
+  app.get("/", (c) => c.text("Hello Node.js!"))
+  app.post("/push", async (c) => {
+    const json = await c.req.json()
+    console.log(json)
+    const results = await goRush.send(json)
+    return c.json(results)
+  })
+
+  serve(app)
 
   await slackWebhook.send({
     username: process.env.SERVERNAME,
@@ -35,5 +54,4 @@ export const rabbitService = new RabbitService()
       },
     ],
   })
-  
 })()

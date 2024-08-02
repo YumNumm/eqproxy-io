@@ -44,6 +44,7 @@
     "@types/pg": "^8.11.6",
     "date-fns": "^3.4.0",
     "firebase-admin": "^12.1.0",
+    "hono": "^4.1.0",
     "newrelic": "^11.23.1",
     "pg": "^8.11.5",
     "rabbitmq-client": "^4.6.0",

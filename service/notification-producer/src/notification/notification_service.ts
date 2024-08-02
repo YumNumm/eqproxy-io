@@ -20,6 +20,7 @@ import {
 } from "../dmdata/fcm_message_generator"
 import { Timestamp } from "@bufbuild/protobuf"
 import { gzipSync } from "zlib"
+import { GoRushMessage, chunk } from "../gorush/gorush"
 
 export class NotifcationService {
   constructor() {}
@@ -31,7 +32,7 @@ export class NotifcationService {
       isWarning?: boolean | undefined
     },
     telegram: EewInformation.Latest.PublicCommon | EewInformation.Latest.Cancel
-  ): Promise<Message[] | null> {
+  ): Promise<GoRushMessage[] | null> {
     console.log(`type: ${telegram.type}, ${Date()}`)
     if (telegram.type !== "緊急地震速報（地震動予報）") {
       console.log(`type is not 緊急地震速報（地震動予報）: ${telegram.type}`)
@@ -112,51 +113,57 @@ export class NotifcationService {
 
       const payloadBinary = gzipSync(payload.toBinary()).toString("base64")
 
-      return targetDevices.map((user) => {
+      const chunkedTokens = chunk(targetDevices, 400)
+
+      return chunkedTokens.map((users) => {
         return {
-          token: user.fcm_token,
-          notification: {
-            title: message.title.toHalfWidth(),
-            body: message.body.toHalfWidth(),
-          },
-          apns: {
-            headers: {
-              "apns-priority": "10",
-              "apns-expiration": "0",
-              "apns-push-type": "alert",
-            },
-            payload: {
-              aps: {
-                mutableContent: true,
-                sound: "default",
-                threadId: telegram.eventId,
-                contentAvailable: true,
-                badge: 0,
-                alert: {
-                  subtitle: message.subtitle.toHalfWidth(),
-                },
-                "relevance-score": 1,
-                "interruption-level": "time-sensitive",
-              },
-              payload: payloadBinary,
-            },
-          },
-          android: {
-            collapseKey: telegram.eventId,
-            priority: "high",
+          type: "MulticastMessage",
+          message: {
+            tokens: users.map((device) => device.fcm_token),
+
             notification: {
-              priority: message?.isWarning ? "max" : "high",
-              body: generateBodyForAndroid(message),
-              visibility: "public",
-              channelId: message?.isOnePointEew
-                ? NotificationChannel.EEW_LOW_ACCURACY
-                : message?.isWarning
-                  ? NotificationChannel.EEW_WARNING
-                  : NotificationChannel.EEW_FORECAST,
-              icon: "ic_notification_icon",
-              imageUrl: undefined,
+              title: message.title.toHalfWidth(),
+              body: message.body.toHalfWidth(),
             },
-            ttl: 0,
+            apns: {
+              headers: {
+                "apns-priority": "10",
+                "apns-expiration": "0",
+                "apns-push-type": "alert",
+              },
+              payload: {
+                aps: {
+                  mutableContent: true,
+                  sound: "default",
+                  threadId: telegram.eventId,
+                  contentAvailable: true,
+                  badge: 0,
+                  alert: {
+                    subtitle: message.subtitle.toHalfWidth(),
+                  },
+                  "relevance-score": 1,
+                  "interruption-level": "time-sensitive",
+                },
+                payload: payloadBinary,
+              },
+            },
+            android: {
+              collapseKey: telegram.eventId,
+              priority: "high",
+              notification: {
+                priority: message?.isWarning ? "max" : "high",
+                body: generateBodyForAndroid(message),
+                visibility: "public",
+                channelId: message?.isOnePointEew
+                  ? NotificationChannel.EEW_LOW_ACCURACY
+                  : message?.isWarning
+                    ? NotificationChannel.EEW_WARNING
+                    : NotificationChannel.EEW_FORECAST,
+                icon: "ic_notification_icon",
+                imageUrl: undefined,
+              },
+              ttl: 0,
+            },
           },
         }
       })
@@ -170,7 +177,7 @@ export class NotifcationService {
       | EarthquakeInformation.Latest.PublicVXSE51
       | EarthquakeInformation.Latest.PublicVXSE52
       | EarthquakeInformation.Latest.PublicVXSE53
-  ): Promise<Message[] | undefined> {
+  ): Promise<GoRushMessage[] | undefined> {
     if (message.regions == undefined) {
       console.log("regions is undefined")
       return
@@ -239,61 +246,64 @@ export class NotifcationService {
     const targetDevices = await this.sqlService.fetchEarthquake(regions)
     console.log(`devices count: ${targetDevices.length}`)
     const payloadBinary = gzipSync(payload.toBinary()).toString("base64")
+    const chunkedDevices = chunk(targetDevices, 400)
 
-    return targetDevices.map((device) => {
+    return chunkedDevices.map((devices) => {
       const data: FcmDataPayload = {
         // 画面遷移
         // route: `/earthquake-history-details/${telegram.eventId}`,
       }
-      const m: Message = {
-        token: device.fcm_token,
-        notification: {
-          title: message.title.toHalfWidth(),
-          body: message.body.toHalfWidth(),
-        },
-        data: data,
-        apns: {
-          headers: {
-            "apns-priority": "10",
-            "apns-expiration": "0",
-            "apns-push-type": "alert",
-          },
-          payload: {
-            aps: {
-              mutableContent: true,
-              sound: "default",
-              threadId: telegram.eventId,
-              contentAvailable: true,
-              badge: 0,
-              alert: {
-                subtitle: message.subtitle.toHalfWidth(),
-              },
-              "relevance-score": 1,
-              "interruption-level": "time-sensitive",
-            },
-            payload: payloadBinary,
-          },
-        },
-        android: {
-          collapseKey: telegram.eventId,
-          priority: "high",
+      return {
+        type: "MulticastMessage",
+        message: {
+          tokens: devices.map((device) => device.fcm_token),
           notification: {
+            title: message.title.toHalfWidth(),
+            body: message.body.toHalfWidth(),
+          },
+          data: data,
+          apns: {
+            headers: {
+              "apns-priority": "10",
+              "apns-expiration": "0",
+              "apns-push-type": "alert",
+            },
+            payload: {
+              aps: {
+                mutableContent: true,
+                sound: "default",
+                threadId: telegram.eventId,
+                contentAvailable: true,
+                badge: 0,
+                alert: {
+                  subtitle: message.subtitle.toHalfWidth(),
+                },
+                "relevance-score": 1,
+                "interruption-level": "time-sensitive",
+              },
+              payload: payloadBinary,
+            },
+          },
+          android: {
+            collapseKey: telegram.eventId,
             priority: "high",
-            visibility: "public",
+            notification: {
+              priority: "high",
+              visibility: "public",
 
-            channelId:
-              telegram.infoKind === "震度速報"
-                ? NotificationChannel.VXSE51
-                : telegram.infoKind === "震源速報"
-                  ? NotificationChannel.VXSE52
-                  : NotificationChannel.VXSE53,
-            icon: "ic_notification_icon",
-            imageUrl: undefined,
-            body: generateBodyForAndroid(message),
+              channelId:
+                telegram.infoKind === "震度速報"
+                  ? NotificationChannel.VXSE51
+                  : telegram.infoKind === "震源速報"
+                    ? NotificationChannel.VXSE52
+                    : NotificationChannel.VXSE53,
+              icon: "ic_notification_icon",
+              imageUrl: undefined,
+              body: generateBodyForAndroid(message),
+            },
           },
         },
       }
-      return m
     })
   }
 }

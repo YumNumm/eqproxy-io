@@ -6,13 +6,14 @@ import {
   EewInformation,
   TelegramJSONMain,
 } from "@dmdata/telegram-json-types"
-import { rabbitService } from ".."
 import { fcmMessageGenerator } from "./fcm_message_generator"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import { WebSocket } from "ws"
 import { messageGenerator } from "./message_generator"
 import { notificationService } from "../notification/notification_service"
 import { Message as GenMessage } from "./message_generator"
+import { goRush } from ".."
+import { GoRushMessage } from "../gorush/gorush"
 
 class DmdataService {
   async start() {
@@ -60,7 +61,7 @@ class DmdataService {
             body
           )
           if (message) {
-            rabbitService.send(message)
+            goRush.send(message)
           }
 
           // SQL Service
@@ -70,12 +71,12 @@ class DmdataService {
           )
           console.log(messages)
           if (messages) {
-            rabbitService.send(messages)
+            goRush.send(messages)
             return
           }
         } else if (data.classification == "telegram.earthquake") {
           const body = telegram as EarthquakeInformation.Latest.Main
-          var message: Message[]
+          var message: GoRushMessage[]
           if (body.infoType !== "発表") {
             return
           }
@@ -116,7 +117,7 @@ class DmdataService {
             }
           }
           if (message) {
-            rabbitService.send(message)
+            goRush.send(message)
           }
 
           if (
@@ -132,7 +133,7 @@ class DmdataService {
               body
             )
             if (messages) {
-              rabbitService.send(messages)
+              goRush.send(messages)
             }
           }
           // SQL Service
