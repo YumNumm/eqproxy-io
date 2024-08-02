@@ -186,6 +186,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
+      - GO_RUSH_URL=http://gorush:8088
     env_file:
       - .env
     restart: always
