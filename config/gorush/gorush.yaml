@@ -4,7 +4,7 @@ core:
   shutdown_timeout: 30 # default is 30 second
   port: "8088" # ignore this port number if auto_tls is enabled (listen 443).
   worker_num: 0 # default worker number is runtime.NumCPU()
-  queue_num: 0 # default queue number is 8192
+  queue_num: 32768  # default queue number is 8192
   max_notification: 10000
   # set true if you need get error message from fail push notification in API response.
   # It only works when the queue engine is local.
@@ -46,7 +46,7 @@ android:
   enabled: true
   key_path: "/home/gorush/credentials.json" # path to fcm key file
   credential: "" # fcm credential data
-  max_retry: 5 # resend fail notification, default value zero is disabled
+  max_retry: 2 # resend fail notification, default value zero is disabled
 
 queue:
   engine: "local" # support "local", "nsq", "nats" and "redis" default value is "local"
@@ -77,8 +77,8 @@ ios:
   team_id: "" # TeamID from developer account (View Account -> Membership)
 
 log:
-  format: "string" # string or json
-  access_log: "stdout" # stdout: output to console, or define log path like "log/access_log"
+  format: "json" # string or json
+  access_log: "logs/access.log" # stdout: output to console, or define log path like "log/access_log"
   #access_log: "logs/access.log" # stdout: output to console, or define log path like "log/access_log"
   access_level: "debug"
   error_log: "logs/error.log" # stderr: output to console, or define log path like "log/error_log"
