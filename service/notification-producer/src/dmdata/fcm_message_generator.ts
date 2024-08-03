@@ -51,7 +51,6 @@ class FcmMessageGenerator {
             priority: "high",
             notification: {
               priority: "high",
-              visibility: "public",
               channelId:
                 telegram.infoKind === "震度速報"
                   ? NotificationChannel.VXSE51
@@ -108,7 +107,6 @@ class FcmMessageGenerator {
             priority: "high",
             notification: {
               priority: "high",
-              visibility: "public",
               channelId: NotificationChannel.VXSE62,
               icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
@@ -161,7 +159,6 @@ class FcmMessageGenerator {
             priority: "high",
             notification: {
               priority: "high",
-              visibility: "public",
               channelId: NotificationChannel.VZSE40,
               icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
@@ -222,7 +219,6 @@ class FcmMessageGenerator {
             notification: {
               priority: message?.isWarning ? "max" : "high",
               body: generateBodyForAndroid(message),
-              visibility: "public",
               channelId: message?.isOnePointEew
                 ? NotificationChannel.EEW_LOW_ACCURACY
                 : message?.isWarning

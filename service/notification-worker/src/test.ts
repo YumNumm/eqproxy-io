@@ -79,7 +79,6 @@ const firebaseApp = admin.initializeApp({})
         notification: {
           priority: "high",
           body: "１３日２３時０８分頃、福島県沖で地震がありました。 (M7.1 深さ60km)\n最大震度 6強を宮城県などで観測しています\nこの地震により、日本の沿岸では若干の海面変動があるかもしれませんが、被害の心配はありません。\nこの地震について、緊急地震速報を発表しています。",
-          visibility: "public",
           channelId: "VXSE53",
           icon: "@mipmap/ic_launcher_foreground",
         },

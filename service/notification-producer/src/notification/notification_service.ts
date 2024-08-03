@@ -288,7 +288,6 @@ export class NotifcationService {
             priority: "high",
             notification: {
               priority: "high",
-              visibility: "public",
 
               channelId:
                 telegram.infoKind === "震度速報"

@@ -23,7 +23,7 @@ export class GoRush {
   }
 
   async _sendChunk(messages: GoRushMessage[]): Promise<any> {
-    const url = config.GO_RUSH_URL
+    const url = config.GO_RUSH_URL ?? "http://gorush:8088"
     const response = await fetch(url + "/api/push", {
       method: "POST",
       body: JSON.stringify({
@@ -31,11 +31,15 @@ export class GoRush {
           if (message.type === "MulticastMessage") {
             return {
               ...message.message,
+              title: message.message.notification?.title,
+              body: message.message.notification?.body,
               platform: 2,
             }
           } else if (message.type === "TopicMessage") {
             return {
               ...message.message,
+              title: message.message.notification?.title,
+              body: message.message.notification?.body,
               platform: 2,
             }
           }
