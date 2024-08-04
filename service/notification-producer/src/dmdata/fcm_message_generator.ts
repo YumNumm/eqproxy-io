@@ -48,9 +48,8 @@ class FcmMessageGenerator {
           },
           android: {
             collapseKey: telegram.eventId,
-            priority: "high",
+
             notification: {
-              priority: "high",
               channelId:
                 telegram.infoKind === "震度速報"
                   ? NotificationChannel.VXSE51
@@ -104,9 +103,8 @@ class FcmMessageGenerator {
           },
           android: {
             collapseKey: telegram.eventId,
-            priority: "high",
+
             notification: {
-              priority: "high",
               channelId: NotificationChannel.VXSE62,
               icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
@@ -156,9 +154,8 @@ class FcmMessageGenerator {
           },
           android: {
             collapseKey: telegram.eventId,
-            priority: "high",
+
             notification: {
-              priority: "high",
               channelId: NotificationChannel.VZSE40,
               icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
@@ -215,7 +212,7 @@ class FcmMessageGenerator {
           },
           android: {
             collapseKey: telegram.eventId,
-            priority: "high",
+
             notification: {
               priority: message?.isWarning ? "max" : "high",
               body: generateBodyForAndroid(message),

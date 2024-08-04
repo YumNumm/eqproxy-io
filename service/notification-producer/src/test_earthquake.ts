@@ -80,9 +80,7 @@ import {
       },
       android: {
         collapseKey: telegram.eventId,
-        priority: "high",
         notification: {
-          priority: "high",
           body: generateBodyForAndroid(message),
           visibility: "public",
           channelId: NotificationChannel.VXSE53,

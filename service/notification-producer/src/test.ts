@@ -127,7 +127,6 @@ export const goRush = new GoRush()
       },
       android: {
         collapseKey: telegram.eventId,
-        priority: "high",
         notification: {
           priority: message?.isWarning ? "max" : "high",
           body: generateBodyForAndroid(message),

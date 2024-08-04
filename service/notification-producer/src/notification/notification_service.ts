@@ -149,7 +149,7 @@ export class NotifcationService {
             },
             android: {
               collapseKey: telegram.eventId,
-              priority: "high",
+
               notification: {
                 priority: message?.isWarning ? "max" : "high",
                 body: generateBodyForAndroid(message),
@@ -285,10 +285,8 @@ export class NotifcationService {
           },
           android: {
             collapseKey: telegram.eventId,
-            priority: "high",
-            notification: {
-              priority: "high",
 
+            notification: {
               channelId:
                 telegram.infoKind === "震度速報"
                   ? NotificationChannel.VXSE51
