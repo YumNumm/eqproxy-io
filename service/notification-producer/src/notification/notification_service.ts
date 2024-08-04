@@ -153,7 +153,6 @@ export class NotifcationService {
               notification: {
                 priority: message?.isWarning ? "max" : "high",
                 body: generateBodyForAndroid(message),
-                visibility: "public",
                 channelId: message?.isOnePointEew
                   ? NotificationChannel.EEW_LOW_ACCURACY
                   : message?.isWarning
