@@ -137,7 +137,7 @@ import { GoRush, GoRushMessage } from "./gorush/gorush"
             : message?.isWarning
               ? NotificationChannel.EEW_WARNING
               : NotificationChannel.EEW_FORECAST,
-          icon: "ic_notification_icon",
+          icon: "ic_stat_name",
           imageUrl: undefined,
         },
       },

@@ -2,6 +2,8 @@ import { Client } from "pg"
 import { config } from "../config/config"
 import { fcmEarthquake, jma_intensity } from "./fcm/earthquake.queries"
 import { fcmEew } from "./fcm/eew.queries"
+import { allUsers } from "./fcm/all_users.queries"
+import { sql } from "@pgtyped/runtime"
 
 export class SqlService {
   constructor() {
@@ -47,6 +49,12 @@ export class SqlService {
       this.client
     )
     return result
+  }
+
+  async fetchAllUsers() {
+    const fn: () => void = () => { }
+    const result = await allUsers.run(fn(), this.client)
+    return result;
   }
 
   async fetchEew(

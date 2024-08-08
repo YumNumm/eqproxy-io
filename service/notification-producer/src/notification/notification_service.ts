@@ -1,5 +1,6 @@
 import {
   EarthquakeInformation,
+  EarthquakeNankai,
   EewInformation,
 } from "@dmdata/telegram-json-types"
 import { JmaIntensity, SqlService, sqlService } from "../sql/sql_service"
@@ -158,7 +159,7 @@ export class NotifcationService {
                   : message?.isWarning
                     ? NotificationChannel.EEW_WARNING
                     : NotificationChannel.EEW_FORECAST,
-                icon: "ic_notification_icon",
+                icon: "ic_stat_name",
                 imageUrl: undefined,
               },
             },
@@ -292,7 +293,61 @@ export class NotifcationService {
                   : telegram.infoKind === "震源速報"
                     ? NotificationChannel.VXSE52
                     : NotificationChannel.VXSE53,
-              icon: "ic_notification_icon",
+              icon: "ic_stat_name",
+              imageUrl: undefined,
+              body: generateBodyForAndroid(message),
+            },
+          },
+        },
+      }
+    })
+  }
+
+  async handleNankai(
+    message: GenMessage,
+    telegram: EarthquakeNankai.Latest.Main
+  ): Promise<GoRushMessage[] | undefined> {
+    const targetDevices = await this.sqlService.fetchAllUsers()
+    const chunkedDevices = chunk(targetDevices, 400)
+
+    return chunkedDevices.map((devices) => {
+      return {
+        type: "MulticastMessage",
+        message: {
+          tokens: devices.map((device) => device.fcm_token),
+          notification: {
+            title: message.title.toHalfWidth(),
+            body: message.body.toHalfWidth(),
+          },
+          apns: {
+            headers: {
+              "apns-priority": "10",
+              "apns-expiration": "0",
+              "apns-push-type": "alert",
+            },
+            payload: {
+              aps: {
+                mutableContent: true,
+                sound: "default",
+                threadId: telegram.eventId,
+                contentAvailable: true,
+                badge: 0,
+                alert: {
+                  subtitle: message.subtitle.toHalfWidth(),
+                },
+                "relevance-score": 1,
+              },
+            },
+          },
+          android: {
+            collapseKey: telegram.eventId,
+
+            notification: {
+              channelId:
+                telegram.type === "南海トラフ地震臨時情報"
+                  ? NotificationChannel.VYSE50
+                  : NotificationChannel.VYSE51,
+              icon: "ic_stat_name",
               imageUrl: undefined,
               body: generateBodyForAndroid(message),
             },

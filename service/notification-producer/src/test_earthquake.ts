@@ -82,7 +82,6 @@ import {
         collapseKey: telegram.eventId,
         notification: {
           body: generateBodyForAndroid(message),
-          visibility: "public",
           channelId: NotificationChannel.VXSE53,
           icon: "@mipmap/ic_launcher_foreground",
           imageUrl: undefined,

@@ -1,5 +1,6 @@
 import {
   EarthquakeInformation,
+  EarthquakeNankai,
   EewInformation,
 } from "@dmdata/telegram-json-types"
 import { format } from "date-fns"
@@ -327,6 +328,20 @@ class MessageGenerator {
       topics,
       regions: undefined,
       maxIntensity: undefined,
+    }
+  }
+
+  handleNankai(telegram: EarthquakeNankai.Latest.Main): Message {
+    const telegramHeadline = (telegram.headline ?? "").replaceAll("\n　", "")
+    const body =
+      "詳しい情報は、アプリ内「地震・津波に関するお知らせ」からご覧ください"
+    return {
+      title: `${telegram.title} が発表されました`,
+      body: body,
+      maxIntensity: undefined,
+      regions: undefined,
+      subtitle: telegramHeadline,
+      topics: [],
     }
   }
 

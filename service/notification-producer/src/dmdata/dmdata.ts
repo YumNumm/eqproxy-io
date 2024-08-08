@@ -3,6 +3,7 @@ import { config } from "../config/config"
 import * as zlib from "zlib"
 import {
   EarthquakeInformation,
+  EarthquakeNankai,
   EewInformation,
   TelegramJSONMain,
 } from "@dmdata/telegram-json-types"
@@ -75,7 +76,9 @@ class DmdataService {
             return
           }
         } else if (data.classification == "telegram.earthquake") {
-          const body = telegram as EarthquakeInformation.Latest.Main
+          const body = telegram as
+            | EarthquakeInformation.Latest.Main
+            | EarthquakeNankai.Latest.Main
           var message: GoRushMessage[]
           if (body.infoType !== "発表") {
             return
@@ -115,8 +118,18 @@ class DmdataService {
               message = fcmMessageGenerator.handleVxse62(body)
               break
             }
+            case "南海トラフ地震臨時情報":
+            case "南海トラフ地震関連解説情報": {
+              message = []
+              genMessage = messageGenerator.handleNankai(body)
+              break
+            }
+            default: {
+              const neverReached: never = body
+              message = neverReached
+            }
           }
-          if (message) {
+          if (message.length !== 0) {
             goRush.send(message)
           }
 
@@ -135,6 +148,28 @@ class DmdataService {
             if (messages) {
               goRush.send(messages)
             }
+            return
+          }
+          if (
+            body.type === "南海トラフ地震臨時情報" ||
+            body.type === "南海トラフ地震関連解説情報"
+          ) {
+            if (genMessage === undefined) {
+              return
+            }
+            const messages = await notificationService.handleNankai(
+              genMessage,
+              body
+            )
+            if (messages) {
+              goRush.send(messages)
+            }
+            return
+          }
+          if (
+            body.type === "長周期地震動に関する観測情報" ||
+            body.type === "地震・津波に関するお知らせ"
+          ) {
           }
           // SQL Service
         }

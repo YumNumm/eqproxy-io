@@ -1,5 +1,6 @@
 import {
   EarthquakeInformation,
+  EarthquakeNankai,
   EewInformation,
 } from "@dmdata/telegram-json-types"
 import { Message } from "firebase-admin/lib/messaging/messaging-api"
@@ -124,7 +125,7 @@ class FcmMessageGenerator {
     const messages: GoRushMessage[] = []
     const data: MessageData = {
       // TODO(YumNumm): 通知のリンク先を変更する
-      page: `/earthquake-history-details//${telegram.eventId}`,
+      page: `/earthquake-history-details/${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -252,6 +253,8 @@ export enum NotificationChannel {
   EEW_FORECAST = "eew_forecast",
   EEW_LOW_ACCURACY = "eew_low_accuracy",
   EEW_WARNING = "eew_warning",
+  VYSE50 = "VYSE50",
+  VYSE51 = "VYSE51",
 }
 
 export const fcmMessageGenerator = new FcmMessageGenerator()
