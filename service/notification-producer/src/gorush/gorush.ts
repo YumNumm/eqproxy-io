@@ -51,7 +51,8 @@ export class GoRush {
             var replacement = {}
             for (var k in value) {
               if (Object.hasOwnProperty.call(value, k)) {
-                replacement[k && k.charAt(0).toLowerCase() + k.substring(1)] =
+                // camelCase -> snake_case
+                replacement[k && k.replace(/([A-Z])/g, "_$1").toLowerCase()] =
                   value[k]
               }
             }
