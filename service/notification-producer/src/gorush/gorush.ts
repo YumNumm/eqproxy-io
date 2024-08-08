@@ -42,7 +42,7 @@ export class GoRush {
           }
         }
       }),
-    })
+    }).replaceAll("channelId", "channel_id")
     console.log(body)
     const response = await fetch(url + "/api/push", {
       method: "POST",
