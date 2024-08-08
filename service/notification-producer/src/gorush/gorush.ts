@@ -27,25 +27,29 @@ export class GoRush {
     const response = await fetch(url + "/api/push", {
       method: "POST",
       body: JSON.stringify(
-        camelToSnake({
-          notifications: messages.map((message) => {
-            if (message.type === "MulticastMessage") {
-              return {
-                ...message.message,
-                title: message.message.notification?.title,
-                body: message.message.notification?.body,
-                platform: 2,
-              }
-            } else if (message.type === "TopicMessage") {
-              return {
-                ...message.message,
-                title: message.message.notification?.title,
-                body: message.message.notification?.body,
-                platform: 2,
-              }
-            }
-          }),
-        })
+        camelToSnake(
+          JSON.parse(
+            JSON.stringify({
+              notifications: messages.map((message) => {
+                if (message.type === "MulticastMessage") {
+                  return {
+                    ...message.message,
+                    title: message.message.notification?.title,
+                    body: message.message.notification?.body,
+                    platform: 2,
+                  }
+                } else if (message.type === "TopicMessage") {
+                  return {
+                    ...message.message,
+                    title: message.message.notification?.title,
+                    body: message.message.notification?.body,
+                    platform: 2,
+                  }
+                }
+              }),
+            })
+          )
+        )
       ),
     })
     const json = await response.json()
