@@ -19,7 +19,7 @@ class FcmMessageGenerator {
   ): GoRushMessage[] {
     const messages: GoRushMessage[] = []
     const data: MessageData = {
-      page: `/earthquake-history-details//${telegram.eventId}`,
+      // page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -74,7 +74,7 @@ class FcmMessageGenerator {
     const message = messageGenerator.handleVxse62(telegram)
     const messages: GoRushMessage[] = []
     const data: MessageData = {
-      page: `/earthquake-history-details//${telegram.eventId}`,
+      // page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -125,7 +125,7 @@ class FcmMessageGenerator {
     const messages: GoRushMessage[] = []
     const data: MessageData = {
       // TODO(YumNumm): 通知のリンク先を変更する
-      page: `/earthquake-history-details/${telegram.eventId}`,
+      // page: `/earthquake-history-details/${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
@@ -183,7 +183,7 @@ class FcmMessageGenerator {
     }
     const messages: GoRushMessage[] = []
     const data: MessageData = {
-      page: `/earthquake-history-details//${telegram.eventId}`,
+      // page: `/earthquake-history-details//${telegram.eventId}`,
     }
     for (const topic of message.topics) {
       messages.push({
