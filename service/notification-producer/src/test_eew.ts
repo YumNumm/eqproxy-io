@@ -144,7 +144,6 @@ import { GoRush, GoRushMessage } from "./gorush/gorush"
     },
   }
   console.log(JSON.stringify(payload, null, 2))
-  return
   const goRush = new GoRush()
   goRush.send([payload])
 })()

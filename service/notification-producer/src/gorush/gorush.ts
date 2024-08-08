@@ -23,44 +23,30 @@ export class GoRush {
   }
 
   async _sendChunk(messages: GoRushMessage[]): Promise<any> {
-    const url = config.GO_RUSH_URL ?? "http://gorush:8088"
+    const url = config.GO_RUSH_URL ?? "http://srv2-osaka:8088"
+    const body = JSON.stringify({
+      notifications: messages.map((message) => {
+        if (message.type === "MulticastMessage") {
+          return {
+            ...message.message,
+            title: message.message.notification?.title,
+            body: message.message.notification?.body,
+            platform: 2,
+          }
+        } else if (message.type === "TopicMessage") {
+          return {
+            ...message.message,
+            title: message.message.notification?.title,
+            body: message.message.notification?.body,
+            platform: 2,
+          }
+        }
+      }),
+    })
+    console.log(body)
     const response = await fetch(url + "/api/push", {
       method: "POST",
-      body: JSON.stringify(
-        {
-          notifications: messages.map((message) => {
-            if (message.type === "MulticastMessage") {
-              return {
-                ...message.message,
-                title: message.message.notification?.title,
-                body: message.message.notification?.body,
-                platform: 2,
-              }
-            } else if (message.type === "TopicMessage") {
-              return {
-                ...message.message,
-                title: message.message.notification?.title,
-                body: message.message.notification?.body,
-                platform: 2,
-              }
-            }
-          }),
-        },
-        function (key, value) {
-          if (value && typeof value === "object") {
-            var replacement = {}
-            for (var k in value) {
-              if (Object.hasOwnProperty.call(value, k)) {
-                // camelCase -> snake_case
-                replacement[k && k.replace(/([A-Z])/g, "_$1").toLowerCase()] =
-                  value[k]
-              }
-            }
-            return replacement
-          }
-          return value
-        }
-      ),
+      body: body,
     })
     const json = await response.json()
     if (!response.ok) {
