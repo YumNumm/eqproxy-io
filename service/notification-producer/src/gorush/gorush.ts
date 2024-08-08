@@ -27,29 +27,38 @@ export class GoRush {
     const response = await fetch(url + "/api/push", {
       method: "POST",
       body: JSON.stringify(
-        camelToSnake(
-          JSON.parse(
-            JSON.stringify({
-              notifications: messages.map((message) => {
-                if (message.type === "MulticastMessage") {
-                  return {
-                    ...message.message,
-                    title: message.message.notification?.title,
-                    body: message.message.notification?.body,
-                    platform: 2,
-                  }
-                } else if (message.type === "TopicMessage") {
-                  return {
-                    ...message.message,
-                    title: message.message.notification?.title,
-                    body: message.message.notification?.body,
-                    platform: 2,
-                  }
-                }
-              }),
-            })
-          )
-        )
+        {
+          notifications: messages.map((message) => {
+            if (message.type === "MulticastMessage") {
+              return {
+                ...message.message,
+                title: message.message.notification?.title,
+                body: message.message.notification?.body,
+                platform: 2,
+              }
+            } else if (message.type === "TopicMessage") {
+              return {
+                ...message.message,
+                title: message.message.notification?.title,
+                body: message.message.notification?.body,
+                platform: 2,
+              }
+            }
+          }),
+        },
+        function (key, value) {
+          if (value && typeof value === "object") {
+            var replacement = {}
+            for (var k in value) {
+              if (Object.hasOwnProperty.call(value, k)) {
+                replacement[k && k.charAt(0).toLowerCase() + k.substring(1)] =
+                  value[k]
+              }
+            }
+            return replacement
+          }
+          return value
+        }
       ),
     })
     const json = await response.json()
@@ -78,31 +87,3 @@ export type GoRushMessage =
       type: "TopicMessage"
       message: TopicMessage
     }
-
-// ObjectもしくはObject[] を受け取り、snake_caseに変換したObjectもしくはObject[]を返す
-const camelToSnake = (json: any): any => {
-  if (!json) {
-    throw new Error("json is null")
-  }
-
-  if (typeof json === "string") {
-    return json.replace(/([A-Z])/g, "_$1").toLowerCase()
-  }
-
-  if (typeof json !== "object") {
-    throw new Error("json is not object")
-  }
-
-  if (Array.isArray(json)) {
-    return json.map((v) => camelToSnake(v))
-  }
-
-  const output = {}
-  Object.keys(json).forEach((k) => {
-    const value = json[k]
-    const newKey = camelToSnake(k)
-    output[newKey] = camelToSnake(value)
-  })
-
-  return output
-}
