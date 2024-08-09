@@ -23,7 +23,7 @@ export class GoRush {
   }
 
   async _sendChunk(messages: GoRushMessage[]): Promise<any> {
-    const url = config.GO_RUSH_URL ?? "http://srv2-osaka:8088"
+    const url = config.GO_RUSH_URL ?? "http://gorush:8088"
     const body = JSON.stringify({
       notifications: messages.map((message) => {
         if (message.type === "MulticastMessage") {
