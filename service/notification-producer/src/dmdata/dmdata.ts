@@ -118,10 +118,13 @@ class DmdataService {
               message = fcmMessageGenerator.handleVxse62(body)
               break
             }
-            case "南海トラフ地震臨時情報":
-            case "南海トラフ地震関連解説情報": {
+            case "南海トラフ地震臨時情報": {
               message = []
               genMessage = messageGenerator.handleNankai(body)
+              break
+            }
+            case "南海トラフ地震関連解説情報": {
+              message = []
               break
             }
             default: {
