@@ -31,6 +31,18 @@ export class GoRush {
             ...message.message,
             title: message.message.notification?.title,
             body: message.message.notification?.body,
+            android:
+              message.message.android !== undefined
+                ? {
+                    ...message.message.android,
+                    notification: message.message.android.notification
+                      ? {
+                          ...message.message.android.notification,
+                          color: "#0000FF",
+                        }
+                      : undefined,
+                  }
+                : undefined,
             platform: 2,
           }
         } else if (message.type === "TopicMessage") {
@@ -38,6 +50,18 @@ export class GoRush {
             ...message.message,
             title: message.message.notification?.title,
             body: message.message.notification?.body,
+            android:
+              message.message.android !== undefined
+                ? {
+                    ...message.message.android,
+                    notification: message.message.android.notification
+                      ? {
+                          ...message.message.android.notification,
+                          color: "#0000FF",
+                        }
+                      : undefined,
+                  }
+                : undefined,
             platform: 2,
           }
         }

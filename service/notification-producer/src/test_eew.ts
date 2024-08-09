@@ -101,7 +101,10 @@ import { GoRush, GoRushMessage } from "./gorush/gorush"
   const payload: GoRushMessage = {
     type: "MulticastMessage",
     message: {
-      tokens: [token],
+      tokens: [
+        token,
+        "fbQjl4FTTROahYqt5hBpae:APA91bEi3mjhZ_4adIV6KfCQ5rOL9TQvU97gVG6nwFmNKQV7vuhkLp6ndh1LWmJnT4HEah4IHRHL39V52nvumXiLo2BmVrtzk6Kgkj7z2YuZlFPWqiDvcqjT03XsyppwaOpV7HFjeL9J",
+      ],
 
       notification: {
         title: message.title.toHalfWidth(),
@@ -137,7 +140,7 @@ import { GoRush, GoRushMessage } from "./gorush/gorush"
             : message?.isWarning
               ? NotificationChannel.EEW_WARNING
               : NotificationChannel.EEW_FORECAST,
-          icon: "ic_stat_name",
+          icon: "@mipmap/ic_launcher_foreground",
           imageUrl: undefined,
         },
       },

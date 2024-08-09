@@ -159,7 +159,7 @@ export class NotifcationService {
                   : message?.isWarning
                     ? NotificationChannel.EEW_WARNING
                     : NotificationChannel.EEW_FORECAST,
-                icon: "ic_stat_name",
+                icon: "@mipmap/ic_launcher_foreground",
                 imageUrl: undefined,
               },
             },
@@ -293,7 +293,7 @@ export class NotifcationService {
                   : telegram.infoKind === "震源速報"
                     ? NotificationChannel.VXSE52
                     : NotificationChannel.VXSE53,
-              icon: "ic_stat_name",
+              icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
               body: generateBodyForAndroid(message),
             },
@@ -347,7 +347,7 @@ export class NotifcationService {
                 telegram.type === "南海トラフ地震臨時情報"
                   ? NotificationChannel.VYSE50
                   : NotificationChannel.VYSE51,
-              icon: "ic_stat_name",
+              icon: "@mipmap/ic_launcher_foreground",
               imageUrl: undefined,
               body: generateBodyForAndroid(message),
             },
