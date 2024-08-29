@@ -119,7 +119,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - WEBSOCKET_URL=ws://shake-detect-service:8181
-      - GORUSH_URL=http://gorush:8088
+      - GO_RUSH_URL=http://gorush:8088
     networks:
       - external
 
@@ -215,6 +215,8 @@ services:
     ports:
       - "8088:8088"
       - "9000:9000"
+    networks:
+      - external
 
 volumes:
   db-config:
