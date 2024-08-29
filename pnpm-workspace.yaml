@@ -6,3 +6,4 @@ packages:
   - "!service/supabase-proxy" # Bun
   - "!server/telegram-proxy-server" # Bun
   - "!server/telegram-proxy-server-dev" # Bun
+  - "!service/shake-reciever" # Bun
