@@ -35,7 +35,7 @@ export class NotificationService {
         : `${maxIntensityRegion[0].name} など`
     const maxIntensityTitle = convertIntensityTostring(data.maxIntensity)
 
-    const result: GoRushMessage[] = [
+    const request: GoRushMessage[] = [
       {
         type: "MulticastMessage",
         message: {
@@ -54,7 +54,7 @@ export class NotificationService {
               "apns-expiration": "0",
               "apns-push-type": "alert",
             },
-            payload: {
+             payload: {
               aps: {
                 mutableContent: true,
                 sound: "default",
@@ -79,7 +79,7 @@ export class NotificationService {
       },
     ]
 
-    return result
+    return request
   }
 
   onEventAllCleared(): void {

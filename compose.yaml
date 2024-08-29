@@ -122,6 +122,7 @@ services:
       - GORUSH_URL=http://gorush:8088
     networks:
       - external
+
   db:
     image: db:${TAG}
     container_name: supabase-db
