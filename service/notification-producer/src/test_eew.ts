@@ -96,18 +96,18 @@ import { GoRush, GoRushMessage } from "./gorush/gorush"
 
   const message = messageGenerator.handleEew(json as any)!
   const token =
-    "cRTH0xoh_01qg-d6Qya4xO:APA91bETBc_dzMMOa_1fpBFe7liCJKWJ-_03jhcetC3CHEqd7d2fRMPushd992YTPFNIoiqruqBHshS1ZOIe0h_PIlqKzbS1NfJ89ws7S-pDnYXitCmNqKS7Ev-L2mTDwpnFMH1nGOxx"
+    "dpTSSkXGKEi7nGg-RFjbeC:APA91bHSa0kUMf55uR5KH_Ac8tc-R5wcA09w08AizItXsZdyjQx4CwmCtV8HORqp3XmYBZrBWjqsBYjR6ksQaXZd5sCdZgunlHaJ-DaAGOdSEiyWeNI_4Zw1alN9qHhu6iycziTEGK93"
 
   const payload: GoRushMessage = {
     type: "MulticastMessage",
     message: {
-      tokens: [
-        token,
-        "fbQjl4FTTROahYqt5hBpae:APA91bEi3mjhZ_4adIV6KfCQ5rOL9TQvU97gVG6nwFmNKQV7vuhkLp6ndh1LWmJnT4HEah4IHRHL39V52nvumXiLo2BmVrtzk6Kgkj7z2YuZlFPWqiDvcqjT03XsyppwaOpV7HFjeL9J",
-      ],
+      tokens: [token],
+      data: {
+        enableDebugMode: "true",
+      },
 
       notification: {
-        title: message.title.toHalfWidth(),
+        title: "[テスト] " + message.title.toHalfWidth(),
         body: message.body.toHalfWidth(),
       },
       apns: {
