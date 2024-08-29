@@ -14,15 +14,15 @@ FROM base as cache
 COPY . .
 RUN bun install
 
-WORKDIR /usr/src/app/server/shake-reciever
+WORKDIR /usr/src/app/service/shake-reciever
 ENV NODE_ENV=production
 RUN bun install
 RUN bun run build
 
 # copy production dependencies and source code into final image
 FROM base
-COPY --from=cache /usr/src/app/server/shake-reciever/package.json .
-COPY --from=cache /usr/src/app/server/shake-reciever/server.js .
+COPY --from=cache /usr/src/app/service/shake-reciever/package.json .
+COPY --from=cache /usr/src/app/service/shake-reciever/server.js .
 COPY --from=cache /usr/src/app/node_modules ./node_modules
 
 # run the app
