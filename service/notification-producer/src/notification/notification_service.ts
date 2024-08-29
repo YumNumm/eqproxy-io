@@ -4,7 +4,6 @@ import {
   EewInformation,
 } from "@dmdata/telegram-json-types"
 import { JmaIntensity, SqlService, sqlService } from "../sql/sql_service"
-import { Message } from "firebase-admin/lib/messaging/messaging-api"
 import {
   NotificationPayload,
   NotificationPayload_EewRegionIntensity,
@@ -12,7 +11,6 @@ import {
   JmaIntensity as NotificationPayload_JmaIntensity,
 } from "@eqproxy-io/notification-data"
 import {
-  messageGenerator,
   Message as GenMessage,
 } from "../dmdata/message_generator"
 import {

@@ -1,4 +1,3 @@
-import { RabbitService } from "./rabbitmq/rabbitmq"
 import { dmdataService } from "./dmdata/dmdata"
 import { sqlService } from "./sql/sql_service"
 import { IncomingWebhook } from "@slack/webhook"
