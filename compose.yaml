@@ -22,6 +22,8 @@ services:
       - 4000:4000
       # Prometheus metrics
       - 4002:4002
+    networks:
+      - external
 
   dmdata-proxy:
     image: dmdata-proxy:${TAG}
@@ -43,6 +45,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - external
 
   supabase-proxy:
     image: supabase-proxy:${TAG}
@@ -61,6 +65,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - external
 
   telegram-proxy-server:
     image: telegram-proxy-server:${TAG}
@@ -88,6 +94,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - external
 
   telegram-proxy-server-dev:
     image: telegram-proxy-server-dev:${TAG}
@@ -108,6 +116,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - external
 
   shake-reciever:
     image: shake-reciever:${TAG}
@@ -164,6 +174,8 @@ services:
       - db-config:/etc/postgresql-custom
       - ./db/postgresql.conf:/etc/postgresql/postgresql.conf:Z
       - ./logs/db:/var/lib/postgresql/data/log:rw
+    networks:
+      - external
 
   postgres-exporter:
     container_name: postgres-exporter
@@ -173,6 +185,8 @@ services:
       - .env
     ports:
       - 9187:9187
+    networks:
+      - external
 
   notification-producer:
     image: notification-producer:${TAG}
@@ -189,6 +203,8 @@ services:
     restart: always
     depends_on:
       - gorush
+    networks:
+      - external
 
   fcm-token-verify:
     image: fcm-token-verify:${TAG}
@@ -204,6 +220,8 @@ services:
       - 8020:3000
     volumes:
       - ./server/fcm-token-verify/credentials.json:/prod/server/fcm-token-verify/credentials.json:ro
+    networks:
+      - external
 
   gorush:
     image: appleboy/gorush
