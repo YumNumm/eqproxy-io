@@ -43,7 +43,7 @@ export class NotificationService {
           notification: {
             title: `揺れを検知しました`,
             body:
-              `${maxIntensityTitle}相当を${maxIntensityRegionName}で検出しました\n` +
+              `震度${maxIntensityTitle}相当を${maxIntensityRegionName}で検出しました\n` +
               `観測点数: ${data.pointCount}\n` +
               `検出時刻: ${data.createdAt.slice(0, 16)}頃\n` +
               `eventId: ${data.id}\n`,
