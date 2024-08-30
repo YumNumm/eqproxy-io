@@ -53,7 +53,10 @@ const goRush = new GoRush()
   ws.onmessage = (event) => {
     logger.info("WebSocket message received:", event.data)
 
-    const data = v.parse(v.array(KyoshinEventTelegramSchema), event.data)
+    const data = v.parse(
+      v.array(KyoshinEventTelegramSchema),
+      JSON.parse(event.data)
+    )
     if (data.length === 0) {
       logger.debug("Event is empty")
       notificationService.onEventAllCleared()
