@@ -43,10 +43,10 @@ export class NotificationService {
           notification: {
             title: `揺れを検知しました`,
             body:
-              `震度${maxIntensityTitle}相当を${maxIntensityRegionName}で検出しました\n` +
-              `eventId: ${data.id}\n` +
-              `検出時刻: ${data.createdAt}\n` +
-              `観測点数: ${data.pointCount}`,
+              `${maxIntensityTitle}相当を${maxIntensityRegionName}で検出しました\n` +
+              `観測点数: ${data.pointCount}\n` +
+              `検出時刻: ${data.createdAt.slice(0, 16)}頃\n` +
+              `eventId: ${data.id}\n`,
           },
           apns: {
             headers: {
@@ -54,7 +54,7 @@ export class NotificationService {
               "apns-expiration": "0",
               "apns-push-type": "alert",
             },
-             payload: {
+            payload: {
               aps: {
                 mutableContent: true,
                 sound: "default",
@@ -127,25 +127,25 @@ function convertIntensityTostring(
 ): string {
   switch (intensity) {
     case "Int0":
-      return "震度0"
+      return "0"
     case "Int1":
-      return "震度1"
+      return "1"
     case "Int2":
-      return "震度2"
+      return "2"
     case "Int3":
-      return "震度3"
+      return "3"
     case "Int4":
-      return "震度4"
+      return "4"
     case "Int5Lower":
-      return "震度5弱"
+      return "5弱"
     case "Int5Upper":
-      return "震度5強"
+      return "5強"
     case "Int6Lower":
-      return "震度6弱"
+      return "6弱"
     case "Int6Upper":
-      return "震度6強"
+      return "6強"
     case "Int7":
-      return "震度7"
+      return "7"
     case "Error":
       return "エラー"
     case "Unknown":
