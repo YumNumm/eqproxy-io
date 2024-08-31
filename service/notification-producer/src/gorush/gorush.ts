@@ -67,7 +67,6 @@ export class GoRush {
         }
       }),
     }).replaceAll("channelId", "channel_id")
-    console.log(body)
     const response = await fetch(url + "/api/push", {
       method: "POST",
       body: body,
@@ -78,7 +77,6 @@ export class GoRush {
       console.error(JSON.stringify(json, null, 2))
       return
     }
-    console.log(JSON.stringify(json, null, 2))
     return json
   }
 }
