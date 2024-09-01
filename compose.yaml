@@ -80,6 +80,7 @@ services:
       - PORT=4030
       - SUPABASE_PROXY_URL=ws://supabase-proxy:4010/ws
       - DMDATA_PROXY_URL=ws://dmdata-proxy:4020/ws
+      - SHAKE_DETECT_PROXY_URL=ws://shake-detect-service:8181
     restart: always
     depends_on:
       supabase-proxy:
