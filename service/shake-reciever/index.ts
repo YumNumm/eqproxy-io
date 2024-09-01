@@ -4,6 +4,7 @@ import { KyoshinEventTelegramSchema } from "./src/models/kyoshin_event"
 import { createLogger, transports, format, debug } from "winston"
 import { NotificationService } from "./src/service/notification_service"
 import { GoRush } from "./src/gorush/gorush"
+import { supabaseService } from "./src/service/supabase_service"
 
 export const debugTokens = [
   `dpTSSkXGKEi7nGg-RFjbeC:APA91bHSa0kUMf55uR5KH_Ac8tc-R5wcA09w08AizItXsZdyjQx4CwmCtV8HORqp3XmYBZrBWjqsBYjR6ksQaXZd5sCdZgunlHaJ-DaAGOdSEiyWeNI_4Zw1alN9qHhu6iycziTEGK93`,
@@ -58,6 +59,7 @@ const goRush = new GoRush()
     if (data.length === 0) {
       logger.debug("Event is empty")
       notificationService.onEventAllCleared()
+      supabaseService.onEventAllCleared()
       return
     }
     for (const telegram of data) {
@@ -65,6 +67,7 @@ const goRush = new GoRush()
       if (messages) {
         goRush.send(messages)
       }
+      supabaseService.handleShakeDetection(telegram)
     }
   }
 
