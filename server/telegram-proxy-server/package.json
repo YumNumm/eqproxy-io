@@ -12,7 +12,8 @@
     "@dmdata/api-types": "^2.0.12",
     "@dmdata/telegram-json-types": "^1.1.14",
     "@eqproxy-io/eqapi-types-v1": "workspace:*",
-    "@supabase/supabase-js": "^2.41.1"
+    "@supabase/supabase-js": "^2.41.1",
+    "valibot": "0.31.0-rc.1"
   },
   "scripts": {
     "build": "bun build index.ts --outfile=server.js --target=bun"
