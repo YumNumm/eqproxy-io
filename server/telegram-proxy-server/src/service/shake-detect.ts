@@ -55,8 +55,8 @@ export async function startListeningShakeDetectProxy() {
       eventType: "INSERT",
       new: converted,
       old: {},
-      schema: "internal",
-      table: "shake_detection",
+      schema: "public",
+      table: "shake_detection_events",
       errors: [],
     }
 
