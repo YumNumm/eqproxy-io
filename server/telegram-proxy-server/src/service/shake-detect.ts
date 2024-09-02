@@ -6,6 +6,7 @@ import {
   RealtimePostgresDeletePayload,
   RealtimePostgresInsertPayload,
 } from "@supabase/supabase-js"
+import { Database } from "@eqproxy-io/eqapi-types-v1"
 
 export async function startListeningShakeDetectProxy() {
   const url = new URL(config.SHAKE_DETECT_PROXY_URL)
@@ -21,12 +22,20 @@ export async function startListeningShakeDetectProxy() {
 
     const data = v.parse(v.array(KyoshinEventTelegramSchema), json)
 
-    const converted: v.InferOutput<typeof KyoshinEventWebSocketSchema> =
+    const converted: Database["public"]["Tables"]["shake_detection_events"]["Row"][] =
       data.map((t) => {
-        return {
-          id: t.id,
+        const r: Database["public"]["Tables"]["shake_detection_events"]["Row"] & {
+          regions: v.InferOutput<typeof region>
+          top_left: v.InferOutput<typeof location>
+          bottom_right: v.InferOutput<typeof location>
+        } = {
+          event_id: t.id,
+          id: -1,
+          inserted_at: new Date().toISOString(),
+          serial_no: -1,
           created_at: t.createdAt,
           point_count: t.pointCount,
+
           max_intensity: convertIntensity(t.maxIntensity),
           regions: t.regions.map((r) => {
             return {
@@ -49,6 +58,7 @@ export async function startListeningShakeDetectProxy() {
             longitude: t.bottomRight.Longitude,
           },
         }
+        return r
       })
 
     if (converted.length === 0) {
@@ -86,27 +96,10 @@ export async function startListeningShakeDetectProxy() {
   }
 }
 
-const intensity = v.picklist([
-  "Unknown",
-  "0",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5-",
-  "5+",
-  "6-",
-  "6+",
-  "7",
-  "Error",
-])
-
 function convertIntensity(
   input: v.InferInput<typeof KyoshinEventTelegramSchema>["maxIntensity"]
-): v.InferOutput<typeof intensity> {
+): Database["public"]["Enums"]["jma_intensity"] {
   switch (input) {
-    case "Unknown":
-      return "Unknown"
     case "Int0":
       return "0"
     case "Int1":
@@ -128,9 +121,13 @@ function convertIntensity(
     case "Int7":
       return "7"
     case "Error":
-      return "Error"
-    case undefined:
-      throw new Error("Intensity is undefined")
+    case "Unknown": {
+      throw new Error("Intensity is unknown")
+    }
+    default: {
+      const _: never = input
+      return _
+    }
   }
 }
 
@@ -139,25 +136,29 @@ const location = v.object({
   longitude: v.number(),
 })
 
-const KyoshinEventWebSocketSchema = v.array(
+const intensity = v.picklist([
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "!5-",
+  "5-",
+  "5+",
+  "6-",
+  "6+",
+  "7",
+])
+
+const region = v.array(
   v.object({
-    id: v.string(),
-    created_at: v.string(),
-    point_count: v.number(),
-    max_intensity: intensity,
-    regions: v.array(
+    name: v.string(),
+    maxIntensity: intensity,
+    points: v.array(
       v.object({
-        name: v.string(),
-        maxIntensity: intensity,
-        points: v.array(
-          v.object({
-            intensity: intensity,
-            code: v.string(),
-          })
-        ),
+        intensity: intensity,
+        code: v.string(),
       })
     ),
-    top_left: location,
-    bottom_right: location,
   })
 )
