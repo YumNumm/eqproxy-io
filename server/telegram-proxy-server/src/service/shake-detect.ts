@@ -2,7 +2,10 @@ import { config } from "../config/config"
 import * as v from "valibot"
 import { KyoshinEventTelegramSchema } from "../models/kyoshin_event"
 import { broadcast } from "../.."
-import { RealtimePostgresInsertPayload } from "@supabase/supabase-js"
+import {
+  RealtimePostgresDeletePayload,
+  RealtimePostgresInsertPayload,
+} from "@supabase/supabase-js"
 
 export async function startListeningShakeDetectProxy() {
   const url = new URL(config.SHAKE_DETECT_PROXY_URL)
@@ -48,12 +51,31 @@ export async function startListeningShakeDetectProxy() {
         }
       })
 
+    if (converted.length === 0) {
+      const broadcastData: RealtimePostgresDeletePayload<{
+        [key: string]: any
+      }> = {
+        commit_timestamp: new Date().toISOString(),
+        eventType: "DELETE",
+        errors: [],
+        new: {},
+        old: {},
+        schema: "public",
+        table: "shake_detection_events",
+      }
+
+      broadcast(broadcastData)
+      return
+    }
+
     const broadcastData: RealtimePostgresInsertPayload<{
       [key: string]: any
     }> = {
       commit_timestamp: new Date().toISOString(),
       eventType: "INSERT",
-      new: converted,
+      new: {
+        events: converted,
+      },
       old: {},
       schema: "public",
       table: "shake_detection_events",
