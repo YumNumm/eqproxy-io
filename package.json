@@ -7,7 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  },
   "workspaces": [
     "packages/*",
     "server/*",
