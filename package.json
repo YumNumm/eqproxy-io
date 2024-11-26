@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
-    "@biomejs/biome": "1.9.4"
+    "@biomejs/biome": "1.9.4",
+    "turbo": "^2.3.2"
   },
   "workspaces": [
     "packages/*",
