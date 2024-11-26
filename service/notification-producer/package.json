@@ -16,21 +16,18 @@
     "typecheck": "tsc --project ./tsconfig.typecheck.json",
     "typecheck:watch": "tsc --project ./tsconfig.typecheck.json --watch",
     "test": "jest",
-    "format": "prettier --write src test",
     "sql": "pgtyped --connection-string $DATABASE_URL -c ./config.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@eqproxy-io/eslint-config": "workspace:^",
     "@eqproxy-io/ts-config": "workspace:^",
     "@pgtyped/cli": "^2.3.0",
     "@types/amqplib": "^0.10.5",
     "@types/jest": "^29.5.12",
     "@types/ws": "^8.5.10",
     "jest": "^29.7.0",
-    "prettier": "^3.2.5",
     "typescript": "^5.4.2"
   },
   "dependencies": {
