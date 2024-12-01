@@ -1,28 +1,36 @@
-FROM node:20-slim AS base
+FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN apk update
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
+
+FROM base AS builder
 WORKDIR /app
-# Install curl
-RUN apt-get update && \
-    apt-get install -y curl python3 python3-pip python3-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-FROM base AS build
+RUN pnpm install -g turbo@^2
 COPY . .
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run -r build
+RUN turbo prune @eqproxy-io/eqproxy-io --docker
 
-RUN pnpm --filter @eqproxy-io/eqproxy-io deploy --prod deploy/eqproxy-io
+FROM base AS installer
 
-FROM base AS dmdata-proxy
-COPY --from=build /app/deploy/eqproxy-io/node_modules/ /app/deploy/eqproxy-io/node_modules/
-COPY --from=build /app/deploy/eqproxy-io/dist/ /app/deploy/eqproxy-io/dist/
-COPY --from=build /app/deploy/eqproxy-io/package.json /app/deploy/eqproxy-io/package.json
-WORKDIR /app/deploy/eqproxy-io
-ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true \
-    NEW_RELIC_LOG=stdout \
-    NODE_ENV=production
-CMD ["pnpm", "start"]
+WORKDIR /app
 
+# First install dependencies (as they change less often)
+COPY --from=builder /app/out/json/ .
+RUN pnpm install
+
+# Build the project and its dependencies
+COPY --from=builder /app/out/full/ .
+
+RUN pnpm turbo build
+
+FROM base AS runner
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 js
+RUN adduser --system --uid 1001 js
+USER js
+COPY --from=installer /app .
+
+CMD node server/eqproxy-io

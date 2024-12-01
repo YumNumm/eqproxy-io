@@ -7,10 +7,10 @@ x-default-logging: &logging
 
 services:
   eqproxy-io:
-    image: eqproxy-io:${TAG}
+    image: eqproxy-io
     build:
       context: .
-      target: eqproxy-io
+      dockerfile: server/eqproxy-io/Dockerfile
     env_file:
       - .env
     environment:
@@ -26,10 +26,10 @@ services:
       - external
 
   dmdata-proxy:
-    image: dmdata-proxy:${TAG}
+    image: dmdata-proxy
     build:
       context: .
-      target: dmdata-proxy
+      dockerfile: service/dmdata-proxy/Dockerfile
     env_file:
       - ./service/dmdata-proxy/.env
     environment:
@@ -49,8 +49,11 @@ services:
       - external
 
   supabase-proxy:
-    image: supabase-proxy:${TAG}
-    build: ./service/supabase-proxy
+    image: supabase-proxy
+    build:
+      context: .
+      dockerfile: service/supabase-proxy/Dockerfile
+    entrypoint: [ "bun", "run", "service/supabase-proxy/server.js" ]
     env_file:
       - ./service/supabase-proxy/.env
     environment:
@@ -69,7 +72,7 @@ services:
       - external
 
   telegram-proxy-server:
-    image: telegram-proxy-server:${TAG}
+    image: telegram-proxy-server
     build:
       context: .
       dockerfile: ./server/telegram-proxy-server/Dockerfile
@@ -99,7 +102,7 @@ services:
       - external
 
   telegram-proxy-server-dev:
-    image: telegram-proxy-server-dev:${TAG}
+    image: telegram-proxy-server-dev
     build:
       context: .
       dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
@@ -121,7 +124,7 @@ services:
       - external
 
   shake-reciever:
-    image: shake-reciever:${TAG}
+    image: shake-reciever
     build:
       context: .
       dockerfile: ./service/shake-reciever/Dockerfile
@@ -135,7 +138,7 @@ services:
       - external
 
   db:
-    image: db:${TAG}
+    image: db
     container_name: supabase-db
     build: ./db
     healthcheck:
@@ -190,7 +193,7 @@ services:
       - external
 
   notification-producer:
-    image: notification-producer:${TAG}
+    image: notification-producer
     container_name: notification-producer
     build:
       context: .
@@ -208,10 +211,10 @@ services:
       - external
 
   fcm-token-verify:
-    image: fcm-token-verify:${TAG}
+    image: fcm-token-verify
     build:
       context: .
-      target: fcm-token-verify
+      dockerfile: server/fcm-token-verify/Dockerfile
     environment:
       - TZ=Asia/Tokyo
       - PORT=3000
@@ -242,4 +245,3 @@ volumes:
 
 networks:
   external:
-    external: true

@@ -1,0 +1,11 @@
+{
+  "name": "eew-fetcher",
+  "main": "index.js",
+  "devDependencies": {
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@dmdata/api-types": "^2.0.12",
+    "@dmdata/telegram-json-types": "^1.1.14"
+  }
+}

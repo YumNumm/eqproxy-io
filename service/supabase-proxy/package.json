@@ -1,8 +1,9 @@
 {
-  "name": "supabase-proxy",
+  "name": "@eqproxy-io/supabase-proxy",
   "module": "index.ts",
   "private": true,
   "devDependencies": {
+    "bun": "latest",
     "@types/bun": "latest"
   },
   "peerDependencies": {

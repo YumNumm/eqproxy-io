@@ -9,7 +9,7 @@ FROM base AS builder
 WORKDIR /app
 RUN pnpm install -g turbo@^2
 COPY . .
-RUN turbo prune @eqproxy-io/telegram-proxy-server-dev --docker
+RUN turbo prune @eqproxy-io/dmdata-proxy --docker
 
 FROM base AS installer
 
@@ -33,4 +33,4 @@ RUN adduser --system --uid 1001 js
 USER js
 COPY --from=installer /app .
 
-CMD node server/telegram-proxy-server-dev
+CMD node service/dmdata-proxy

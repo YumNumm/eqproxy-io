@@ -1,7 +1,12 @@
 {
   "name": "@eqproxy-io/eqapi-types-v1",
-  "main": "schema.ts",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
+    "@eqproxy-io/ts-config": "workspace:^",
     "typescript": "^5.4.2"
   }
 }
