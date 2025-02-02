@@ -138,7 +138,6 @@ services:
       - external
 
   db:
-    image: db
     container_name: supabase-db
     build: ./db
     healthcheck:
@@ -197,7 +196,7 @@ services:
     container_name: notification-producer
     build:
       context: .
-      target: notification-producer
+      dockerfile: service/notification-producer/Dockerfile
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
