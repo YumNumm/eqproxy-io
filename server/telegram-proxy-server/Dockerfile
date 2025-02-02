@@ -3,7 +3,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apk update
 RUN apk add --no-cache libc6-compat
-RUN npm install -g pnpm
+RUN npm install -g pnpm bun
 
 FROM base AS builder
 WORKDIR /app
@@ -33,4 +33,4 @@ RUN adduser --system --uid 1001 js
 USER js
 COPY --from=installer /app .
 
-CMD node server/telegram-proxy-server
+ENTRYPOINT ["bun", "run", "server/telegram-proxy-server"]
