@@ -101,27 +101,27 @@ services:
     networks:
       - external
 
-  telegram-proxy-server-dev:
-    image: telegram-proxy-server-dev
-    build:
-      context: .
-      dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
-    environment:
-      - TZ=Asia/Tokyo
-      - PORT=4031
-    restart: always
-    ports:
-      - 4031:4031
-    volumes:
-      - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
-    healthcheck:
-      test: ["CMD", "curl", "http://localhost:4031/health"]
-      interval: 5s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    networks:
-      - external
+  # telegram-proxy-server-dev:
+  #   image: telegram-proxy-server-dev
+  #   build:
+  #     context: .
+  #     dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - PORT=4031
+  #   restart: always
+  #   ports:
+  #     - 4031:4031
+  #   volumes:
+  #     - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
+  #   healthcheck:
+  #     test: ["CMD", "curl", "http://localhost:4031/health"]
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 30s
+  #   networks:
+  #     - external
 
   shake-reciever:
     image: shake-reciever
