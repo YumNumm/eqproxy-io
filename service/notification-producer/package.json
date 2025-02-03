@@ -35,7 +35,6 @@
     "@bufbuild/protobuf": "^1.9.0",
     "@dmdata/api-types": "^2.0.12",
     "@dmdata/telegram-json-types": "^1.1.14",
-    "@eqproxy-io/notification-data": "workspace:^",
     "@hono/node-server": "^1.8.2",
     "@pgtyped/runtime": "^2.3.0",
     "@slack/webhook": "^7.0.2",
