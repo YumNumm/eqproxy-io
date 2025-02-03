@@ -125,6 +125,7 @@ services:
 
   shake-reciever:
     image: shake-reciever
+    restart: always
     build:
       context: .
       dockerfile: ./service/shake-reciever/Dockerfile
