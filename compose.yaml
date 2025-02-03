@@ -53,7 +53,8 @@ services:
     build:
       context: .
       dockerfile: service/supabase-proxy/Dockerfile
-    entrypoint: [ "bun", "run", "service/supabase-proxy/server.js" ]
+    tty: true
+    entrypoint: ["bun", "run", "service/supabase-proxy/server.js"]
     env_file:
       - ./service/supabase-proxy/.env
     environment:
