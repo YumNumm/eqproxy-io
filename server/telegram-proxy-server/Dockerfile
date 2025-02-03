@@ -1,36 +1,29 @@
-FROM node:20-alpine AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN apk update
-RUN apk add --no-cache libc6-compat
-RUN npm install -g pnpm bun
+# use the official Bun image
+# see all versions at https://hub.docker.com/r/oven/bun/tags
+FROM node:lts as base
+WORKDIR /usr/src/app
+RUN npm i -g bun
+# Install curl
+RUN apt-get update && \
+  apt-get install -y curl python3 python3-pip python3-dev build-essential \
+  build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
-FROM base AS builder
-WORKDIR /app
-RUN pnpm install -g turbo@^2
+FROM base as cache
 COPY . .
-RUN turbo prune @eqproxy-io/telegram-proxy-server --docker
+RUN bun install
 
-FROM base AS installer
+WORKDIR /usr/src/app/service/telegram-proxy-server
+ENV NODE_ENV=production
+RUN bun install
+RUN bun run build
 
-WORKDIR /app
+# copy production dependencies and source code into final image
+FROM base
+COPY --from=cache /usr/src/app/service/telegram-proxy-server/package.json .
+COPY --from=cache /usr/src/app/service/telegram-proxy-server/server.js .
+COPY --from=cache /usr/src/app/node_modules ./node_modules
 
-# First install dependencies (as they change less often)
-COPY --from=builder /app/out/json/ .
-RUN pnpm install
-
-# Build the project and its dependencies
-COPY --from=builder /app/out/full/ .
-
-RUN pnpm turbo build
-
-FROM base AS runner
-WORKDIR /app
-
-# Don't run production as root
-RUN addgroup --system --gid 1001 js
-RUN adduser --system --uid 1001 js
-USER js
-COPY --from=installer /app .
-
-ENTRYPOINT ["bun", "run", "server/telegram-proxy-server"]
+# run the app
+ENTRYPOINT [ "bun", "run", "server.js" ]
