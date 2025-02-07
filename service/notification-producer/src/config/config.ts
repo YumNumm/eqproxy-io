@@ -6,13 +6,7 @@ type Config = {
   DMDATA_PROXY_URL: string
   SLACK_WEBHOOK_URL: string
   GO_RUSH_URL: string
-  postgres: {
-    host: string
-    port: number
-    user: string
-    password: string
-    database: string
-  }
+  postgres: string
 }
 
 function getConfig(): Config {
@@ -24,13 +18,7 @@ function getConfig(): Config {
     DMDATA_PROXY_URL: process.env.DMDATA_PROXY_URL!,
     SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL!,
     GO_RUSH_URL: process.env.GO_RUSH_URL!,
-    postgres: {
-      host: process.env.POSTGRES_HOST!,
-      port: parseInt(process.env.POSTGRES_PORT!),
-      user: process.env.POSTGRES_USER!,
-      password: process.env.POSTGRES_PASSWORD!,
-      database: process.env.POSTGRES_DB!,
-    },
+    postgres: process.env.POSTGRES_URL!,
   }
 }
 

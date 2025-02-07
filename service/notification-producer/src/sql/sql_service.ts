@@ -8,7 +8,10 @@ import { sql } from "@pgtyped/runtime"
 export class SqlService {
   constructor() {
     this.client = new Client({
-      ...config.postgres,
+      connectionString: config.postgres,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     })
   }
 
