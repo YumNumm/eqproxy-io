@@ -11,9 +11,9 @@ import {
 } from '../dmdata/fcm_message_generator';
 import { Timestamp } from '@bufbuild/protobuf';
 import { GoRushMessage, chunk } from '../gorush/gorush';
+import { slackSend } from '..';
 
 export class NotifcationService {
-	constructor() {}
 	private sqlService: SqlService = sqlService;
 
 	async handleEewForecast(
@@ -60,10 +60,15 @@ export class NotifcationService {
 				});
 			}
 
-			console.log(`get devices start: ${Date()}`);
+			const start = performance.now();
 			const targetDevices = await this.sqlService.fetchEew(regions);
-			console.log(`devices count: ${targetDevices.length}`);
-			console.log(`get devices end: ${Date()}`);
+			const end = performance.now();
+			console.log(`fetchEew time: ${end - start}ms`);
+			slackSend({
+				title: 'Notification Producer',
+				value: `fetchEew time: ${end - start}ms`,
+				isError: false,
+			});
 
 			const chunkedTokens = chunk(targetDevices, 400);
 
@@ -150,8 +155,15 @@ export class NotifcationService {
 				region_id: 0,
 			});
 		}
+		const start = performance.now();
 		const targetDevices = await this.sqlService.fetchEarthquake(regions);
-		console.log(`devices count: ${targetDevices.length}`);
+		const end = performance.now();
+		console.log(`fetchEarthquake time: ${end - start}ms`);
+		slackSend({
+			title: 'Notification Producer',
+			value: `fetchEarthquake time: ${end - start}ms`,
+			isError: false,
+		});
 		const chunkedDevices = chunk(targetDevices, 400);
 
 		return chunkedDevices.map((devices) => {
