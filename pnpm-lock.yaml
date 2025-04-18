@@ -86,8 +86,8 @@ importers:
         specifier: 0.0.1-security
         version: 0.0.1-security
       hono:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^4.6.5
+        version: 4.6.5
       log4js:
         specifier: ^6.9.1
         version: 6.9.1
@@ -111,7 +111,7 @@ importers:
         version: 2.0.0(@types/node@20.11.26)(typescript@5.4.2)
       uWebSockets.js:
         specifier: github:uNetworking/uWebSockets.js#v20.28.0
-        version: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/ca0f539012a61d1436b8e3815dc173727d7fbfa6
+        version: git+https://git@github.com:uNetworking/uWebSockets.js.git#ca0f539012a61d1436b8e3815dc173727d7fbfa6
     devDependencies:
       '@types/config':
         specifier: ^3.3.3
@@ -151,13 +151,13 @@ importers:
         version: 1.8.2
       '@hono/valibot-validator':
         specifier: ^0.2.5
-        version: 0.2.5(hono@4.1.0)(valibot@0.31.0-rc.1)
+        version: 0.2.5(hono@4.6.5)(valibot@0.31.0-rc.1)
       firebase-admin:
         specifier: ^12.1.0
         version: 12.1.0(encoding@0.1.13)
       hono:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^4.6.5
+        version: 4.6.5
       valibot:
         specifier: 0.31.0-rc.1
         version: 0.31.0-rc.1
@@ -252,8 +252,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0(encoding@0.1.13)
       hono:
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: ^4.6.5
+        version: 4.6.5
       newrelic:
         specifier: ^11.23.1
         version: 11.23.1(bufferutil@4.0.8)
@@ -2270,9 +2270,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  hono@4.1.0:
-    resolution: {integrity: sha512-9no6DCHb4ijB1tWdFXU6JnrnFgzwVZ1cnIcS1BjAFnMcjbtBTOMsQrDrPH3GXbkNEEEkj8kWqcYBy8Qc0bBkJQ==}
-    engines: {node: '>=16.0.0'}
+  hono@4.6.5:
+    resolution: {integrity: sha512-qsmN3V5fgtwdKARGLgwwHvcdLKursMd+YOt69eGpl1dUCJb8mCd7hZfyZnBYjxCegBG7qkJRQRUy2oO25yHcyQ==}
+    engines: {node: '>=16.9.0'}
 
   hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
@@ -3903,8 +3903,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  uWebSockets.js@https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/ca0f539012a61d1436b8e3815dc173727d7fbfa6:
-    resolution: {tarball: https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/ca0f539012a61d1436b8e3815dc173727d7fbfa6}
+  uWebSockets.js@git+https://git@github.com:uNetworking/uWebSockets.js.git#ca0f539012a61d1436b8e3815dc173727d7fbfa6:
+    resolution: {commit: ca0f539012a61d1436b8e3815dc173727d7fbfa6, repo: git@github.com:uNetworking/uWebSockets.js.git, type: git}
     version: 20.28.0
 
   unbox-primitive@1.0.2:
@@ -4615,9 +4615,9 @@ snapshots:
 
   '@hono/node-server@1.8.2': {}
 
-  '@hono/valibot-validator@0.2.5(hono@4.1.0)(valibot@0.31.0-rc.1)':
+  '@hono/valibot-validator@0.2.5(hono@4.6.5)(valibot@0.31.0-rc.1)':
     dependencies:
-      hono: 4.1.0
+      hono: 4.6.5
       valibot: 0.31.0-rc.1
 
   '@isaacs/cliui@8.0.2':
@@ -6532,7 +6532,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.1.0: {}
+  hono@4.6.5: {}
 
   hosted-git-info@2.8.9: {}
 
@@ -8532,7 +8532,7 @@ snapshots:
 
   typescript@5.4.2: {}
 
-  uWebSockets.js@https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/ca0f539012a61d1436b8e3815dc173727d7fbfa6: {}
+  uWebSockets.js@git+https://git@github.com:uNetworking/uWebSockets.js.git#ca0f539012a61d1436b8e3815dc173727d7fbfa6: {}
 
   unbox-primitive@1.0.2:
     dependencies:
