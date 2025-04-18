@@ -135,6 +135,7 @@ services:
       - TZ=Asia/Tokyo
       - WEBSOCKET_URL=ws://shake-detect-service:8181
       - GO_RUSH_URL=http://gorush:8088
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     networks:
       - external
 
@@ -200,15 +201,20 @@ services:
       dockerfile: service/notification-producer/Dockerfile
     environment:
       - TZ=Asia/Tokyo
-      - RABBITMQ_HOST=rabbitmq
-      - GO_RUSH_URL=http://gorush:8088
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+      - GO_RUSH_URL=ABC
     env_file:
       - .env
     restart: always
+    volumes:
+      - ./service/notification-producer/credentials.json:/app/credentials.json:ro
+      - ./logs/notification-producer:/log:rw
     depends_on:
       - gorush
     networks:
       - external
+    ports:
+      - 8020:3000
 
   fcm-token-verify:
     image: fcm-token-verify
