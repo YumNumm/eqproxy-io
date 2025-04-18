@@ -40,16 +40,6 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
 
   app.post(
     "/send",
-    describeRoute({
-      description: "ユーザに通知を送信",
-      responses: {
-        200: {
-          content: {
-            "application/json": {},
-          },
-        },
-      },
-    }),
     vValidator(
       "json",
       v.object({
@@ -79,22 +69,6 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
         messages,
       });
     }
-  );
-
-  app.get(
-    "/openapi",
-    openAPISpecs(app, {
-      documentation: {
-        info: {
-          title: "Hono API",
-          version: "1.0.0",
-          description: "Greeting API",
-        },
-        servers: [
-          { url: "http://localhost:3000", description: "Local Server" },
-        ],
-      },
-    })
   );
 
   serve(app);
