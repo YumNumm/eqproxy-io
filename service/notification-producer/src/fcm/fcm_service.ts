@@ -1,6 +1,7 @@
 import * as admin from "firebase-admin";
 import { applicationDefault } from "firebase-admin/app";
 import { config } from "../config/config";
+import fs from "node:fs";
 
 class FcmService {
   async init() {
@@ -10,6 +11,7 @@ class FcmService {
   }
 
   async send(messages: admin.messaging.Message[]) {
+    console.log(`[FCM] sending ${messages.length} messages`);
     // chunk 500
     const start = performance.now();
     const chunked = chunk(messages, 500);
@@ -27,6 +29,11 @@ class FcmService {
       return acc + result.responses.filter((r) => !r.success).length;
     }, 0);
     console.log(`[FCM] success: ${success}, failure: ${failure}`);
+    // ファイルに書き出し
+    fs.writeFileSync(
+      `/log/fcm_result_${Date.now()}.json`,
+      JSON.stringify(results, null, 2)
+    );
     return results;
   }
 
@@ -39,7 +46,9 @@ class FcmService {
     const success = result.responses.filter((r) => r.success).length;
     const failure = result.responses.filter((r) => !r.success).length;
     console.log(
-      `[FCM] send time: ${messages.length} messages, ${end - start}ms, ${success} success, ${failure} failure`
+      `[FCM] send time: ${messages.length} messages, ${
+        end - start
+      }ms, ${success} success, ${failure} failure`
     );
     return result;
   }
