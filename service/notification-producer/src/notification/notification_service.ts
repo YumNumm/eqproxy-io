@@ -71,6 +71,7 @@ export class NotifcationService {
             title: message.title.toHalfWidth(),
             body: message.body.toHalfWidth(),
           },
+
           apns: {
             headers: {
               "apns-priority": "10",

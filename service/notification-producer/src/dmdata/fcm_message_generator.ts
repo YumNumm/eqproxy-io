@@ -28,6 +28,7 @@ class FcmMessageGenerator {
           title: message.title.toHalfWidth(),
           body: message.body.toHalfWidth(),
         },
+				
         data: data,
         apns: {
           payload: {
