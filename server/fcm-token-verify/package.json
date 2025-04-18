@@ -17,7 +17,7 @@
     "@hono/node-server": "^1.8.2",
     "@hono/valibot-validator": "^0.2.5",
     "firebase-admin": "^12.1.0",
-    "hono": "^4.1.0",
+    "hono": "^4.6.5",
     "valibot": "0.31.0-rc.1",
     "@eqproxy-io/ts-config": "workspace:^"
   }
