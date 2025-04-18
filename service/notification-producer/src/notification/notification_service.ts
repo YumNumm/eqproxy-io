@@ -1,16 +1,16 @@
-import {
+import type {
 	EarthquakeInformation,
 	EarthquakeNankai,
 	EewInformation,
 } from '@dmdata/telegram-json-types';
-import { JmaIntensity, SqlService, sqlService } from '../sql/sql_service';
-import { Message as GenMessage } from '../dmdata/message_generator';
+import { JmaIntensity, type SqlService, sqlService } from '../sql/sql_service';
+import type { Message as GenMessage } from '../dmdata/message_generator';
 import {
 	NotificationChannel,
 	generateBodyForAndroid,
 } from '../dmdata/fcm_message_generator';
 import { Timestamp } from '@bufbuild/protobuf';
-import { GoRushMessage, chunk } from '../gorush/gorush';
+import { type GoRushMessage, chunk } from '../gorush/gorush';
 import { slackSend } from '..';
 
 export class NotifcationService {
@@ -140,9 +140,13 @@ export class NotifcationService {
 			region_id: number;
 			min_jma_intensity: JmaIntensity;
 		}[] = message.regions
-			.filter((r) => r.maxInt !== undefined && r.maxInt !== null)
+			.filter(
+				(r) =>
+					r.maxInt !== undefined && r.maxInt !== null && r.maxInt !== undefined,
+			)
 			.map((region) => {
 				return {
+					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					min_jma_intensity: convertJma(region.maxInt!),
 					region_id: Number(region.code),
 				};

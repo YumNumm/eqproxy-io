@@ -1,9 +1,8 @@
 import { Client } from 'pg';
 import { config } from '../config/config';
-import { fcmEarthquake, jma_intensity } from './fcm/earthquake.queries';
+import { fcmEarthquake, type jma_intensity } from './fcm/earthquake.queries';
 import { fcmEew } from './fcm/eew.queries';
 import { allUsers } from './fcm/all_users.queries';
-import { sql } from '@pgtyped/runtime';
 import { slackSend } from '..';
 
 export class SqlService {
