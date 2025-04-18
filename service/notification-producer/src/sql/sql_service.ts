@@ -8,7 +8,7 @@ import { fcmEew } from './fcm/eew.queries';
 export class SqlService {
 	constructor() {
 		this.client = new Client({
-			connectionString: config.POSTGRES,
+			connectionString: config.POSTGRES_URL,
 			ssl: {
 				rejectUnauthorized: false,
 			},
@@ -60,6 +60,14 @@ export class SqlService {
 		const fn: () => void = () => {};
 		const result = await allUsers.run(fn(), this.client);
 		return result;
+	}
+
+	async getUserByToken(token: string) {
+		const result = await this.client.query(
+			'SELECT * FROM public.devices WHERE fcm_token = $1',
+			[token],
+		);
+		return result.rows[0];
 	}
 
 	async fetchEew(

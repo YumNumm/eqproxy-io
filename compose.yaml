@@ -200,7 +200,6 @@ services:
       dockerfile: service/notification-producer/Dockerfile
     environment:
       - TZ=Asia/Tokyo
-      - GO_RUSH_URL=http://gorush:8088
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     env_file:
       - .env

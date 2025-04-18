@@ -1,3 +1,4 @@
+import { resolver, validator as vValidator } from "hono-openapi/valibot";
 import { IncomingWebhook } from "@slack/webhook";
 import { config } from "./config/config";
 import { dmdataService } from "./dmdata/dmdata";
@@ -7,10 +8,10 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { describeRoute, openAPISpecs } from "hono-openapi";
 import { fcmService } from "./fcm/fcm_service";
+import * as v from "valibot";
+import { notificationService } from "./notification/notification_service";
 
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
-
-// export const rabbitService = new RabbitService()
 
 (async () => {
   await fcmService.init();
@@ -37,7 +38,50 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
     }
   );
 
-	app.get(
+  app.post(
+    "/send",
+    describeRoute({
+      description: "ユーザに通知を送信",
+      responses: {
+        200: {
+          content: {
+            "application/json": {},
+          },
+        },
+      },
+    }),
+    vValidator(
+      "json",
+      v.object({
+        token: v.pipe(v.string(), v.minLength(1)),
+      })
+    ),
+    async (c) => {
+      const { token } = c.req.valid("json");
+      const user = await sqlService.getUserByToken(token);
+      if (user === null) {
+        return c.json({ error: "User not found" }, 404);
+      }
+      const messages = await fcmService.send([
+        {
+          token,
+          notification: {
+            title: "Test",
+            body: "Test",
+          },
+          data: {
+            url: "https://example.com",
+          },
+        },
+      ]);
+      return c.json({
+        user: user,
+        messages,
+      });
+    }
+  );
+
+  app.get(
     "/openapi",
     openAPISpecs(app, {
       documentation: {
