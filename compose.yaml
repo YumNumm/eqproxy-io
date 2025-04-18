@@ -200,11 +200,13 @@ services:
       dockerfile: service/notification-producer/Dockerfile
     environment:
       - TZ=Asia/Tokyo
-      - RABBITMQ_HOST=rabbitmq
       - GO_RUSH_URL=http://gorush:8088
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     env_file:
       - .env
     restart: always
+    volumes:
+      - ./service/notification-producer/credentials.json:/app/credentials.json:ro
     depends_on:
       - gorush
     networks:

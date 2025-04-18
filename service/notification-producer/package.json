@@ -1,49 +1,51 @@
 {
-  "name": "@eqproxy-io/notification-producer",
-  "version": "1.0.0",
-  "description": "",
-  "module": "es2022",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "type": "commonjs",
-  "scripts": {
-    "build": "tsc",
-    "start": "node -r newrelic dist/index.js",
-    "build:watch": "tsc --project . --watch",
-    "dev": "ts-node src/index.ts",
-    "typecheck": "tsc --project ./tsconfig.typecheck.json",
-    "typecheck:watch": "tsc --project ./tsconfig.typecheck.json --watch",
-    "test": "jest",
-    "sql": "pgtyped --connection-string $DATABASE_URL -c ./config.json"
-  },
-  "devDependencies": {
-    "@eqproxy-io/ts-config": "workspace:^",
-    "@pgtyped/cli": "^2.3.0",
-    "@types/amqplib": "^0.10.5",
-    "@types/jest": "^29.5.12",
-    "@types/ws": "^8.5.10",
-    "jest": "^29.7.0",
-    "typescript": "^5.4.2"
-  },
-  "dependencies": {
-    "@bufbuild/buf": "^1.32.1",
-    "@bufbuild/protobuf": "^1.9.0",
-    "@dmdata/api-types": "^2.0.12",
-    "@dmdata/telegram-json-types": "^1.1.14",
-    "@hono/node-server": "^1.8.2",
-    "@pgtyped/runtime": "^2.3.0",
-    "@slack/webhook": "^7.0.2",
-    "@types/pg": "^8.11.6",
-    "date-fns": "^3.4.0",
-    "firebase-admin": "^12.1.0",
-    "hono": "^4.1.0",
-    "newrelic": "^11.23.1",
-    "pg": "^8.11.5",
-    "rabbitmq-client": "^4.6.0",
-    "slonik": "^45.4.1",
-    "ws": "^8.16.0",
-    "zlib": "^1.0.5"
-  }
+	"name": "@eqproxy-io/notification-producer",
+	"version": "1.0.0",
+	"description": "",
+	"module": "es2022",
+	"main": "dist/index.js",
+	"files": ["dist"],
+	"type": "commonjs",
+	"scripts": {
+		"build": "tsc",
+		"start": "node -r newrelic dist/index.js",
+		"build:watch": "tsc --project . --watch",
+		"dev": "ts-node src/index.ts",
+		"typecheck": "tsc --project ./tsconfig.typecheck.json",
+		"typecheck:watch": "tsc --project ./tsconfig.typecheck.json --watch",
+		"test": "jest",
+		"sql": "pgtyped --connection-string $DATABASE_URL -c ./config.json"
+	},
+	"devDependencies": {
+		"@eqproxy-io/ts-config": "workspace:^",
+		"@pgtyped/cli": "^2.3.0",
+		"@types/amqplib": "^0.10.5",
+		"@types/jest": "^29.5.12",
+		"@types/ws": "^8.5.10",
+		"jest": "^29.7.0",
+		"typescript": "^5.4.2"
+	},
+	"dependencies": {
+		"@bufbuild/buf": "^1.32.1",
+		"@bufbuild/protobuf": "^1.9.0",
+		"@dmdata/api-types": "^2.0.12",
+		"@dmdata/telegram-json-types": "^1.1.14",
+		"@hono/node-server": "^1.8.2",
+		"@hono/valibot-validator": "^0.2.5",
+		"@pgtyped/runtime": "^2.3.0",
+		"@slack/webhook": "^7.0.2",
+		"@types/pg": "^8.11.6",
+		"@valibot/to-json-schema": "^1.0.0",
+		"date-fns": "^3.4.0",
+		"firebase-admin": "^12.1.0",
+		"hono": "^4.1.0",
+		"hono-openapi": "^0.4.6",
+		"newrelic": "^11.23.1",
+		"pg": "^8.11.5",
+		"rabbitmq-client": "^4.6.0",
+		"slonik": "^45.4.1",
+		"valibot": "^1.0.0",
+		"ws": "^8.16.0",
+		"zlib": "^1.0.5"
+	}
 }

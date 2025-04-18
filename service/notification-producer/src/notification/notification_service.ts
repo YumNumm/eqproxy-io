@@ -3,15 +3,14 @@ import type {
 	EarthquakeNankai,
 	EewInformation,
 } from '@dmdata/telegram-json-types';
-import { JmaIntensity, type SqlService, sqlService } from '../sql/sql_service';
-import type { Message as GenMessage } from '../dmdata/message_generator';
+import type { messaging } from 'firebase-admin';
+import { slackSend } from '..';
 import {
 	NotificationChannel,
 	generateBodyForAndroid,
 } from '../dmdata/fcm_message_generator';
-import { Timestamp } from '@bufbuild/protobuf';
-import { type GoRushMessage, chunk } from '../gorush/gorush';
-import { slackSend } from '..';
+import type { Message as GenMessage } from '../dmdata/message_generator';
+import { JmaIntensity, type SqlService, sqlService } from '../sql/sql_service';
 
 export class NotifcationService {
 	private sqlService: SqlService = sqlService;
@@ -22,7 +21,7 @@ export class NotifcationService {
 			isWarning?: boolean | undefined;
 		},
 		telegram: EewInformation.Latest.PublicCommon | EewInformation.Latest.Cancel,
-	): Promise<GoRushMessage[] | null> {
+	): Promise<messaging.Message[] | null> {
 		console.log(`type: ${telegram.type}, ${Date()}`);
 		if (telegram.type !== '緊急地震速報（地震動予報）') {
 			console.log(`type is not 緊急地震速報（地震動予報）: ${telegram.type}`);
@@ -70,56 +69,51 @@ export class NotifcationService {
 				isError: false,
 			});
 
-			const chunkedTokens = chunk(targetDevices, 400);
-
-			return chunkedTokens.map((users) => {
+			return targetDevices.map((user) => {
 				return {
-					type: 'MulticastMessage',
-					message: {
-						tokens: users.map((device) => device.fcm_token),
+					token: user.fcm_token,
 
-						notification: {
-							title: message.title.toHalfWidth(),
-							body: message.body.toHalfWidth(),
+					notification: {
+						title: message.title.toHalfWidth(),
+						body: message.body.toHalfWidth(),
+					},
+					apns: {
+						headers: {
+							'apns-priority': '10',
+							'apns-expiration': '0',
+							'apns-push-type': 'alert',
 						},
-						apns: {
-							headers: {
-								'apns-priority': '10',
-								'apns-expiration': '0',
-								'apns-push-type': 'alert',
-							},
-							payload: {
-								aps: {
-									mutableContent: true,
-									sound: 'default',
-									threadId: telegram.eventId,
-									contentAvailable: true,
-									badge: 0,
-									alert: {
-										subtitle: message.subtitle.toHalfWidth(),
-									},
-									'relevance-score': 1,
-									'interruption-level': 'time-sensitive',
+						payload: {
+							aps: {
+								mutableContent: true,
+								sound: 'default',
+								threadId: telegram.eventId,
+								contentAvailable: true,
+								badge: 0,
+								alert: {
+									subtitle: message.subtitle.toHalfWidth(),
 								},
-							},
-						},
-						android: {
-							collapseKey: telegram.eventId,
-
-							notification: {
-								priority: message?.isWarning ? 'max' : 'high',
-								body: generateBodyForAndroid(message),
-								channelId: message?.isOnePointEew
-									? NotificationChannel.EEW_LOW_ACCURACY
-									: message?.isWarning
-										? NotificationChannel.EEW_WARNING
-										: NotificationChannel.EEW_FORECAST,
-								icon: '@mipmap/ic_launcher_foreground',
-								imageUrl: undefined,
+								'relevance-score': 1,
+								'interruption-level': 'time-sensitive',
 							},
 						},
 					},
-				};
+					android: {
+						collapseKey: telegram.eventId,
+
+						notification: {
+							priority: message?.isWarning ? 'max' : 'high',
+							body: generateBodyForAndroid(message),
+							channelId: message?.isOnePointEew
+								? NotificationChannel.EEW_LOW_ACCURACY
+								: message?.isWarning
+									? NotificationChannel.EEW_WARNING
+									: NotificationChannel.EEW_FORECAST,
+							icon: '@mipmap/ic_launcher_foreground',
+							imageUrl: undefined,
+						},
+					},
+				} satisfies messaging.Message;
 			});
 		}
 		return null;
@@ -131,7 +125,7 @@ export class NotifcationService {
 			| EarthquakeInformation.Latest.PublicVXSE51
 			| EarthquakeInformation.Latest.PublicVXSE52
 			| EarthquakeInformation.Latest.PublicVXSE53,
-	): Promise<GoRushMessage[] | undefined> {
+	): Promise<messaging.Message[] | undefined> {
 		if (message.regions === undefined) {
 			console.log('regions is undefined');
 			return;
@@ -168,114 +162,106 @@ export class NotifcationService {
 			value: `fetchEarthquake time: ${end - start}ms`,
 			isError: false,
 		});
-		const chunkedDevices = chunk(targetDevices, 400);
 
-		return chunkedDevices.map((devices) => {
+		return targetDevices.map((user) => {
 			const data: FcmDataPayload = {
 				// 画面遷移
 				// route: `/earthquake-history-details/${telegram.eventId}`,
 			};
 			return {
-				type: 'MulticastMessage',
-				message: {
-					tokens: devices.map((device) => device.fcm_token),
-					notification: {
-						title: message.title.toHalfWidth(),
-						body: message.body.toHalfWidth(),
+				token: user.fcm_token,
+				notification: {
+					title: message.title.toHalfWidth(),
+					body: message.body.toHalfWidth(),
+				},
+				data: data,
+				apns: {
+					headers: {
+						'apns-priority': '10',
+						'apns-expiration': '0',
+						'apns-push-type': 'alert',
 					},
-					data: data,
-					apns: {
-						headers: {
-							'apns-priority': '10',
-							'apns-expiration': '0',
-							'apns-push-type': 'alert',
-						},
-						payload: {
-							aps: {
-								mutableContent: true,
-								sound: 'default',
-								threadId: telegram.eventId,
-								contentAvailable: true,
-								badge: 0,
-								alert: {
-									subtitle: message.subtitle.toHalfWidth(),
-								},
-								'relevance-score': 1,
-								'interruption-level': 'time-sensitive',
+					payload: {
+						aps: {
+							mutableContent: true,
+							sound: 'default',
+							threadId: telegram.eventId,
+							contentAvailable: true,
+							badge: 0,
+							alert: {
+								subtitle: message.subtitle.toHalfWidth(),
 							},
-						},
-					},
-					android: {
-						collapseKey: telegram.eventId,
-
-						notification: {
-							channelId:
-								telegram.infoKind === '震度速報'
-									? NotificationChannel.VXSE51
-									: telegram.infoKind === '震源速報'
-										? NotificationChannel.VXSE52
-										: NotificationChannel.VXSE53,
-							icon: '@mipmap/ic_launcher_foreground',
-							imageUrl: undefined,
-							body: generateBodyForAndroid(message),
+							'relevance-score': 1,
+							'interruption-level': 'time-sensitive',
 						},
 					},
 				},
-			};
+				android: {
+					collapseKey: telegram.eventId,
+
+					notification: {
+						channelId:
+							telegram.infoKind === '震度速報'
+								? NotificationChannel.VXSE51
+								: telegram.infoKind === '震源速報'
+									? NotificationChannel.VXSE52
+									: NotificationChannel.VXSE53,
+						icon: '@mipmap/ic_launcher_foreground',
+						imageUrl: undefined,
+						body: generateBodyForAndroid(message),
+					},
+				},
+			} satisfies messaging.Message;
 		});
 	}
 
 	async handleNankai(
 		message: GenMessage,
 		telegram: EarthquakeNankai.Latest.Main,
-	): Promise<GoRushMessage[] | undefined> {
+	): Promise<messaging.Message[] | undefined> {
 		const targetDevices = await this.sqlService.fetchAllUsers();
-		const chunkedDevices = chunk(targetDevices, 400);
 
-		return chunkedDevices.map((devices) => {
+		return targetDevices.map((device) => {
 			return {
-				type: 'MulticastMessage',
-				message: {
-					tokens: devices.map((device) => device.fcm_token),
-					notification: {
-						title: message.title.toHalfWidth(),
-						body: message.body.toHalfWidth(),
+				token: device.fcm_token,
+				notification: {
+					title: message.title.toHalfWidth(),
+					body: message.body.toHalfWidth(),
+				},
+				apns: {
+					headers: {
+						'apns-priority': '10',
+						'apns-expiration': '0',
+						'apns-push-type': 'alert',
 					},
-					apns: {
-						headers: {
-							'apns-priority': '10',
-							'apns-expiration': '0',
-							'apns-push-type': 'alert',
-						},
-						payload: {
-							aps: {
-								mutableContent: true,
-								sound: 'default',
-								threadId: telegram.eventId,
-								contentAvailable: true,
-								badge: 0,
-								alert: {
-									subtitle: message.subtitle.toHalfWidth(),
-								},
-								'relevance-score': 1,
+					payload: {
+						aps: {
+							mutableContent: true,
+							sound: 'default',
+							threadId: telegram.eventId,
+							contentAvailable: true,
+							badge: 0,
+							alert: {
+								subtitle: message.subtitle.toHalfWidth(),
 							},
-						},
-					},
-					android: {
-						collapseKey: telegram.eventId,
-
-						notification: {
-							channelId:
-								telegram.type === '南海トラフ地震臨時情報'
-									? NotificationChannel.VYSE50
-									: NotificationChannel.VYSE51,
-							icon: '@mipmap/ic_launcher_foreground',
-							imageUrl: undefined,
-							body: generateBodyForAndroid(message),
+							'relevance-score': 1,
 						},
 					},
 				},
-			};
+				android: {
+					collapseKey: telegram.eventId,
+
+					notification: {
+						channelId:
+							telegram.type === '南海トラフ地震臨時情報'
+								? NotificationChannel.VYSE50
+								: NotificationChannel.VYSE51,
+						icon: '@mipmap/ic_launcher_foreground',
+						imageUrl: undefined,
+						body: generateBodyForAndroid(message),
+					},
+				},
+			} satisfies messaging.Message;
 		});
 	}
 }

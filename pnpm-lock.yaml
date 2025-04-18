@@ -236,6 +236,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.8.2
         version: 1.8.2
+      '@hono/valibot-validator':
+        specifier: ^0.2.5
+        version: 0.2.5(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2))
       '@pgtyped/runtime':
         specifier: ^2.3.0
         version: 2.3.0
@@ -245,6 +248,9 @@ importers:
       '@types/pg':
         specifier: ^8.11.6
         version: 8.11.6
+      '@valibot/to-json-schema':
+        specifier: ^1.0.0
+        version: 1.0.0(valibot@1.0.0(typescript@5.4.2))
       date-fns:
         specifier: ^3.4.0
         version: 3.4.0
@@ -254,6 +260,9 @@ importers:
       hono:
         specifier: ^4.1.0
         version: 4.1.0
+      hono-openapi:
+        specifier: ^0.4.6
+        version: 0.4.6(@hono/valibot-validator@0.2.5(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2)))(@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.4.2)))(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2))(zod@3.23.8)
       newrelic:
         specifier: ^11.23.1
         version: 11.23.1(bufferutil@4.0.8)
@@ -266,6 +275,9 @@ importers:
       slonik:
         specifier: ^45.4.1
         version: 45.4.1(zod@3.23.8)
+      valibot:
+        specifier: ^1.0.0
+        version: 1.0.0(typescript@5.4.2)
       ws:
         specifier: ^8.16.0
         version: 8.16.0(bufferutil@4.0.8)
@@ -354,6 +366,10 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@apidevtools/json-schema-ref-parser@11.9.3':
+    resolution: {integrity: sha512-60vepv88RwcJtSHrD6MjIL6Ta3SOYbgfnkHb+ppAVK+o9mXprRtulx7VlRl3lN3bbvysAfCS7WMVfhUYemB0IQ==}
+    engines: {node: '>= 16'}
 
   '@babel/code-frame@7.24.2':
     resolution: {integrity: sha512-y5+tLQyV8pg3fsiln67BVLD1P13Eg4lh5RW9mF0zUuvLrv9uIQ4MCL+CRT+FTsBlBjcIan6PGsLcBN0m3ClUyQ==}
@@ -845,6 +861,9 @@ packages:
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
 
+  '@jsdevtools/ono@7.1.3':
+    resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
+
   '@newrelic/native-metrics@10.2.0':
     resolution: {integrity: sha512-yUcG8d1Zfbi/wiJ/6qhM69lhJgYlzP3CMtuC7CgCBTXJRRUqhHirwJ8kC89FvcYIvqbN0ecrc69LITsTNgccsA==}
     engines: {node: '>=16', npm: '>=6'}
@@ -1301,6 +1320,11 @@ packages:
   '@tyriar/fibonacci-heap@2.0.9':
     resolution: {integrity: sha512-bYuSNomfn4hu2tPiDN+JZtnzCpSpbJ/PNeulmocDy3xN2X5OkJL65zo6rPZp65cPPhLF9vfT/dgE+RtFRCSxOA==}
 
+  '@valibot/to-json-schema@1.0.0':
+    resolution: {integrity: sha512-/9crJgPptVsGCL6X+JPDQyaJwkalSZ/52WuF8DiRUxJgcmpNdzYRfZ+gqMEP8W3CTVfuMWPqqvIgfwJ97f9Etw==}
+    peerDependencies:
+      valibot: ^1.0.0
+
   '@webassemblyjs/ast@1.11.6':
     resolution: {integrity: sha512-IN1xI7PwOvLPgjcf180gC1bqn3q/QaOCwYUahIOhbYUu8KA/3tw2RT/T0Gidi1l7Hhj5D/INhJxiICObqpMu4Q==}
 
@@ -1689,6 +1713,10 @@ packages:
   clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
     engines: {node: '>=6'}
+
+  clone@2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
+    engines: {node: '>=0.8'}
 
   co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
@@ -2270,6 +2298,53 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hono-openapi@0.4.6:
+    resolution: {integrity: sha512-wSDySp2cS5Zcf1OeLG7nCP3eMsCpcDomN137T9B6/Z5Qq3D0nWgMf0I3Gl41SE1rE37OBQ0Smqx3LOP9Hk//7A==}
+    peerDependencies:
+      '@hono/arktype-validator': ^2.0.0
+      '@hono/effect-validator': ^1.2.0
+      '@hono/typebox-validator': ^0.2.0 || ^0.3.0
+      '@hono/valibot-validator': ^0.5.1
+      '@hono/zod-validator': ^0.4.1
+      '@sinclair/typebox': ^0.34.9
+      '@valibot/to-json-schema': ^1.0.0-beta.3
+      arktype: ^2.0.0-rc.25
+      effect: ^3.11.3
+      hono: ^4.6.13
+      openapi-types: ^12.1.3
+      valibot: ^1.0.0-beta.9
+      zod: ^3.23.8
+      zod-openapi: ^4.0.0
+    peerDependenciesMeta:
+      '@hono/arktype-validator':
+        optional: true
+      '@hono/effect-validator':
+        optional: true
+      '@hono/typebox-validator':
+        optional: true
+      '@hono/valibot-validator':
+        optional: true
+      '@hono/zod-validator':
+        optional: true
+      '@sinclair/typebox':
+        optional: true
+      '@valibot/to-json-schema':
+        optional: true
+      arktype:
+        optional: true
+      effect:
+        optional: true
+      hono:
+        optional: true
+      openapi-types:
+        optional: true
+      valibot:
+        optional: true
+      zod:
+        optional: true
+      zod-openapi:
+        optional: true
+
   hono@4.1.0:
     resolution: {integrity: sha512-9no6DCHb4ijB1tWdFXU6JnrnFgzwVZ1cnIcS1BjAFnMcjbtBTOMsQrDrPH3GXbkNEEEkj8kWqcYBy8Qc0bBkJQ==}
     engines: {node: '>=16.0.0'}
@@ -2688,6 +2763,10 @@ packages:
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
+
+  json-schema-walker@2.0.0:
+    resolution: {integrity: sha512-nXN2cMky0Iw7Af28w061hmxaPDaML5/bQD9nwm1lOoIKEGjHcRGxqWe4MfrkYThYAPjSUhmsp4bJNoLAyVn9Xw==}
+    engines: {node: '>=10'}
 
   json-stringify-safe@5.0.1:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
@@ -3984,6 +4063,14 @@ packages:
       typescript:
         optional: true
 
+  valibot@1.0.0:
+    resolution: {integrity: sha512-1Hc0ihzWxBar6NGeZv7fPLY0QuxFMyxwYR2sF1Blu7Wq7EnremwY2W02tit2ij2VJT8HcSkHAQqmFfl77f73Yw==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -4177,6 +4264,12 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@apidevtools/json-schema-ref-parser@11.9.3':
+    dependencies:
+      '@jsdevtools/ono': 7.1.3
+      '@types/json-schema': 7.0.15
+      js-yaml: 4.1.0
 
   '@babel/code-frame@7.24.2':
     dependencies:
@@ -4620,6 +4713,11 @@ snapshots:
       hono: 4.1.0
       valibot: 0.31.0-rc.1
 
+  '@hono/valibot-validator@0.2.5(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2))':
+    dependencies:
+      hono: 4.1.0
+      valibot: 1.0.0(typescript@5.4.2)
+
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -4829,6 +4927,8 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
 
   '@js-sdsl/ordered-map@4.4.2': {}
+
+  '@jsdevtools/ono@7.1.3': {}
 
   '@newrelic/native-metrics@10.2.0':
     dependencies:
@@ -5402,6 +5502,10 @@ snapshots:
 
   '@tyriar/fibonacci-heap@2.0.9': {}
 
+  '@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.4.2))':
+    dependencies:
+      valibot: 1.0.0(typescript@5.4.2)
+
   '@webassemblyjs/ast@1.11.6':
     dependencies:
       '@webassemblyjs/helper-numbers': 1.11.6
@@ -5871,6 +5975,8 @@ snapshots:
       is-plain-object: 2.0.4
       kind-of: 6.0.3
       shallow-clone: 3.0.1
+
+  clone@2.1.2: {}
 
   co@4.6.0: {}
 
@@ -6532,6 +6638,16 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hono-openapi@0.4.6(@hono/valibot-validator@0.2.5(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2)))(@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.4.2)))(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2))(zod@3.23.8):
+    dependencies:
+      json-schema-walker: 2.0.0
+    optionalDependencies:
+      '@hono/valibot-validator': 0.2.5(hono@4.1.0)(valibot@1.0.0(typescript@5.4.2))
+      '@valibot/to-json-schema': 1.0.0(valibot@1.0.0(typescript@5.4.2))
+      hono: 4.1.0
+      valibot: 1.0.0(typescript@5.4.2)
+      zod: 3.23.8
+
   hono@4.1.0: {}
 
   hosted-git-info@2.8.9: {}
@@ -7137,6 +7253,11 @@ snapshots:
   json-parse-even-better-errors@2.3.1: {}
 
   json-schema-traverse@0.4.1: {}
+
+  json-schema-walker@2.0.0:
+    dependencies:
+      '@apidevtools/json-schema-ref-parser': 11.9.3
+      clone: 2.1.2
 
   json-stringify-safe@5.0.1: {}
 
@@ -8599,6 +8720,10 @@ snapshots:
   valibot@0.31.0-rc.1: {}
 
   valibot@0.40.0(typescript@5.4.2):
+    optionalDependencies:
+      typescript: 5.4.2
+
+  valibot@1.0.0(typescript@5.4.2):
     optionalDependencies:
       typescript: 5.4.2
 

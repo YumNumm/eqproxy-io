@@ -1,14 +1,14 @@
 import { Client } from 'pg';
+import { slackSend } from '..';
 import { config } from '../config/config';
+import { allUsers } from './fcm/all_users.queries';
 import { fcmEarthquake, type jma_intensity } from './fcm/earthquake.queries';
 import { fcmEew } from './fcm/eew.queries';
-import { allUsers } from './fcm/all_users.queries';
-import { slackSend } from '..';
 
 export class SqlService {
 	constructor() {
 		this.client = new Client({
-			connectionString: config.postgres,
+			connectionString: config.POSTGRES,
 			ssl: {
 				rejectUnauthorized: false,
 			},
