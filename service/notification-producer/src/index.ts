@@ -1,4 +1,4 @@
-import { resolver, validator as vValidator } from "hono-openapi/valibot";
+import { validator as vValidator } from "hono-openapi/valibot";
 import { IncomingWebhook } from "@slack/webhook";
 import { config } from "./config/config";
 import { dmdataService } from "./dmdata/dmdata";
@@ -6,10 +6,10 @@ import { sqlService } from "./sql/sql_service";
 
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { describeRoute, openAPISpecs } from "hono-openapi";
+import { describeRoute } from "hono-openapi";
 import { fcmService } from "./fcm/fcm_service";
 import * as v from "valibot";
-import { notificationService } from "./notification/notification_service";
+import { logger } from "hono/logger";
 
 export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
 
@@ -27,6 +27,7 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
   app.onError((err, c) => {
     return c.json({ error: err }, 500);
   });
+  app.use("*", logger());
 
   app.post(
     "/test",
