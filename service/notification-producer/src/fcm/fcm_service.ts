@@ -2,7 +2,12 @@ import * as admin from "firebase-admin";
 import { applicationDefault } from "firebase-admin/app";
 import { config } from "../config/config";
 import fs from "node:fs";
-import { Worker, isMainThread, parentPort, workerData } from "node:worker_threads";
+import {
+  Worker,
+  isMainThread,
+  parentPort,
+  workerData,
+} from "node:worker_threads";
 import path from "node:path";
 import os from "node:os";
 
@@ -10,7 +15,7 @@ import os from "node:os";
 if (!isMainThread) {
   const { messages, isDryRun } = workerData as {
     messages: admin.messaging.Message[];
-    isDryRun: boolean
+    isDryRun: boolean;
   };
 
   (async () => {
@@ -36,18 +41,19 @@ if (!isMainThread) {
       );
 
       // 結果を親スレッドに返す
-      parentPort?.postMessage({ type: 'result', data: result });
+      parentPort?.postMessage({ type: "result", data: result });
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      parentPort?.postMessage({ type: 'error', data: errorMessage });
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      parentPort?.postMessage({ type: "error", data: errorMessage });
     }
   })();
 
   // Workerの準備完了メッセージを待ち受ける
-  parentPort?.on('message', (message: { type: string }) => {
-    if (message.type === 'ready') {
+  parentPort?.on("message", (message: { type: string }) => {
+    if (message.type === "ready") {
       // 準備完了を通知
-      parentPort?.postMessage({ type: 'ready' });
+      parentPort?.postMessage({ type: "ready" });
     }
   });
 }
@@ -66,21 +72,23 @@ class WorkerPool {
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
-    console.log(`[FCM] Initializing worker pool with ${this.maxWorkers} workers`);
+    console.log(
+      `[FCM] Initializing worker pool with ${this.maxWorkers} workers`
+    );
 
     // 指定された数のワーカーを作成
     for (let i = 0; i < this.maxWorkers; i++) {
       const worker = new Worker(__filename);
 
       // ワーカーが準備完了を通知してきたらプールに追加
-      worker.on('message', (message: { type: string }) => {
-        if (message.type === 'ready') {
+      worker.on("message", (message: { type: string }) => {
+        if (message.type === "ready") {
           this.addWorker(worker);
         }
       });
 
       // 準備完了を要求
-      worker.postMessage({ type: 'ready' });
+      worker.postMessage({ type: "ready" });
     }
 
     // すべてのワーカーが初期化されるのを待つ
@@ -89,7 +97,9 @@ class WorkerPool {
         if (this.workers.length >= this.maxWorkers) {
           clearInterval(checkInterval);
           this.isInitialized = true;
-          console.log(`[FCM] Worker pool initialized with ${this.workers.length} workers`);
+          console.log(
+            `[FCM] Worker pool initialized with ${this.workers.length} workers`
+          );
           resolve();
         }
       }, 100);
@@ -127,11 +137,11 @@ class WorkerPool {
 
     return new Promise<R>((resolve, reject) => {
       const onMessage = (message: { type: string; data: R | string }) => {
-        if (message.type === 'result') {
+        if (message.type === "result") {
           cleanup();
           this.addWorker(worker);
           resolve(message.data as R);
-        } else if (message.type === 'error') {
+        } else if (message.type === "error") {
           cleanup();
           this.addWorker(worker);
           reject(new Error(message.data as string));
@@ -154,15 +164,15 @@ class WorkerPool {
 
       // クリーンアップ関数
       const cleanup = () => {
-        worker.removeListener('message', onMessage);
-        worker.removeListener('error', onError);
-        worker.removeListener('exit', onExit);
+        worker.removeListener("message", onMessage);
+        worker.removeListener("error", onError);
+        worker.removeListener("exit", onExit);
       };
 
       // イベントリスナーを設定
-      worker.on('message', onMessage);
-      worker.on('error', onError);
-      worker.on('exit', onExit);
+      worker.on("message", onMessage);
+      worker.on("error", onError);
+      worker.on("exit", onExit);
 
       // タスクデータを送信
       worker.postMessage(data);
@@ -171,8 +181,10 @@ class WorkerPool {
 
   // プールをクリーンアップ
   async terminate(): Promise<void> {
-    console.log(`[FCM] Terminating worker pool with ${this.workers.length} workers`);
-    await Promise.all(this.workers.map(worker => worker.terminate()));
+    console.log(
+      `[FCM] Terminating worker pool with ${this.workers.length} workers`
+    );
+    await Promise.all(this.workers.map((worker) => worker.terminate()));
     this.workers = [];
     this.queue = [];
     this.isInitialized = false;
@@ -210,13 +222,13 @@ class FcmService {
 
     const workerPool = this.workerPool;
     const results = await Promise.all(
-      chunked.map(chunkMessages =>
+      chunked.map((chunkMessages) =>
         workerPool.run<
-          { messages: admin.messaging.Message[], isDryRun: boolean },
+          { messages: admin.messaging.Message[]; isDryRun: boolean },
           admin.messaging.BatchResponse
         >({
           messages: chunkMessages,
-          isDryRun: config.FCM_DRY_RUN
+          isDryRun: config.FCM_DRY_RUN,
         })
       )
     );

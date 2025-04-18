@@ -208,7 +208,7 @@ services:
     restart: always
     volumes:
       - ./service/notification-producer/credentials.json:/app/credentials.json:ro
-      - ./log:/log:rw
+      - ./logs/notification-producer:/log:rw
     depends_on:
       - gorush
     networks:
