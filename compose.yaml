@@ -210,6 +210,8 @@ services:
       - gorush
     networks:
       - external
+    ports:
+      - 8020:3000
 
   fcm-token-verify:
     image: fcm-token-verify
