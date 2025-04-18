@@ -25,7 +25,8 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
 
   const app = new Hono();
   app.onError((err, c) => {
-    return c.json({ error: err }, 500);
+    console.error(err);
+    return c.json({ error: err, message: "Internal Server Error" }, 500);
   });
   app.use("*", logger());
 
@@ -49,10 +50,6 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
     ),
     async (c) => {
       const { token } = c.req.valid("json");
-      const user = await sqlService.getUserByToken(token);
-      if (user === null) {
-        return c.json({ error: "User not found" }, 404);
-      }
       const messages = await fcmService.send([
         {
           token,
@@ -66,7 +63,6 @@ export const slackWebhook = new IncomingWebhook(config.SLACK_WEBHOOK_URL);
         },
       ]);
       return c.json({
-        user: user,
         messages,
       });
     }
