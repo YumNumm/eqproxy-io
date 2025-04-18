@@ -7,10 +7,10 @@ x-default-logging: &logging
 
 services:
   eqproxy-io:
-    image: eqproxy-io:${TAG}
+    image: eqproxy-io
     build:
       context: .
-      target: eqproxy-io
+      dockerfile: server/eqproxy-io/Dockerfile
     env_file:
       - .env
     environment:
@@ -26,10 +26,10 @@ services:
       - external
 
   dmdata-proxy:
-    image: dmdata-proxy:${TAG}
+    image: dmdata-proxy
     build:
       context: .
-      target: dmdata-proxy
+      dockerfile: service/dmdata-proxy/Dockerfile
     env_file:
       - ./service/dmdata-proxy/.env
     environment:
@@ -49,8 +49,11 @@ services:
       - external
 
   supabase-proxy:
-    image: supabase-proxy:${TAG}
-    build: ./service/supabase-proxy
+    image: supabase-proxy
+    build:
+      context: .
+      dockerfile: service/supabase-proxy/Dockerfile
+    tty: true
     env_file:
       - ./service/supabase-proxy/.env
     environment:
@@ -69,7 +72,7 @@ services:
       - external
 
   telegram-proxy-server:
-    image: telegram-proxy-server:${TAG}
+    image: telegram-proxy-server
     build:
       context: .
       dockerfile: ./server/telegram-proxy-server/Dockerfile
@@ -98,30 +101,31 @@ services:
     networks:
       - external
 
-  telegram-proxy-server-dev:
-    image: telegram-proxy-server-dev:${TAG}
-    build:
-      context: .
-      dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
-    environment:
-      - TZ=Asia/Tokyo
-      - PORT=4031
-    restart: always
-    ports:
-      - 4031:4031
-    volumes:
-      - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
-    healthcheck:
-      test: ["CMD", "curl", "http://localhost:4031/health"]
-      interval: 5s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
-    networks:
-      - external
+  # telegram-proxy-server-dev:
+  #   image: telegram-proxy-server-dev
+  #   build:
+  #     context: .
+  #     dockerfile: ./server/telegram-proxy-server-dev/Dockerfile
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - PORT=4031
+  #   restart: always
+  #   ports:
+  #     - 4031:4031
+  #   volumes:
+  #     - ./server/telegram-proxy-server-dev/assets:/usr/src/app/assets
+  #   healthcheck:
+  #     test: ["CMD", "curl", "http://localhost:4031/health"]
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 30s
+  #   networks:
+  #     - external
 
   shake-reciever:
-    image: shake-reciever:${TAG}
+    image: shake-reciever
+    restart: always
     build:
       context: .
       dockerfile: ./service/shake-reciever/Dockerfile
@@ -135,7 +139,6 @@ services:
       - external
 
   db:
-    image: db:${TAG}
     container_name: supabase-db
     build: ./db
     healthcheck:
@@ -149,7 +152,7 @@ services:
       - config_file=/etc/postgresql/postgresql.conf
       - -c
       - log_min_messages=error # prevents Realtime polling queries from appearing in logs
-    restart: unless-stopped
+    restart: always
     ports:
       # Pass down internal port because it's set dynamically by other services
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
@@ -190,11 +193,11 @@ services:
       - external
 
   notification-producer:
-    image: notification-producer:${TAG}
+    image: notification-producer
     container_name: notification-producer
     build:
       context: .
-      target: notification-producer
+      dockerfile: service/notification-producer/Dockerfile
     environment:
       - TZ=Asia/Tokyo
       - RABBITMQ_HOST=rabbitmq
@@ -208,10 +211,10 @@ services:
       - external
 
   fcm-token-verify:
-    image: fcm-token-verify:${TAG}
+    image: fcm-token-verify
     build:
       context: .
-      target: fcm-token-verify
+      dockerfile: server/fcm-token-verify/Dockerfile
     environment:
       - TZ=Asia/Tokyo
       - PORT=3000
@@ -242,4 +245,3 @@ volumes:
 
 networks:
   external:
-    external: true

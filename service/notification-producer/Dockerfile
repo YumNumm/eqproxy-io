@@ -2,14 +2,15 @@ FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN apk update
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat python3 build-base
+
 RUN npm install -g pnpm
 
 FROM base AS builder
 WORKDIR /app
 RUN pnpm install -g turbo@^2
 COPY . .
-RUN turbo prune @eqproxy-io/eqproxy-io --docker
+RUN turbo prune @eqproxy-io/notification-producer --docker
 
 FROM base AS installer
 
@@ -33,4 +34,4 @@ RUN adduser --system --uid 1001 js
 USER js
 COPY --from=installer /app .
 
-CMD node server/eqproxy-io
+CMD node service/notification-producer

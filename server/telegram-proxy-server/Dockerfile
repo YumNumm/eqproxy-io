@@ -5,10 +5,10 @@ WORKDIR /usr/src/app
 RUN npm i -g bun
 # Install curl
 RUN apt-get update && \
-    apt-get install -y curl python3 python3-pip python3-dev build-essential \
-    					build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+  apt-get install -y curl python3 python3-pip python3-dev build-essential \
+  build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 FROM base as cache
 COPY . .

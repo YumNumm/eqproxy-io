@@ -1,5 +1,5 @@
 {
-  "name": "telegram-proxy-server",
+  "name": "@eqproxy-io/telegram-proxy-server",
   "module": "index.ts",
   "private": true,
   "devDependencies": {
@@ -13,6 +13,7 @@
     "@dmdata/telegram-json-types": "^1.1.14",
     "@eqproxy-io/eqapi-types-v1": "workspace:*",
     "@supabase/supabase-js": "^2.41.1",
+    "bun": "^1.1.38",
     "valibot": "0.31.0-rc.1"
   },
   "scripts": {

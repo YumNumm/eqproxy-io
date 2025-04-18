@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@dmdata/telegram-json-types": "^1.1.14",
-    "@eqproxy-io/eslint-config": "workspace:^",
     "@eqproxy-io/ts-config": "workspace:^",
     "typescript": "^5.4.2"
   }

@@ -1,9 +1,9 @@
-import { EqmonitorTelegramSchema } from '@eqproxy-io/eqapi-types-v3'
+import type { EqmonitorTelegramSchema } from '@eqproxy-io/eqapi-types-v3';
 
 export type ServerToClientEvents = {
-  data: (data: EqmonitorTelegramSchema.TelegramV3) => void
-}
+	data: (data: EqmonitorTelegramSchema.TelegramV3) => void;
+};
 
 export type ClientToServerEvents = {
-  message: (data: string) => void
-}
+	message: (data: string) => void;
+};
