@@ -135,6 +135,7 @@ services:
       - TZ=Asia/Tokyo
       - WEBSOCKET_URL=ws://shake-detect-service:8181
       - GO_RUSH_URL=http://gorush:8088
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     networks:
       - external
 
@@ -201,6 +202,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+      - GO_RUSH_URL=ABC
     env_file:
       - .env
     restart: always
